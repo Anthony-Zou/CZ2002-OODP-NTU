@@ -8,6 +8,9 @@ public class Lab2p1 {
         int[] intList;
         int size=100;
         intList = new int[size];
+        int[] intListOdd;
+        intListOdd = new int[size];
+        int countOdd=0;
         int count =0;
         Scanner sc = new Scanner(System.in);
         do {
@@ -91,6 +94,18 @@ public class Lab2p1 {
                     }
                     break;
                 case 6: /* add extractOddDigits() call */
+
+                    for(int i=0;i< count;i++)
+                    {
+                        if(intList[i]%2==1)
+                        {
+                           intListOdd[countOdd]=intList[i];
+                           countOdd++;
+                        }
+                    }
+                    System.out.println("“The odd list values are: ”");
+                    for(int i=0;i< countOdd;i++)
+                    {System.out.printf(intListOdd[i]+", ");}
                     break;
                 case 7: System.out.println("“Program terminating ….”");
             }
