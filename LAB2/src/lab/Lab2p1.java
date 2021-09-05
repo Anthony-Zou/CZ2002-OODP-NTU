@@ -8,6 +8,7 @@ public class Lab2p1 {
         int[] intList;
         int size=100;
         intList = new int[size];
+        int count =0;
         Scanner sc = new Scanner(System.in);
         do {
             System.out.println("Perform the following methods:");
@@ -59,17 +60,35 @@ public class Lab2p1 {
 
                     System.out.println("Enter your digits for the counter and enter -1 to stop");
                     int num;
-                    int count =0;
-                    do
-                    {
-                        num=sc.nextInt();
-                        intList[count] = num;
-                        count++;
-                    }while(num!=-1);
 
-                    System.out.println("Counter "+ (count-1)+" digits");
+                    do
+                    {    num=sc.nextInt();
+                        if(num!=-1)
+                        {
+                            intList[count] = num;
+                            count++;
+                        }
+                    }while(num!=-1);
+                    System.out.println("Counter "+ (count)+" digits");
                     break;
                 case 5: /* add position() call */
+                    for(int i=0;i< count;i++)
+                    {System.out.printf(intList[i]+", ");}
+                    System.out.println("Select the digit of your choice ");
+                    int position = sc.nextInt();
+                    int flag=0;
+                    for(int i=0;i< count;i++)
+                    {
+                        if(position==intList[i])
+                        {
+                            System.out.println("The digit  "+position+" is at " +i+" position");
+                            flag=1;
+                        }
+                    }
+                    if(flag==0){
+
+                        System.out.println("The digit  "+position+" do not exist in the list");
+                    }
                     break;
                 case 6: /* add extractOddDigits() call */
                     break;
