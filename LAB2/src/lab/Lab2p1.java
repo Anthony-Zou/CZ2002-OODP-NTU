@@ -5,6 +5,9 @@ public class Lab2p1 {
     public static void main(String[] args)
     {
         int choice;
+        int[] intList;
+        int size=100;
+        intList = new int[size];
         Scanner sc = new Scanner(System.in);
         do {
             System.out.println("Perform the following methods:");
@@ -27,10 +30,44 @@ public class Lab2p1 {
                     System.out.println("The result of "+a+" X "+b+" = "+c);
                     break;
                 case 2: /* add divide() call */
+                    System.out.println("This is a 2 digit Divider");
+                    System.out.println("Enter numerator");
+                    double a2 = sc.nextDouble();
+                    double b2=0;
+                    while (b2==0)
+                    {
+                    System.out.println("Enter non zero denominator");
+                    b2= sc.nextDouble();
+                    }
+                    double c2 = divider2D(a2,b2);
+                    System.out.println("The result of "+a2+" / "+b2+" = "+c2);
                     break;
                 case 3: /* add modulus() call */
+                    System.out.println("This is a 2 digit modulo");
+                    System.out.println("Enter numerator");
+                    double a3 = sc.nextDouble();
+                    double b3=0;
+                    while (b3==0)
+                    {
+                        System.out.println("Enter non zero denominator");
+                        b3= sc.nextDouble();
+                    }
+                    double c3 = modulo2D(a3,b3);
+                    System.out.println("The result of "+a3+" / "+b3+" = "+c3);
                     break;
                 case 4: /* add countDigits() call */
+
+                    System.out.println("Enter your digits for the counter and enter -1 to stop");
+                    int num;
+                    int count =0;
+                    do
+                    {
+                        num=sc.nextInt();
+                        intList[count] = num;
+                        count++;
+                    }while(num!=-1);
+
+                    System.out.println("Counter "+ (count-1)+" digits");
                     break;
                 case 5: /* add position() call */
                     break;
@@ -44,6 +81,15 @@ public class Lab2p1 {
     public static float multiplyer2D(double a, double b)
     {
         return (float) (a * b);
+    }
+    public static float divider2D(double a, double b)
+    {
+        return (float) (a / b);
+    }
+
+    public static float modulo2D(double a, double b)
+    {
+        return (float) (a % b);
     }
 }
 
