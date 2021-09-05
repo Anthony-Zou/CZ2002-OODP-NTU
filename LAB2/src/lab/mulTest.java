@@ -1,7 +1,7 @@
 package lab;
 import java.util.Scanner;
 import java.math.*;
-public class Lab2p2 {
+public class mulTest {
     public static int NumofCorrectAns=0;
     public static void mulTest()
     {
