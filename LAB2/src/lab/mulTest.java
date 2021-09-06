@@ -2,12 +2,14 @@ package lab;
 import java.util.Scanner;
 import java.math.*;
 public class mulTest {
+
     public static int NumofCorrectAns=0;
     public static void mulTest()
     {
+
         int a =(int)(Math.random() * 10) + 1;
         int b =(int)(Math.random() * 10) + 1;
-        int c = a * b;
+        int c=a*b;
         Scanner sc = new Scanner(System.in);
         System.out.println("How much is "+a+ " times "+b+"?");
         int answer = sc.nextInt();
@@ -17,7 +19,7 @@ public class mulTest {
         }
     }
     public static void main(String[] args)
-    {
+    {   NumofCorrectAns=0;
         System.out.println("Hello");
         for(int i=0;i<5;i++){
         mulTest();}
