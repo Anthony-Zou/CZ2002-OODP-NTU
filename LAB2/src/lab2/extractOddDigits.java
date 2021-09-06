@@ -1,9 +1,6 @@
-package lab;
+package lab2;
 
 import java.util.Scanner;
-import java.util.*;
-import java.io.*;
-import java.math.*;
 
 public class extractOddDigits {
     public static long extractOddDigits(long n) {

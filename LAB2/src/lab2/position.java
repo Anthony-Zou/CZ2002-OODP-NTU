@@ -1,9 +1,6 @@
-package lab;
+package lab2;
 
 import java.util.Scanner;
-import java.util.*;
-import java.io.*;
-import java.math.*;
 
 public class position {
     public static int position(int n, int digit)

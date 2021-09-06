@@ -1,6 +1,6 @@
-package lab;
+package lab2;
 import java.util.Scanner;
-import java.math.*;
+
 public class mulTest {
 
     public static int NumofCorrectAns=0;

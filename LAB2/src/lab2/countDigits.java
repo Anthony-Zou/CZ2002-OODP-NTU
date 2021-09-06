@@ -1,8 +1,7 @@
-package lab;
+package lab2;
 
 import java.util.Scanner;
-import java.util.Scanner;
-import java.math.*;
+
 public class countDigits {
     public static int countDigits(int n)
     {

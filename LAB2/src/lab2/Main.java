@@ -1,9 +1,7 @@
-package lab;
+package lab2;
 
 import java.util.Scanner;
-import java.util.*;
-import java.io.*;
-import java.math.*;
+
 public class Main {
 
     public static void main(String[] args) {

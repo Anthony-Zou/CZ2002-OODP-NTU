@@ -1,4 +1,4 @@
-package lab;
+package lab2;
 
 import java.util.Scanner;
 public class Lab2p1 {
