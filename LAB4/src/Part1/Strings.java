@@ -17,7 +17,8 @@ public static void main (String[] args)
     System.out.println ("\nEnter the strings...");
     for (int i = 0; i < size; i++)
         strList[i] = scan.nextLine();
-    Sorting.selectionSort(strList);
+    //Sorting.selectionSort(strList);
+    Sorting.insertionSort(strList);
     System.out.println ("\nYour strings in sorted order...");
     for (int i = 0; i < size; i++)
         System.out.print(strList[i] + " ");
