@@ -1,5 +1,7 @@
 \contentsline {section}{\numberline {1}Numbers.java Issue}{2}{section.1}%
 \contentsline {section}{\numberline {2}Numbers.java Errors}{2}{section.2}%
 \contentsline {section}{\numberline {3}String.java}{3}{section.3}%
-\contentsline {section}{\numberline {4}Decending Insertion Sort}{4}{section.4}%
+\contentsline {section}{\numberline {4}Decending Insertion Sort}{3}{section.4}%
 \contentsline {section}{\numberline {5}SalesPerson Class}{5}{section.5}%
+\contentsline {section}{\numberline {6}WeeklySales}{6}{section.6}%
+\contentsline {section}{\numberline {7}Calculate Surface Area of a Figure}{6}{section.7}%

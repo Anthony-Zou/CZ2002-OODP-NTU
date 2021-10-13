@@ -25,7 +25,16 @@ public class SalePerson implements Comparable<SalePerson> {
 
   @Override
   public int compareTo(SalePerson p) {
-    return this.totalSales - p.totalSales;
+    if (this.totalSales < p.getTotalSales())
+      return -1;
+    else if (this.totalSales > p.getTotalSales())
+      return 1;
+    else {
+      if (this.lastName.compareTo(p.getLastName()) > 0)
+        return -1;
+      else
+        return 1;
+    }
   }
 
   @java.lang.Override
@@ -34,12 +43,14 @@ public class SalePerson implements Comparable<SalePerson> {
   }
 
   public boolean equals(Object object) {
-    if (this == object) return true;
-    if (object == null || getClass() != object.getClass()) return false;
-    if (!super.equals(object)) return false;
+    if (this == object)
+      return true;
+    if (object == null || getClass() != object.getClass())
+      return false;
+    if (!super.equals(object))
+      return false;
     SalePerson that = (SalePerson) object;
-    return totalSales == that.totalSales
-        && java.util.Objects.equals(firstName, that.firstName)
+    return totalSales == that.totalSales && java.util.Objects.equals(firstName, that.firstName)
         && java.util.Objects.equals(lastName, that.lastName);
   }
 }
