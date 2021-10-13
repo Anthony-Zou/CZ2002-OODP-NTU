@@ -3,6 +3,7 @@ package figure;
 public class Square extends Shape 
 {  // fields 
    double side; 
+   
    // constructors
    public Square()
    {
@@ -11,13 +12,17 @@ public class Square extends Shape
    }
    public Square(double _side) 
    { 
-      name = "Square"; 
+      
       side = _side; 
    } 
    // methods 
    public void computeArea() 
-   { 
+   { name = "Square"; 
       area = side * side; 
    } 
+   public void computeVolume()
+   {  name = "Cube"; 
+      volume=side * side* side; 
+   }
 
 }

@@ -6,7 +6,7 @@ package figure;
  */
 public class Rectangle extends Shape 
 {  // fields 
-   double length, width; 
+   double length, width, height; 
    // constructors
    public Rectangle()
    {
@@ -15,14 +15,27 @@ public class Rectangle extends Shape
    }
    public Rectangle(double _length, double _width) 
    { 
-      name = "Rectangle"; 
+     
       length = _length; 
       width = _width; 
+   } 
+   public Rectangle(double _length, double _width,double _height) 
+   { 
+     
+      length = _length; 
+      width = _width; 
+      height = _height;
    } 
    // methods 
    public void computeArea() 
    { 
+      name = "Rectangle"; 
       area = length * width; 
+   } 
+   public void computeVolume() 
+   { 
+      name = "Cubiod"; 
+      volume = length * width*height; 
    } 
 
 }

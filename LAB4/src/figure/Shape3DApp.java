@@ -2,23 +2,12 @@ package figure;
 
 import java.util.*;
 
-public class Shap2DApp {
+public class Shape3DApp {
     //change
     
     public static void main(String[] args)
     {
-      
-    //   Circle c = new Circle(10);  
-    //   Triangle t = new Triangle(25,20);
-    //   Rectangle r = new Rectangle(50, 20); 
-      
-    //   c.computeArea(); 
-    //   t.computeArea();
-    //   r.computeArea(); 
 
-    //   c.display(); 
-    //   t.display(); 
-    //   r.display(); 
 
       int size;
       int shapetype;
@@ -31,16 +20,16 @@ public class Shap2DApp {
       for (int i = 0; i < size; i++)
       {
         System.out.print("\nChoose the shapetype for shape " + (i+1));
-        System.out.print("\nEnter 1 for Circle " );
-        System.out.print("\nEnter 2 for Square " );
-        System.out.print("\nEnter 3 for Rectangle" );
-        System.out.print("\nEnter 4 for Triangle\n " );
+        System.out.print("\nEnter 1 for Sphere " );
+        System.out.print("\nEnter 2 for Cube " );
+        System.out.print("\nEnter 3 for Cubiod" );
+        System.out.print("\nEnter 4 for Square-based Pyramid\n " );
         shapetype =scan.nextInt();
 
         switch(shapetype)
         {
             case 1:
-                System.out.print("\nEnter dimension for Circle " );
+                
                 System.out.print("\nEnter radius\n " );
                 double radius =scan.nextDouble();
                 Circle c = new Circle(radius); 
@@ -57,12 +46,14 @@ public class Shap2DApp {
                 double l =scan.nextDouble();            
                 System.out.print("\nEnter breadth\n" );
                 double b =scan.nextDouble();
-                Rectangle r = new Rectangle(l,b);
+                System.out.print("\nEnter height\n" );
+                double h =scan.nextDouble();
+                Rectangle r = new Rectangle(l,b,h);
                 list.add(r);
                 break;
 
             case 4:
-                System.out.print("\nEnter dimension for Triangle\n " );
+                
                 System.out.print("\nEnter height\n" );
                 double height =scan.nextDouble();
                 System.out.print("\nEnter base\n" );
@@ -93,6 +84,16 @@ public class Shap2DApp {
             System.out.print("\nTotal Area = "+ totalarea+"\n" );
             break;
           case 2:
+          double totalVolume=0;;
+          for (Object obj : list)
+          {
+              ((Shape) obj).computeVolume();
+              
+              ((Shape) obj).displayVolume(); 
+
+              totalVolume+=((Shape) obj).getVolume();
+          }
+          System.out.print("\nTotal Volume = "+ totalVolume+"\n" );
             break;
           default:
             System.out.print("\nEnter option listed" );

@@ -7,6 +7,7 @@ package figure;
 public class Circle extends Shape 
 {  // fields 
    double radius; 
+   
    // constructors
    public Circle()
    {
@@ -15,14 +16,21 @@ public class Circle extends Shape
    }
    public Circle(double _radius) 
    { 
-      name = "Circle"; 
+      
       radius = _radius; 
    } 
    // methods 
    
    public void computeArea() 
    { 
+      name = "Circle"; 
       area = Math.PI * radius * radius; 
+   } 
+   public void computeVolume() 
+   { 
+      name = "Sphere"; 
+      volume = Math.PI * radius * radius* radius * (4/3); 
+      //System.out.println(volume);
    } 
 
 }

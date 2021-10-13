@@ -16,14 +16,19 @@ public class Triangle extends Shape
    }
    public Triangle(double _height, double _base) 
    { 
-      name = "Triangle"; 
+       
       height = _height; 
       base = _base; 
    } 
    // methods 
    public void computeArea() 
    { 
+      name = "Triangle";
       area = (height * base)/2; 
    } 
-
+   public void computeVolume() 
+   { 
+      name = "Square-based Pyramid";
+      volume = base*base*(height/3);
+   } 
 }
