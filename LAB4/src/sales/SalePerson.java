@@ -1,52 +1,45 @@
 package sales;
 
+public class SalePerson implements Comparable<SalePerson> {
+  private String firstName;
+  private String lastName;
+  private int totalSales;
 
-public class SalePerson implements Comparable<SalePerson>{
-private String firstName;
-private String lastName;
-private int totalSales;
- 
-    public SalePerson(String firstName, String lastName, int totalSales) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.totalSales = totalSales;
-    }
+  public SalePerson(String firstName, String lastName, int totalSales) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.totalSales = totalSales;
+  }
 
-    public String getFirstName() {
-        return firstName;
-    }
+  public String getFirstName() {
+    return firstName;
+  }
 
+  public String getLastName() {
+    return lastName;
+  }
 
+  public int getTotalSales() {
+    return totalSales;
+  }
 
-    public String getLastName() {
-        return lastName;
-    }
+  @Override
+  public int compareTo(SalePerson p) {
+    return this.totalSales - p.totalSales;
+  }
 
+  @java.lang.Override
+  public java.lang.String toString() {
+    return lastName + ", " + firstName + ":" + totalSales;
+  }
 
-
-    public int getTotalSales() {
-        return totalSales;
-    }
-
-    @Override
-    public int compareTo(SalePerson p) {
-        return this.totalSales - p.totalSales;
-    }
-
-    @java.lang.Override
-    public java.lang.String toString() {
-        return lastName +", "+ firstName+
-                ":" + totalSales 
-            ;
-    }
-
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        if (!super.equals(object)) return false;
-        SalePerson that = (SalePerson) object;
-        return totalSales == that.totalSales && java.util.Objects.equals(firstName, that.firstName) && java.util.Objects.equals(lastName, that.lastName);
-    }
-
-
+  public boolean equals(Object object) {
+    if (this == object) return true;
+    if (object == null || getClass() != object.getClass()) return false;
+    if (!super.equals(object)) return false;
+    SalePerson that = (SalePerson) object;
+    return totalSales == that.totalSales
+        && java.util.Objects.equals(firstName, that.firstName)
+        && java.util.Objects.equals(lastName, that.lastName);
+  }
 }
