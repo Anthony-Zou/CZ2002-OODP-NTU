@@ -22,7 +22,9 @@ public class Shap2DApp {
 
       int size;
       int shapetype;
+      char option;
       Scanner scan = new Scanner(System.in);
+      do{
       System.out.print("\nEnter the total number of shapes? ");
       size = scan.nextInt(); 
       
@@ -98,6 +100,11 @@ public class Shap2DApp {
             System.out.print("\nEnter option listed" );
             break;
       }
+      System.out.println("Do you want to Create new shapes?");
+      System.out.println("Y - yes,  N - no");
+      System.out.print("option: ");
+      option = scan.next().charAt(0);
+    }while(Character.toUpperCase(option)=='Y');
 
     scan.close();
     }

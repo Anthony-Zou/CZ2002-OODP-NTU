@@ -11,15 +11,17 @@ public class Shape3DApp {
 
       int size;
       int shapetype;
+      char option;
       Scanner scan = new Scanner(System.in);
+      do{
       System.out.print("\nEnter the total number of shapes? ");
       size = scan.nextInt(); 
       
       List<Object> list = new ArrayList<Object>();
-
+      
       for (int i = 0; i < size; i++)
       {
-        System.out.print("\nChoose the shapetype for shape " + (i+1));
+        System.out.print("\nChoose the shape type for shape " + (i+1));
         System.out.print("\nEnter 1 for Sphere " );
         System.out.print("\nEnter 2 for Cube " );
         System.out.print("\nEnter 3 for Cubiod" );
@@ -99,6 +101,11 @@ public class Shape3DApp {
             System.out.print("\nEnter option listed" );
             break;
       }
+      System.out.println("Do you want to Create new shapes?");
+      System.out.println("Y - yes,  N - no");
+      System.out.print("option: ");
+      option = scan.next().charAt(0);
+    }while(Character.toUpperCase(option)=='Y');
 
     scan.close();
     }
