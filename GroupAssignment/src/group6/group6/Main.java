@@ -1,14 +1,13 @@
 package group6;
+import java.util.*;
 public class Main {
-    public static void main(String[] Args)
+    public static void main(String[] args)
     {
-        System.out.println("Hello World");
-        System.out.println("Hi Fang");
-        System.out.println("Hello Team 6");
-        System.out.println("Hello im jy");
-        System.out.println("Hello im fenghao");
-        System.out.println("Hello I am ZeRen");
-        System.out.println("Hello test121233");
 
+        Scanner scan = new Scanner(System.in);
+
+       // do{}while();
+
+        scan.close();
     }
 }
