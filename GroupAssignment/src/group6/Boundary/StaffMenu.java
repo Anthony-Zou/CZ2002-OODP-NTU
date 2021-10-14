@@ -33,6 +33,8 @@ public class StaffMenu {
             userChoice= sc.nextInt();
             switch(userChoice)
             {
+                case 0:
+                    break;
                 case 1:
                     StaffController.addUpdateDeleteMenuItem();
                     break;
@@ -65,6 +67,6 @@ public class StaffMenu {
                     break;
                 default: System.out.println("Invalid");
             }
-        }while(userChoice!=9);
+        }while(userChoice!=0);
     }
 }
