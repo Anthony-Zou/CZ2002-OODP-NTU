@@ -1,4 +1,4 @@
-package RRPSS;
+package Entity;
 
 public class Revenue {
 }
