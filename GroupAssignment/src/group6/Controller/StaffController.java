@@ -20,16 +20,77 @@ public class StaffController {
 
     public void addUpdateDeleteMenuItem() {
         MenuItemController MenuItemController = new MenuItemController();
-        MenuItemController.addMenuItem();
-        MenuItemController.updateMenuItem();
-        MenuItemController.deleteMenuItem();
+        System.out.println("Add/Update/Delete a MenuItem");
+        System.out.println("---------------------");
+        int choice=0;
+        do{
+            System.out.println("\nWhat do you wish to do:");
+            System.out.println("1. Print All MenuItem\n" + "2. Add MenuItem\n" + "3. Update Existing MenuItem\n"
+                    + "4. Delete MenuItem\n"+"5.Cancel");
+
+            while(!sc.hasNextInt()){
+                sc.next();
+                System.out.println("Please enter valid option:");
+
+            }
+            choice = sc.nextInt();
+            switch(choice){
+                case 1:
+                    MenuItemController.printMenuItem();
+                    break;
+                case 2:
+                    MenuItemController.addMenuItem();
+                    break;
+                case 3:
+                    MenuItemController.updateMenuItem();
+                    break;
+                case 4:
+                    MenuItemController.deleteMenuItem();
+                    break;
+
+                default:
+                    System.out.println("Please enter a valid choice number.");
+                    break;
+            }
+        }while(choice<5 );
+
     }
 
     public void addUpdateDeletePromotion() {
         PromotionController PromotionController = new PromotionController();
-        PromotionController.addPromotion();
-        PromotionController.UpdatePromotion();
-        PromotionController.DeletePromotion();
+        System.out.println("Add/Update/Delete a Promotion");
+        System.out.println("---------------------");
+        int choice=0;
+        do{
+            System.out.println("\nWhat do you wish to do:");
+            System.out.println("1. Print All Promotion\n" + "2. Add Promotion\n" + "3. Update Existing Promotion\n"
+                    + "4. Delete Promotion\n"+"5.Cancel");
+
+            while(!sc.hasNextInt()){
+                sc.next();
+                System.out.println("Please enter valid option:");
+
+            }
+            choice = sc.nextInt();
+            switch(choice){
+                case 1:
+                    MenuItemController.allPromotion();
+                    break;
+                case 2:
+                    PromotionController.addPromotion();
+                    break;
+                case 3:
+                    PromotionController.UpdatePromotion();
+                    break;
+                case 4:
+                    PromotionController.DeletePromotion();
+                    break;
+
+                default:
+                    System.out.println("Please enter a valid choice number.");
+                    break;
+            }
+        }while(choice<5 );
     }
 
     public void createOrder() {
@@ -41,8 +102,35 @@ public class StaffController {
     }
 
     public void addDeleteOrderItem() {
-        OrderController.addOrderItem();
-        OrderController.deleteOrderItem();
+        System.out.println("Add/Delete a OrderItem");
+        System.out.println("---------------------");
+        int choice=0;
+        do{
+            System.out.println("\nWhat do you wish to do:");
+            System.out.println("1. Print All OrderItem\n" + "2. Add OrderItem\n"
+                    + "3. Delete Promotion\n"+"4.Cancel");
+
+            while(!sc.hasNextInt()){
+                sc.next();
+                System.out.println("Please enter valid option:");
+
+            }
+            choice = sc.nextInt();
+            switch(choice){
+                case 1:
+                    OrderController.allOrderItem();
+                    break;
+                case 2:
+                    OrderController.addOrderItem();
+                    break;
+                case 3:
+                    OrderController.deleteOrderItem();
+                    break;
+                default:
+                    System.out.println("Please enter a valid choice number.");
+                    break;
+            }
+        }while(choice<4 );
     }
 
     public void createReservation() {

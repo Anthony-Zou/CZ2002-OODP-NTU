@@ -4,6 +4,9 @@ import java.util.*;
 import Boundary.UserInterface;
 public class MenuItemController {
 
+    public static void allPromotion() {
+    }
+
     public void addMenuItem() {
     }
 
@@ -11,5 +14,8 @@ public class MenuItemController {
     }
 
     public void deleteMenuItem() {
+    }
+
+    public void printMenuItem() {
     }
 }
