@@ -1,4 +1,5 @@
 package Entity;
-
-public class Promotion {
+import java.util.Objects;
+import java.io.Serializable;
+public class Promotion implements Serializable{
 }

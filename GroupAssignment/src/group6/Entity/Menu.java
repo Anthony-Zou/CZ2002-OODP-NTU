@@ -1,28 +1,40 @@
 package Entity;
-
 import java.util.Objects;
+import java.io.Serializable;
 
-public class Menu {
+public class Menu implements Serializable{
     String itemName;
     double price;
     int quantity;
 
+    public Menu(String itemName, double price, int quantity) {
+        this.itemName = itemName;
+        this.price = price;
+        this.quantity = quantity;
+    }
 
     public String getItemName() {
         return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public double getPrice() {
         return price;
     }
 
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public int getQuantity() {
         return quantity;
     }
 
-    @Override
-    public String toString() {
-        return quantity + "  " + itemName + "  " + price;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     @Override
@@ -35,27 +47,6 @@ public class Menu {
 
     @Override
     public int hashCode() {
-        return Objects.hash(itemName, price, quantity);
+        return 0;
     }
-
-
-    public Menu(String itemName, double price, int quantity) {
-        this.itemName = itemName;
-        this.price = price;
-        this.quantity = quantity;
-    }
-
-    public void upDateMenu(String itemName, double price, int quantity) {
-        this.itemName = itemName;
-        this.price = price;
-        this.quantity = quantity;
-    }
-
-    public void RemoveMenu(String itemName, double price, int quantity) {
-        this.itemName = itemName;
-        this.price = price;
-        this.quantity = quantity;
-    }
-
-
 }

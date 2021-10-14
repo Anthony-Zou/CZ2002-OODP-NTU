@@ -1,4 +1,5 @@
 package Entity;
-
-public class Reservation {
+import java.util.Objects;
+import java.io.Serializable;
+public class Reservation implements Serializable{
 }

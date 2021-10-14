@@ -1,4 +1,5 @@
 package Entity;
-
-public class Revenue {
+import java.util.Objects;
+import java.io.Serializable;
+public class Revenue implements Serializable{
 }
