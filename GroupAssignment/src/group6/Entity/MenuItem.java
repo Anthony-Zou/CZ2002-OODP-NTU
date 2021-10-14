@@ -2,12 +2,12 @@ package Entity;
 import java.util.Objects;
 import java.io.Serializable;
 
-public class Menu implements Serializable{
+public class MenuItem implements Serializable{
     String itemName;
     double price;
     int quantity;
 
-    public Menu(String itemName, double price, int quantity) {
+    public MenuItem(String itemName, double price, int quantity) {
         this.itemName = itemName;
         this.price = price;
         this.quantity = quantity;
@@ -41,7 +41,7 @@ public class Menu implements Serializable{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Menu menu = (Menu) o;
+        MenuItem menu = (MenuItem) o;
         return Double.compare(menu.price, price) == 0 && quantity == menu.quantity && Objects.equals(itemName, menu.itemName);
     }
 

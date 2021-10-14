@@ -1,6 +1,6 @@
 package Controller;
 import Entity.*;
 import java.util.*;
-import Boundary.Main;
+import Boundary.UserInterface;
 public class PromotionController {
 }
