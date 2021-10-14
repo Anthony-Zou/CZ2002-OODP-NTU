@@ -3,14 +3,16 @@ import java.util.Objects;
 import java.io.Serializable;
 
 public class MenuItem implements Serializable{
-    String itemName;
-    double price;
-    int quantity;
+    private String itemName;
+    private String description;
+    private double price;
+    private String type;
 
-    public MenuItem(String itemName, double price, int quantity) {
+    public MenuItem(String itemName, String description, double price, String type) {
         this.itemName = itemName;
+        this.description = description;
         this.price = price;
-        this.quantity = quantity;
+        this.type = type;
     }
 
     public String getItemName() {
@@ -21,6 +23,14 @@ public class MenuItem implements Serializable{
         this.itemName = itemName;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public double getPrice() {
         return price;
     }
@@ -29,24 +39,23 @@ public class MenuItem implements Serializable{
         this.price = price;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public String getType() {
+        return type;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MenuItem menu = (MenuItem) o;
-        return Double.compare(menu.price, price) == 0 && quantity == menu.quantity && Objects.equals(itemName, menu.itemName);
+        MenuItem menuItem = (MenuItem) o;
+        return     Double.compare(menuItem.price, price) == 0
+                && Objects.equals(itemName, menuItem.itemName)
+                && Objects.equals(description, menuItem.description)
+                && Objects.equals(type, menuItem.type);
     }
 
-    @Override
-    public int hashCode() {
-        return 0;
-    }
 }
