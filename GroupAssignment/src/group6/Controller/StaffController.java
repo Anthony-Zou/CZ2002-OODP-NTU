@@ -14,10 +14,6 @@ public class StaffController {
     }
     Scanner sc = new Scanner(System.in);
 
-
-    OrderController OrderController = new OrderController();
-    ReservationController ReservationController = new ReservationController();
-
     public void addUpdateDeleteMenuItem() {
         MenuItemController MenuItemController = new MenuItemController();
         System.out.println("Add/Update/Delete a MenuItem");
@@ -74,7 +70,7 @@ public class StaffController {
             choice = sc.nextInt();
             switch(choice){
                 case 1:
-                    MenuItemController.allPromotion();
+                    PromotionController.printPromotion();
                     break;
                 case 2:
                     PromotionController.addPromotion();
@@ -92,6 +88,8 @@ public class StaffController {
             }
         }while(choice<5 );
     }
+
+    OrderController OrderController = new OrderController();
 
     public void createOrder() {
         OrderController.createOrder();
@@ -132,6 +130,8 @@ public class StaffController {
             }
         }while(choice<4 );
     }
+
+    ReservationController ReservationController = new ReservationController();
 
     public void createReservation() {
         ReservationController.createReservation();

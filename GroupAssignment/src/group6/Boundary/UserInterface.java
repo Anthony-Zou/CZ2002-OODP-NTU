@@ -5,7 +5,9 @@ public class UserInterface {
     private static Staff Staff;
 
     public static void main(String[] args) {
-        StaffMenu.display(Staff);
+
+        //StaffMenu.display(Staff);
+        System.out.println("Hello World");
     }
 
 }

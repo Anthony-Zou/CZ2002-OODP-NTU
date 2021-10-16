@@ -11,4 +11,8 @@ public class PromotionController {
 
     public void DeletePromotion() {
     }
+
+
+    public void printPromotion() {
+    }
 }

@@ -8,6 +8,9 @@ public class MenuItem implements Serializable{
     private double price;
     private String type;
 
+    public MenuItem() {
+    }
+
     public MenuItem(String itemName, String description, double price, String type) {
         this.itemName = itemName;
         this.description = description;
