@@ -8,6 +8,7 @@ public class UserInterface {
 
         //StaffMenu.display(Staff);
         System.out.println("Hello World");
+        System.out.println("Hello 123");
     }
 
 }
