@@ -62,12 +62,14 @@ public class Database_Controller {
 
         writeList(TableList,tablePath);
     }
+
     public static ArrayList<Table> readTableList()
     {
         ArrayList<Table> TableList;
         TableList=(ArrayList)readList(tablePath);
         return TableList;
     }
+
     public static Table getTableById(int number) {
         ArrayList<Table> tableList = (ArrayList<Table>)readTableList();
         for (int i = 0 ; i < tableList.size() ; i++) {
@@ -79,6 +81,7 @@ public class Database_Controller {
         }
         return null;
     }
+
     public static void addTable(Table table)
     {
        ArrayList<Table> tablelist = (ArrayList<Table>)readTableList();
@@ -87,7 +90,6 @@ public class Database_Controller {
         writeTableList(tablelist);
 
     }
-
 
     public static void deleteTable(int tableNumber) {
         ArrayList<Table> TableList = (ArrayList<Table>)readTableList();
@@ -101,14 +103,11 @@ public class Database_Controller {
         }
         writeTableList(TableList);
     }
+
     public static void updateTable(Table table)
     {
         deleteTable(table.getId());
         addTable(table);
     }
-    public static void updateTableReserved(Table table)
-    {
-        deleteTable(table.getId());
-        addTable(table);
-    }
+
 }
