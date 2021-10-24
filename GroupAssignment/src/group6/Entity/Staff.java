@@ -2,7 +2,7 @@ package Entity;
 import java.util.Objects;
 import java.io.Serializable;
 public class Staff implements Serializable{
-    private String employeeId;
+    private int employeeId;
     private String name;
     private String gender;
     private String jobTitle;
@@ -10,18 +10,18 @@ public class Staff implements Serializable{
     public Staff() {
     }
 
-    public Staff(String employeeId, String name, String gender, String jobTitle) {
+    public Staff(int employeeId, String name, String gender, String jobTitle) {
         this.employeeId = employeeId;
         this.name = name;
         this.gender = gender;
         this.jobTitle = jobTitle;
     }
 
-    public String getEmployeeId() {
+    public int getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId(String employeeId) {
+    public void setEmployeeId(int employeeId) {
         this.employeeId = employeeId;
     }
 

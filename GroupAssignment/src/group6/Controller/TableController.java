@@ -45,14 +45,14 @@ public class TableController {
     public void deleteTable() {
         System.out.println("Remove a Table");
         System.out.println("---------------------");
-        // find if the student is in the database or not //
+        // find if the Table is in the database or not //
         System.out.println("Enter the number of the Table:");
         int TableNumber = sc.nextInt();
         if (Database_Controller.getTableById(TableNumber) == null) {
             System.out.println("Table does not exist!");
 
         } else {
-            Database_Controller.deleteTable(TableNumber);// remove the student from the database
+            Database_Controller.deleteTable(TableNumber);// remove the Table from the database
             System.out.println("Table removed!");
 
         }

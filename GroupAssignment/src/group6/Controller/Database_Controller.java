@@ -17,7 +17,7 @@ public class Database_Controller {
     private final static String testPath="src/group6/Data/Table.Dat";
 
 
-
+    //basic function group
     public static void writeList(List list, String path) {
         try {
             FileOutputStream fos = new FileOutputStream(path);
@@ -57,14 +57,13 @@ public class Database_Controller {
 
 
 
-
+    //function group for table management
     public static void writeTableList(ArrayList<Table> TableList){
 
         writeList(TableList,tablePath);
     }
 
-    public static ArrayList<Table> readTableList()
-    {
+    public static ArrayList<Table> readTableList() {
         ArrayList<Table> TableList;
         TableList=(ArrayList)readList(tablePath);
         return TableList;
@@ -82,8 +81,7 @@ public class Database_Controller {
         return null;
     }
 
-    public static void addTable(Table table)
-    {
+    public static void addTable(Table table) {
        ArrayList<Table> tablelist = (ArrayList<Table>)readTableList();
        // ArrayList<Table> tablelist = new ArrayList<Table>();
         tablelist.add(table);
@@ -104,10 +102,111 @@ public class Database_Controller {
         writeTableList(TableList);
     }
 
-    public static void updateTable(Table table)
-    {
+    public static void updateTable(Table table) {
         deleteTable(table.getId());
         addTable(table);
     }
 
+
+    //function group for Staff management
+
+    public static void writeStaffList(ArrayList<Staff> StaffList){
+
+        writeList(StaffList,staffPath);
+    }
+
+    public static ArrayList<Staff> readStaffList() {
+        ArrayList<Staff> StaffList;
+        StaffList=(ArrayList)readList(staffPath);
+        return StaffList;
+    }
+
+    public static Staff getStaffByEmployeeId(int employeeId) {
+        ArrayList<Staff> StaffList = (ArrayList<Staff>)readStaffList();
+        for (int i = 0 ; i < StaffList.size() ; i++) {
+            Staff Staff = (Staff)StaffList.get(i);
+            if (Staff.getEmployeeId()==(employeeId))
+            {
+                return Staff;
+            }
+        }
+        return null;
+    }
+
+    public static void addStaff(Staff Staff) {
+        ArrayList<Staff> Stafflist = (ArrayList<Staff>)readStaffList();
+         //ArrayList<Staff> Stafflist = new ArrayList<Staff>();
+        Stafflist.add(Staff);
+        writeStaffList(Stafflist);
+
+    }
+
+    public static void deleteStaff(int employeeId) {
+        ArrayList<Staff> StaffList = (ArrayList<Staff>)readStaffList();
+        for (int i = 0 ; i < StaffList.size() ; i++) {
+            Staff Staff = (Staff)StaffList.get(i);
+            if (Staff.getEmployeeId()==(employeeId))
+            {
+                StaffList.remove(i);
+                break;
+            }
+        }
+        writeStaffList(StaffList);
+    }
+
+    public static void updateStaff(Staff Staff) {
+        deleteStaff(Staff.getEmployeeId());
+        addStaff(Staff);
+    }
+
+
+    //function group for MenuItem management
+    public static void writeMenuItemList(ArrayList<MenuItem> MenuItemList){
+
+        writeList(MenuItemList,menuItemPath);
+    }
+
+    public static ArrayList<MenuItem> readMenuItemList() {
+        ArrayList<MenuItem> MenuItemList;
+        MenuItemList=(ArrayList)readList(menuItemPath);
+        return MenuItemList;
+    }
+
+    public static MenuItem getMenuItemByName(String itemName) {
+        ArrayList<MenuItem> MenuItemList = (ArrayList<MenuItem>)readMenuItemList();
+        for (int i = 0 ; i < MenuItemList.size() ; i++) {
+            MenuItem MenuItem = (MenuItem)MenuItemList.get(i);
+            if (MenuItem.getItemName().equalsIgnoreCase(itemName))
+            {
+                return MenuItem;
+            }
+        }
+        return null;
+    }
+
+    public static void addMenuItem(MenuItem MenuItem) {
+        ArrayList<MenuItem> MenuItemlist = (ArrayList<MenuItem>)readMenuItemList();
+        //ArrayList<MenuItem> MenuItemlist = new ArrayList<MenuItem>();
+        MenuItemlist.add(MenuItem);
+        writeMenuItemList(MenuItemlist);
+
+    }
+
+    public static void deleteMenuItem(String itemName) {
+        ArrayList<MenuItem> MenuItemList = (ArrayList<MenuItem>)readMenuItemList();
+        for (int i = 0 ; i < MenuItemList.size() ; i++) {
+            MenuItem MenuItem = (MenuItem)MenuItemList.get(i);
+            if (MenuItem.getItemName().equalsIgnoreCase(itemName))
+            {
+                MenuItemList.remove(i);
+                break;
+            }
+        }
+        writeMenuItemList(MenuItemList);
+    }
+
+    public static void updateMenuItem(MenuItem MenuItem) {
+        deleteMenuItem(MenuItem.getItemName());
+        addMenuItem(MenuItem);
+    }
 }

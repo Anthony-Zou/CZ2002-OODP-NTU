@@ -50,15 +50,6 @@ public class MenuItem implements Serializable{
         this.type = type;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MenuItem menuItem = (MenuItem) o;
-        return     Double.compare(menuItem.price, price) == 0
-                && Objects.equals(itemName, menuItem.itemName)
-                && Objects.equals(description, menuItem.description)
-                && Objects.equals(type, menuItem.type);
-    }
+
 
 }

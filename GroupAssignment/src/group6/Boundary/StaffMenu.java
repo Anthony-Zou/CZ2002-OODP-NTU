@@ -1,6 +1,6 @@
 package Boundary;
 import java.util.*;
-import Controller.StaffController;
+import Controller.InterfaceController;
 import Entity.*;
 
 public class StaffMenu {
@@ -13,9 +13,9 @@ public class StaffMenu {
      * A method to display the Staff functions.
      *
      * */
-    private static StaffController StaffController;
+    private static InterfaceController InterfaceController;
     public static void display(Staff Staff){
-        StaffController = new StaffController(Staff);
+        InterfaceController = new InterfaceController(Staff);
         do {
             Scanner sc = new Scanner(System.in);
             System.out.println("Enter your choice");
@@ -36,34 +36,34 @@ public class StaffMenu {
                 case 0:
                     break;
                 case 1:
-                    StaffController.addUpdateDeleteMenuItem();
+                    InterfaceController.addUpdateDeleteMenuItem();
                     break;
                 case 2:
-                    StaffController.addUpdateDeletePromotion();
+                    InterfaceController.addUpdateDeletePromotion();
                     break;
                 case 3:
-                    StaffController.createOrder();
+                    InterfaceController.createOrder();
                     break;
                 case 4:
-                    StaffController.viewOrder();
+                    InterfaceController.viewOrder();
                     break;
                 case 5:
-                    StaffController.addDeleteOrderItem();
+                    InterfaceController.addDeleteOrderItem();
                     break;
                 case 6:
-                    StaffController.createReservation();
+                    InterfaceController.createReservation();
                     break;
                 case 7:
-                    StaffController.checkRemoveRervationBooking();
+                    InterfaceController.checkRemoveRervationBooking();
                     break;
                 case 8:
-                    StaffController.checkTableAvailaabitity();
+                    InterfaceController.checkTableAvailaabitity();
                     break;
                 case 9:
-                    StaffController.printOrderInvoice();
+                    InterfaceController.printOrderInvoice();
                     break;
                 case 10:
-                    StaffController.printSalesRevenueReport();
+                    InterfaceController.printSalesRevenueReport();
                     break;
                 default: System.out.println("Invalid");
             }
