@@ -147,7 +147,7 @@ public class StaffController {
 
     public void checkTableAvailaabitity() {
         TableController TableController = new TableController();
-        TableController.checkTableAvailaabitity();
+        TableController.checkTableAvailabitity();
     }
 
     public void printOrderInvoice() {

@@ -1,6 +1,63 @@
 package Controller;
+import Entity.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class TableController {
-    public void checkTableAvailaabitity() {
+
+    Scanner sc = new Scanner(System.in);
+
+    public void checkTableAvailabitity() {
+    }
+    public void printTableDetails() {
+        ArrayList<Table> Table = Database_Controller.readTableList();
+        if (Table!=null) {
+            System.out.println("Table Id"+"\t"+" Table Capacity"+"\t"+" Table Reserved");
+            for(int i=0; i<Table.size(); i++) {
+                System.out.println(Table.get(i).getId()+"\t\t\t\t\t"+Table.get(i).getCapacity()+"\t\t\t\t"+Table.get(i).isReserved());
+
+            }
+        }
+    }
+    public void addTable() {
+        System.out.println("Add a Table");
+        System.out.println("---------------------");
+        System.out.println("Enter the Number of the Table:");
+        int TableNumber = sc.nextInt();
+        if( Database_Controller.getTableById(TableNumber)!=null){
+            System.out.println("Table already exists!");
+            return;
+        }
+        else{
+            System.out.println("Capacity of Table:");
+            int capacity = sc.nextInt();
+
+            Table newtable = new Table(TableNumber,capacity,false);
+            Database_Controller.addTable(newtable);
+
+       }
+        printTableDetails();
+    }
+    public void deleteTable(){
+        System.out.println("Remove a Table");
+        System.out.println("---------------------");
+        // find if the student is in the database or not //
+        System.out.println("Enter the number of the Table:");
+        int TableNumber = sc.nextInt();
+        if( Database_Controller.getTableById(TableNumber)==null){
+            System.out.println("Table does not exist!");
+
+        }
+        else{
+            Database_Controller.deleteTable(TableNumber);// remove the student from the database
+            System.out.println("Table removed!");
+
+        }
+    }
+    public static void main(String[] args) {
+        TableController t = new TableController();
+//        t.addTable();
+        t.deleteTable();
+        t.printTableDetails();
     }
 }
