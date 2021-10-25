@@ -12,6 +12,22 @@ public class TableController {
     public void checkTableAvailabitity() {
     }
 
+    public boolean checkTableAvailabitity(int TableNumber) {
+    return Database_Controller.getTableById(TableNumber).isReserved();
+    }
+
+    public void printAvailableTables(int pax) {
+        ArrayList<Table> Table = Database_Controller.readTableList();
+        if (Table != null) {
+            System.out.println("Table Id" + "\t" + " Table Capacity" + "\t" + " Table Reserved");
+            for (int i = 0; i < Table.size(); i++) {
+                if(Table.get(i).isReserved()==false && Table.get(i).getCapacity()>=pax) {
+                    System.out.println(Table.get(i).getId() + "\t\t\t\t\t" + Table.get(i).getCapacity() + "\t\t\t\t" + Table.get(i).isReserved());
+                }
+            }
+        }
+    }
+
     public void printTableDetails() {
         ArrayList<Table> Table = Database_Controller.readTableList();
         if (Table != null) {
@@ -79,4 +95,5 @@ public class TableController {
 //        t.updateTable(1);
 //        t.printTableDetails();
     }
+
 }

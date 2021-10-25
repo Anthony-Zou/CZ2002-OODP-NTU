@@ -6,7 +6,7 @@ import java.io.Serializable;
 public class Reservation implements Serializable{
     private int Id;
     private int tableId;
-    private int customerId;
+    private String customerName;
     private LocalDate Date;
     private LocalTime Time;
     private int pax;
@@ -14,10 +14,10 @@ public class Reservation implements Serializable{
     public Reservation() {
     }
 
-    public Reservation(int id, int tableId, int customerId, LocalDate date, LocalTime time, int pax) {
+    public Reservation(int id, int tableId, String customerName, LocalDate date, LocalTime time, int pax) {
         Id = id;
         this.tableId = tableId;
-        this.customerId = customerId;
+        this.customerName = customerName;
         Date = date;
         Time = time;
         this.pax = pax;
@@ -39,12 +39,12 @@ public class Reservation implements Serializable{
         this.tableId = tableId;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     public LocalDate getDate() {
