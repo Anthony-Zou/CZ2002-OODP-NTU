@@ -1,6 +1,8 @@
 package Entity;
 
-public class Customer {
+import java.io.Serializable;
+
+public class Customer implements Serializable {
     private String name;
     private int contact;
     private boolean memberShip;

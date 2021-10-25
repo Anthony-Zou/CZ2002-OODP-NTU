@@ -9,7 +9,6 @@ public class Database_Controller {
     /**
      * constant to store the file path for storing the values in the object file .
      */
-
     //region File link src
     private final static String tablePath="src/group6/Data/Table.Dat";
     private final static String menuItemPath="src/group6/Data/MenuItem.Dat";
@@ -24,7 +23,6 @@ public class Database_Controller {
     /**
      * Base function to write and read content to and from the .dat file .
      */
-
     //region File I/O
     public static void writeList(List list, String path) {
         try {
@@ -252,8 +250,8 @@ public class Database_Controller {
     }
 
     public static void addCustomer(Customer Customer) {
-       // ArrayList<Customer> Customerlist = (ArrayList<Customer>)readCustomerList();
-         ArrayList<Customer> Customerlist = new ArrayList<Customer>();
+        ArrayList<Customer> Customerlist = (ArrayList<Customer>)readCustomerList();
+        //ArrayList<Customer> Customerlist = new ArrayList<Customer>();
         Customerlist.add(Customer);
         writeCustomerList(Customerlist);
 

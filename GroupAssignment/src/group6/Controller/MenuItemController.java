@@ -95,10 +95,10 @@ public class MenuItemController {
 
     public static void main(String[] args) {
         MenuItemController MenuItem= new MenuItemController();
-        MenuItem.printMenuItem();
-        MenuItem.addMenuItem();
-        MenuItem.updateMenuItem("Coke");
-        MenuItem.deleteMenuItem();
-        MenuItem.printMenuItem();
+//        MenuItem.printMenuItem();
+//        MenuItem.addMenuItem();
+//        MenuItem.updateMenuItem("Coke");
+//        MenuItem.deleteMenuItem();
+//        MenuItem.printMenuItem();
     }
 }
