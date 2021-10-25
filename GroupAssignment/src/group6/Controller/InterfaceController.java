@@ -77,6 +77,7 @@ public class InterfaceController {
                     PromotionController.addPromotion();
                     break;
                 case 3:
+
                     PromotionController.UpdatePromotion();
                     break;
                 case 4:

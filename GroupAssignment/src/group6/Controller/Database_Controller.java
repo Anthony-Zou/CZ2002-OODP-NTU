@@ -197,8 +197,8 @@ public class Database_Controller {
     }
 
     public static void addMenuItem(MenuItem MenuItem) {
-        ArrayList<MenuItem> MenuItemlist = (ArrayList<MenuItem>)readMenuItemList();
-        //ArrayList<MenuItem> MenuItemlist = new ArrayList<MenuItem>();
+  //      ArrayList<MenuItem> MenuItemlist = (ArrayList<MenuItem>)readMenuItemList();
+        ArrayList<MenuItem> MenuItemlist = new ArrayList<MenuItem>();
         MenuItemlist.add(MenuItem);
         writeMenuItemList(MenuItemlist);
 

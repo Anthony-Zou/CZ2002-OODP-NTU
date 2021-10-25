@@ -1,21 +1,21 @@
 package Controller;
-import Entity.*;
-import java.util.*;
-import Boundary.UserInterface;
+
+import Entity.Customer;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class CustomerController {
-//    private String name;
-//    private int contact;
-//    private boolean memberShip;
 
     Scanner sc = new Scanner(System.in);
 
     public void printCustomerDetails() {
         ArrayList<Customer> Customer = Database_Controller.readCustomerList();
         if (Customer != null) {
-            System.out.println("Customer Name" + "\t" + " Contact" + "\t" + " MemberShip" );
+            System.out.println("Customer Name" + "\t" + " Contact" + "\t" + " MemberShip");
             for (int i = 0; i < Customer.size(); i++) {
                 System.out.println(Customer.get(i).getName() + "\t\t\t\t\t" + Customer.get(i).getContact()
-                        + "\t\t\t\t" + Customer.get(i).isMemberShip() );
+                        + "\t\t\t\t" + Customer.get(i).isMemberShip());
 
             }
         }
@@ -51,7 +51,7 @@ public class CustomerController {
                         userChoice = sc.nextInt();
                 }
             } while (userChoice < 0 && userChoice > 1);
-            Customer newCustomer = new Customer( name,contact, membership);
+            Customer newCustomer = new Customer(name, contact, membership);
             Database_Controller.addCustomer(newCustomer);
 
         }
@@ -105,11 +105,11 @@ public class CustomerController {
     }
 
     public static void main(String[] args) {
-        CustomerController Customer = new CustomerController();
+        // CustomerController Customer = new CustomerController();
 //        Customer.printCustomerDetails();
 //        Customer.addCustomer();
 //        Customer.addCustomer();
-   // Customer.deleteCustomer();
+//        Customer.deleteCustomer();
 //        Customer.updateCustomer("Cathy");
 //        Customer.printCustomerDetails();
 
