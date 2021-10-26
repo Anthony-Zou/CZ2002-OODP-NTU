@@ -149,7 +149,7 @@ public class OrderController {
     public void allOrder() {
         ArrayList<Order> Order = Database_Controller.readOrderList();
         if (Order != null) {
-            System.out.println("orderId" + "\t" + "staffId" + "\t" + "membership" + "\t" + "userContact" + "\t" + "totalPrice" + "\t" + "tableId" + "\t" + "paid" + "\t");
+            System.out.println("orderId" + "\t\t\t" + "staffId" + "\t\t\t" + "membership" + "\t\t\t" + "userContact" + "\t\t\t" + "totalPrice" + "\t\t\t" + "tableId" + "\t\t\t" + "paid" + "\t\t\t");
             for (int i = 0; i < Order.size(); i++) {
                 System.out.println(Order.get(i).getOrderId() + "\t\t\t\t" + Order.get(i).getStaffId() +
                         "\t\t\t\t" + Order.get(i).isMembership() + "\t\t\t"
@@ -175,21 +175,118 @@ public class OrderController {
     }
 
     public void viewUnpaidOrder() {
-    }
+        ArrayList<Order> Order = Database_Controller.readOrderList();
+        if (Order != null) {
+            System.out.println("orderId" + "\t\t\t" + "staffId" + "\t\t\t" + "membership" + "\t\t\t" + "userContact" + "\t\t\t" + "totalPrice" + "\t\t\t" + "tableId" + "\t\t\t" + "paid" + "\t\t\t");
+            for (int i = 0; i < Order.size(); i++) {
+                if(Order.get(i).isPaid()==false) {
+                    System.out.println(Order.get(i).getOrderId() + "\t\t\t\t" + Order.get(i).getStaffId() +
+                            "\t\t\t\t" + Order.get(i).isMembership() + "\t\t\t"
+                            + Order.get(i).getUserContact() + "\t\t\t" + Order.get(i).getTotalPrice() + "\t\t\t" + Order.get(i).getTableNum() + "\t\t\t" + Order.get(i).isPaid() + "\t\t\t");
 
-    public void printOrderInvoice() {
+                    //Print Alacarte Item in the order
+                    System.out.println("Alacarte Item");
+                    System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
+                    for (int j = 0; j < Order.get(i).getAlacarte().size(); j++) {
+                        System.out.println("\t" + Order.get(i).getAlacarte().get(j).getItemName()
+                                + "\t" + Order.get(i).getAlacarte().get(j).getPrice());
+                    }
+                    //Print Promotion Item in the order
+                    System.out.println("Promotion Item");
+                    System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
+                    for (int j = 0; j < Order.get(i).getPromotion().size(); j++) {
+                        System.out.println(
+                                "\t" + Order.get(i).getPromotion().get(j).getName()
+                                        + "\t" + Order.get(i).getPromotion().get(j).getPrice());
+                    }
+
+                }
+            }
+        }
     }
 
     public void viewpaidOrder() {
+        ArrayList<Order> Order = Database_Controller.readOrderList();
+        if (Order != null) {
+            System.out.println("orderId" + "\t\t\t" + "staffId" + "\t\t\t" + "membership" + "\t\t\t" + "userContact" + "\t\t\t" + "totalPrice" + "\t\t\t" + "tableId" + "\t\t\t" + "paid" + "\t");
+            for (int i = 0; i < Order.size(); i++) {
+                if(Order.get(i).isPaid()==true) {
+                    System.out.println(Order.get(i).getOrderId() + "\t\t\t\t" + Order.get(i).getStaffId() +
+                            "\t\t\t\t" + Order.get(i).isMembership() + "\t\t\t"
+                            + Order.get(i).getUserContact() + "\t\t\t" + Order.get(i).getTotalPrice() + "\t\t\t" + Order.get(i).getTableNum() + "\t\t\t" + Order.get(i).isPaid() + "\t\t\t");
+
+                    //Print Alacarte Item in the order
+                    System.out.println("Alacarte Item");
+                    System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
+                    for (int j = 0; j < Order.get(i).getAlacarte().size(); j++) {
+                        System.out.println("\t" + Order.get(i).getAlacarte().get(j).getItemName()
+                                + "\t" + Order.get(i).getAlacarte().get(j).getPrice());
+                    }
+                    //Print Promotion Item in the order
+                    System.out.println("Promotion Item");
+                    System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
+                    for (int j = 0; j < Order.get(i).getPromotion().size(); j++) {
+                        System.out.println(
+                                "\t" + Order.get(i).getPromotion().get(j).getName()
+                                        + "\t" + Order.get(i).getPromotion().get(j).getPrice());
+                    }
+
+                }
+            }
+        }
+    }
+
+    public void printOrderInvoice() {
+
+        viewUnpaidOrder();
+        System.out.println("Enter Order choice");
+        int Number=sc.nextInt();
+        if (Database_Controller.getOrderById(Number) == null) {
+            System.out.println("orderId does not exist!");
+        } else {
+            //update order paid status to be true to mark
+            Table table = Database_Controller.getTableById(Database_Controller.getOrderById(Number).getTableNum());
+            table.setReserved(false);
+            Database_Controller.updateTable(table);
+            System.out.println("Table released!");
+            //release Table
+            Order Order = Database_Controller.getOrderById(Number);
+            Order.setPaid(true);
+            Database_Controller.updateOrder(Order);
+            System.out.println("Order Paid! Printing Invoice");
+
+            //region print invoice
+            System.out.println(Order.getOrderId() + "\t\t\t\t" + Order.getStaffId() +
+                    "\t\t\t\t" + Order.isMembership() + "\t\t\t"
+                    + Order.getUserContact() + "\t\t\t" + Order.getTotalPrice() + "\t\t\t" + Order.getTableNum() + "\t\t\t" + Order.isPaid() + "\t\t\t");
+
+            //Print Alacarte Item in the order
+            System.out.println("Alacarte Item");
+            System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
+            for (int j = 0; j < Order.getAlacarte().size(); j++) {
+                System.out.println("\t" + Order.getAlacarte().get(j).getItemName()
+                        + "\t" + Order.getAlacarte().get(j).getPrice());
+            }
+            //Print Promotion Item in the order
+            System.out.println("Promotion Item");
+            System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
+            for (int j = 0; j < Order.getPromotion().size(); j++) {
+                System.out.println(
+                        "\t" + Order.getPromotion().get(j).getName()
+                                + "\t" + Order.getPromotion().get(j).getPrice());
+            }
+            //endregion
+        }
     }
 
     public static void main(String[] args) {
 
             OrderController OrderController= new OrderController();
-           OrderController.createOrder();
-        OrderController.allOrder();
+          // OrderController.createOrder();
+       // OrderController.allOrder();
         //OrderController.deleteOrder();
-        //OrderController.allOrder();
+        //OrderController.viewUnpaidOrder();
+      //  OrderController.printOrderInvoice();
     }
 
 }
