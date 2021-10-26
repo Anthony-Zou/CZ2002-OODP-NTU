@@ -36,12 +36,15 @@ public class ReservationController {
             System.out.println("Reservation already exists!");
             return;
         } else {
+
             System.out.println("Enter pax:");
             int pax=sc.nextInt();
             TableController TableController= new TableController();
             TableController.printAvailableTables(pax);
             System.out.println("Enter Table Id of choices:");
             int tableId=sc.nextInt();
+
+            System.out.println("Enter customerName:");
             CustomerController CustomerController= new CustomerController();
             CustomerController.printCustomerDetails();
             String customerName= sc.next();
@@ -50,14 +53,17 @@ public class ReservationController {
             String str = sc.next();
             DateTimeFormatter df = DateTimeFormatter.ofPattern("d-MMM-yyyy");
             LocalDate Date =  LocalDate.parse(str, df);
+
             System.out.println("Enter a time  hh:mm:ss: ");
             String time=sc.next();  //default format: hh:mm:ss
             LocalTime Time =LocalTime.parse(time);
-            Reservation Reservation = new Reservation(id,tableId,customerName,Date,Time,pax);
-           Table table= Database_Controller.getTableById(tableId);
-           table.setReserved(true);
+
+
+            Table table= Database_Controller.getTableById(tableId);
+            table.setReserved(true);
             Database_Controller.updateTable(table);
 
+            Reservation Reservation = new Reservation(id,tableId,customerName,Date,Time,pax);
             Database_Controller.addReservation(Reservation);
 
         }
@@ -74,7 +80,7 @@ public class ReservationController {
             System.out.println("Reservation does not exist!");
 
         } else {
-            Table table= Database_Controller.getTableById(Number);
+            Table table= Database_Controller.getTableById(Database_Controller.getReservationById(Number).getTableId());
             table.setReserved(false);
             Database_Controller.updateTable(table);
            Database_Controller.deleteReservation(Number);// remove the Reservation from the database

@@ -89,26 +89,28 @@ public class PromotionController {
         System.out.println("All available Promotion:");
         ArrayList<Promotion> Promotion = new ArrayList<Promotion>();
         Promotion = Database_Controller.readPromotionList();
-        System.out.println("Id" + " Promotion Name" + "\t" + " Description" + "\t" + " Price(SGD)" + "\t");
-        for (int i = 0; i < Promotion.size(); i++) {
-            System.out.println(Promotion.get(i).getId() + "\t" + Promotion.get(i).getName() +
-                    "\t" + Promotion.get(i).getDecription() + "\t"
-                    + Promotion.get(i).getPrice() + "\t");
-            System.out.println(
-                            "\t\t Item "
-                            + "\t"
-                            + "Item Name" + "\t"
-                            + " Description" + "\t"
-                            + " Price(SGD)" + "\t");
-
-            for (int j = 0; j < Promotion.get(i).getItems().size(); j++) {
+        if(Promotion!=null) {
+            System.out.println("Id" + " Promotion Name" + "\t" + " Description" + "\t" + " Price(SGD)" + "\t");
+            for (int i = 0; i < Promotion.size(); i++) {
+                System.out.println(Promotion.get(i).getId() + "\t" + Promotion.get(i).getName() +
+                        "\t" + Promotion.get(i).getDecription() + "\t"
+                        + Promotion.get(i).getPrice() + "\t");
                 System.out.println(
-                        "\t\t"
-                        +
-                        (j + 1)
-                                + "\t" + Promotion.get(i).getItems().get(j).getItemName()
-                                + "\t" + Promotion.get(i).getItems().get(j).getDescription()
-                                + "\t" + Promotion.get(i).getItems().get(j).getType());
+                        "\t\t Item "
+                                + "\t"
+                                + "Item Name" + "\t"
+                                + " Description" + "\t"
+                                + " Price(SGD)" + "\t");
+
+                for (int j = 0; j < Promotion.get(i).getItems().size(); j++) {
+                    System.out.println(
+                            "\t\t"
+                                    +
+                                    (j + 1)
+                                    + "\t" + Promotion.get(i).getItems().get(j).getItemName()
+                                    + "\t" + Promotion.get(i).getItems().get(j).getDescription()
+                                    + "\t" + Promotion.get(i).getItems().get(j).getType());
+                }
             }
         }
     }

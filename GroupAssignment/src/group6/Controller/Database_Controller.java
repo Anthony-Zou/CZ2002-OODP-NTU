@@ -18,6 +18,7 @@ public class Database_Controller {
     private final static String reservationPath="src/group6/Data/Reservation.Dat";
     private final static String revenuePath="src/group6/Data/Revenue.Dat";
     private final static String customerPath="src/group6/Data/Customer.Dat";
+    private final static String invoicePath="src/group6/Data/Invoice.Dat";
     //endregion
 
     /**
@@ -249,6 +250,18 @@ public class Database_Controller {
         return null;
     }
 
+    public static Customer getCustomerByContact(int contact) {
+        ArrayList<Customer> CustomerList = (ArrayList<Customer>)readCustomerList();
+        for (int i = 0 ; i < CustomerList.size() ; i++) {
+            Customer Customer = (Customer)CustomerList.get(i);
+            if (Customer.getContact()==(contact))
+            {
+                return Customer;
+            }
+        }
+        return null;
+    }
+
     public static void addCustomer(Customer Customer) {
         ArrayList<Customer> Customerlist = (ArrayList<Customer>)readCustomerList();
         //ArrayList<Customer> Customerlist = new ArrayList<Customer>();
@@ -330,59 +343,6 @@ public class Database_Controller {
     //endregion
 
     /**
-     * Database function for Order CRUD */
-    //region Order
-    public static void writeOrderList(ArrayList<Order> OrderList){
-
-        writeList(OrderList,orderPath);
-    }
-
-    public static ArrayList<Order> readOrderList() {
-        ArrayList<Order> OrderList;
-        OrderList=(ArrayList)readList(orderPath);
-        return OrderList;
-    }
-
-    public static Order getOrderById(int Id) {
-        ArrayList<Order> OrderList = (ArrayList<Order>)readOrderList();
-        for (int i = 0 ; i < OrderList.size() ; i++) {
-            Order Order = (Order)OrderList.get(i);
-            if (Order.getOrderId()==(Id))
-            {
-                return Order;
-            }
-        }
-        return null;
-    }
-
-    public static void addOrder(Order Order) {
-        // ArrayList<Order> Orderlist = (ArrayList<Order>)readOrderList();
-        ArrayList<Order> Orderlist = new ArrayList<Order>();
-        Orderlist.add(Order);
-        writeOrderList(Orderlist);
-
-    }
-
-    public static void deleteOrder(int Id) {
-        ArrayList<Order> OrderList = (ArrayList<Order>)readOrderList();
-        for (int i = 0 ; i < OrderList.size() ; i++) {
-            Order Order = (Order)OrderList.get(i);
-            if (Order.getOrderId()==(Id))
-            {
-                OrderList.remove(i);
-                break;
-            }
-        }
-        writeOrderList(OrderList);
-    }
-
-    public static void updateOrder(Order Order) {
-        deleteOrder(Order.getOrderId());
-        addOrder(Order);
-    }
-    //endregion
-
-    /**
      * Database function for Reservation CRUD */
     //region Reservation
     public static void writeReservationList(ArrayList<Reservation> ReservationList){
@@ -434,6 +394,60 @@ public class Database_Controller {
         addReservation(Reservation);
     }
     //endregion
+
+    /**
+     * Database function for Order CRUD */
+    //region Order
+    public static void writeOrderList(ArrayList<Order> OrderList){
+
+        writeList(OrderList,orderPath);
+    }
+
+    public static ArrayList<Order> readOrderList() {
+        ArrayList<Order> OrderList;
+        OrderList=(ArrayList)readList(orderPath);
+        return OrderList;
+    }
+
+    public static Order getOrderById(int Id) {
+        ArrayList<Order> OrderList = (ArrayList<Order>)readOrderList();
+        for (int i = 0 ; i < OrderList.size() ; i++) {
+            Order Order = (Order)OrderList.get(i);
+            if (Order.getOrderId()==(Id))
+            {
+                return Order;
+            }
+        }
+        return null;
+    }
+
+    public static void addOrder(Order Order) {
+         ArrayList<Order> Orderlist = (ArrayList<Order>)readOrderList();
+      //  ArrayList<Order> Orderlist = new ArrayList<Order>();
+        Orderlist.add(Order);
+        writeOrderList(Orderlist);
+
+    }
+
+    public static void deleteOrder(int Id) {
+        ArrayList<Order> OrderList = (ArrayList<Order>)readOrderList();
+        for (int i = 0 ; i < OrderList.size() ; i++) {
+            Order Order = (Order)OrderList.get(i);
+            if (Order.getOrderId()==(Id))
+            {
+                OrderList.remove(i);
+                break;
+            }
+        }
+        writeOrderList(OrderList);
+    }
+
+    public static void updateOrder(Order Order) {
+        deleteOrder(Order.getOrderId());
+        addOrder(Order);
+    }
+    //endregion
+
 
     /**
      * Database function for Revenue CRUD */

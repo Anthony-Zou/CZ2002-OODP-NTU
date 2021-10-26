@@ -88,12 +88,15 @@ public class TableController {
     }
 
     public static void main(String[] args) {
-//        TableController t = new TableController();
+       TableController t = new TableController();
 //        t.addTable();
 //        t.deleteTable();
 //        t.printTableDetails();
 //        t.updateTable(1);
-//        t.printTableDetails();
+       t.printTableDetails();
+        t.addTable();
+        t.addTable();
+        t.addTable();
     }
 
 }

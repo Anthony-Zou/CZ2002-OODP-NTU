@@ -105,9 +105,9 @@ public class CustomerController {
     }
 
     public static void main(String[] args) {
-        // CustomerController Customer = new CustomerController();
+        CustomerController Customer = new CustomerController();
 //        Customer.printCustomerDetails();
-//        Customer.addCustomer();
+            Customer.addCustomer();
 //        Customer.addCustomer();
 //        Customer.deleteCustomer();
 //        Customer.updateCustomer("Cathy");

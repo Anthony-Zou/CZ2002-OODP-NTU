@@ -98,7 +98,7 @@ public class InterfaceController {
     }
 
     public void viewOrder() {
-        OrderController.viewOrder();
+        OrderController.allOrder();
     }
 
     public void addDeleteOrderItem() {
@@ -118,13 +118,13 @@ public class InterfaceController {
             choice = sc.nextInt();
             switch(choice){
                 case 1:
-                    OrderController.allOrderItem();
+                    OrderController.allOrder();
                     break;
                 case 2:
-                    OrderController.addOrderItem();
+                    OrderController.createOrder();
                     break;
                 case 3:
-                    OrderController.deleteOrderItem();
+                    OrderController.deleteOrder();
                     break;
                 default:
                     System.out.println("Please enter a valid choice number.");

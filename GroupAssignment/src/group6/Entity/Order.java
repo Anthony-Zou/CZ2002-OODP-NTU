@@ -12,23 +12,41 @@ public class Order implements Serializable{
     private int staffId;
     private boolean membership;
     private int userContact;
-    private ArrayList<MenuItem> Items = new ArrayList<MenuItem>();
+    private ArrayList<MenuItem> alacarte = new ArrayList<MenuItem>();
+    private ArrayList<Promotion> promotion = new ArrayList<Promotion>();
     private double totalPrice;
     private int tableNum;
-
+    private boolean paid ;
 
     public Order() {
     }
 
-    public Order(int orderId, int staffId, boolean membership, int userContact, ArrayList<MenuItem> items, double totalPrice, int tableNum) {
+    public Order(int orderId, int staffId, boolean membership, int userContact, ArrayList<MenuItem> alacarte, ArrayList<Promotion> promotion, double totalPrice, int tableNum, boolean paid) {
         this.orderId = orderId;
         this.staffId = staffId;
         this.membership = membership;
         this.userContact = userContact;
-        Items = items;
+        this.alacarte = alacarte;
+        this.promotion = promotion;
         this.totalPrice = totalPrice;
         this.tableNum = tableNum;
+        this.paid = paid;
+    }
 
+    public ArrayList<MenuItem> getAlacarte() {
+        return alacarte;
+    }
+
+    public void setAlacarte(ArrayList<MenuItem> alacarte) {
+        this.alacarte = alacarte;
+    }
+
+    public ArrayList<Promotion> getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(ArrayList<Promotion> promotion) {
+        this.promotion = promotion;
     }
 
     public int getOrderId() {
@@ -63,13 +81,6 @@ public class Order implements Serializable{
         this.userContact = userContact;
     }
 
-    public ArrayList<MenuItem> getItems() {
-        return Items;
-    }
-
-    public void setItems(ArrayList<MenuItem> items) {
-        Items = items;
-    }
 
     public double getTotalPrice() {
         return totalPrice;
@@ -87,4 +98,11 @@ public class Order implements Serializable{
         this.tableNum = tableNum;
     }
 
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
+    }
 }
