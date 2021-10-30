@@ -3,7 +3,7 @@ import java.util.*;
 import Controller.InterfaceController;
 import Entity.*;
 
-public class StaffMenu {
+public class ApplicationMenu {
     /**
      * Choice selected by the user
      */
