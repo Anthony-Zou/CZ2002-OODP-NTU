@@ -86,16 +86,16 @@ public class MenuItemController {
         System.out.println("All available MenuItem:");
         ArrayList<MenuItem> MenuItem = new ArrayList<MenuItem>();
         MenuItem = Database_Controller.readMenuItemList();
-        System.out.println("Item Name" + "\t" + " Description" + "\t" + " Price(SGD)"+ "\t" + " Type");
+        System.out.println("Item Name" + "\t\t\t" + " Description" + "\t\t\t" + " Price(SGD)"+ "\t\t\t" + " Type");
         for (int i=0;i<MenuItem.size();i++){
-            System.out.println(MenuItem.get(i).getItemName()+"\t"+MenuItem.get(i).getDescription()+"\t"+MenuItem.get(i).getPrice()+"\t"+MenuItem.get(i).getType());
+            System.out.println(MenuItem.get(i).getItemName()+"\t\t\t"+MenuItem.get(i).getDescription()+"\t\t\t"+MenuItem.get(i).getPrice()+"\t\t\t"+MenuItem.get(i).getType());
         }
 
     }
 
     public static void main(String[] args) {
         MenuItemController MenuItem= new MenuItemController();
-//        MenuItem.printMenuItem();
+       MenuItem.printMenuItem();
 //        MenuItem.addMenuItem();
 //        MenuItem.updateMenuItem("Coke");
 //        MenuItem.deleteMenuItem();
