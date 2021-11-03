@@ -28,8 +28,9 @@ public class OrderController {
         StaffController StaffController = new StaffController();
         StaffController.printStaffDetails();
 
+        int staffId;
         while(true) {
-            int staffId = sc.nextInt();
+            staffId = sc.nextInt();
             if (Database_Controller.getStaffByEmployeeId(staffId) != null) {
                 break;
             } else {
@@ -45,8 +46,9 @@ public class OrderController {
         TableController.printAvailableTables(pax);
         System.out.println("Enter Table Id of choices:");
 
+        int tableId;
         while(true) {
-            int tableId = sc.nextInt();
+            tableId = sc.nextInt();
             if (Database_Controller.getTableById(tableId) != null) {
                 break;
             } else {
