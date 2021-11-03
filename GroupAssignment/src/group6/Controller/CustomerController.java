@@ -33,6 +33,12 @@ public class CustomerController {
             int userChoice;
             System.out.println("Contact of Customer:");
             int contact = sc.nextInt();
+            //int contact;
+            //while(true)
+               //{System.out.println("Contact of Customer:")
+                //contact = sc.nextInt();
+                //if(contact>10000000 && contact<99999999) break;
+                //else System.out.println("Invalid contact number!");
             System.out.println("Membership of Staff:");
             System.out.println("0. False");
             System.out.println("1. True");

@@ -28,7 +28,14 @@ public class OrderController {
         StaffController StaffController = new StaffController();
         StaffController.printStaffDetails();
 
-        int staffId = sc.nextInt();
+        while(true) {
+            int staffId = sc.nextInt();
+            if (Database_Controller.getStaffByEmployeeId(staffId) != null) {
+                break;
+            } else {
+                System.out.println("Invalid staff ID! Enter again");
+            }
+        }
 
         System.out.println("Assign Available Table");
         System.out.println("---------------------");
@@ -37,7 +44,15 @@ public class OrderController {
         TableController TableController = new TableController();
         TableController.printAvailableTables(pax);
         System.out.println("Enter Table Id of choices:");
-        int tableId = sc.nextInt();
+
+        while(true) {
+            int tableId = sc.nextInt();
+            if (Database_Controller.getTableById(tableId) != null) {
+                break;
+            } else {
+                System.out.println("Invalid table ID! Enter again");
+            }
+        }
 
         System.out.println("Is Customer a member?");
         System.out.println("0. No");
