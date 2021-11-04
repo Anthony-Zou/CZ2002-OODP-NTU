@@ -5,6 +5,9 @@ import Entity.Order;
 import Entity.Promotion;
 import Entity.Table;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -139,7 +142,11 @@ public class OrderController {
         table.setReserved(true);
         Database_Controller.updateTable(table);
 
-        Order Order = new Order(orderId, staffId, membership, userContact, alacarteList, promotionList, totalPrice, tableId, paid);
+
+        LocalDate Date =  LocalDate.now();
+        LocalTime Time = LocalTime.now();
+
+        Order Order = new Order(orderId, staffId, membership, userContact, alacarteList, promotionList, totalPrice, tableId, paid,Date,Time);
         Database_Controller.addOrder(Order);
     }
 
@@ -170,7 +177,8 @@ public class OrderController {
                 System.out.println("=============================================================================================================================");
                 System.out.println(Order.get(i).getOrderId() + "\t\t" + Order.get(i).getStaffId() +
                         "\t\t" + Order.get(i).isMembership() + "\t\t\t"
-                        + Order.get(i).getUserContact() + "\t\t" + String.format("%.2f", Order.get(i).getTotalPrice()) + "\t\t\t" + Order.get(i).getTableNum() + "\t\t" + Order.get(i).isPaid() + "\t\t\n");
+                        + Order.get(i).getUserContact() + "\t\t" + String.format("%.2f", Order.get(i).getTotalPrice()) + "\t\t\t" + Order.get(i).getTableNum() + "\t\t" + Order.get(i).isPaid() +"\t\t\t\t" + Order.get(i).getDate()
+                        + "\t\t\t\t" + Order.get(i).getTime()+ "\t\t\n");
 
                 //Print Alacarte Item in the order
                 System.out.println("< Alacarte Item >");
@@ -302,9 +310,9 @@ public class OrderController {
     public static void main(String[] args) {
 
             OrderController OrderController= new OrderController();
-       //    OrderController.createOrder();
+           OrderController.createOrder();
        OrderController.allOrder();
-        //OrderController.deleteOrder();
+     //   OrderController.deleteOrder();
         //OrderController.viewUnpaidOrder();
        // OrderController.printOrderInvoice();
 
