@@ -11,8 +11,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class OrderController {
+
     Scanner sc = new Scanner(System.in);
 
+    /**
+     * Function to Create Order .
+     */
+    //region Create Order
     public void createOrder() {
         System.out.println("Create an Order");
         System.out.println("---------------------");
@@ -139,7 +144,12 @@ public class OrderController {
         Order Order = new Order(orderId, staffId, membership, userContact, alacarteList, promotionList, totalPrice, tableId, paid, Date, Time);
         Database_Controller.addOrder(Order);
     }
+    //endregion
 
+    /**
+     * Function to Delete Order .
+     */
+    //region Delete Order
     public void deleteOrder() {
         System.out.println("Remove a Order");
         System.out.println("---------------------");
@@ -157,7 +167,12 @@ public class OrderController {
             System.out.println("Order removed!");
         }
     }
+    //endregion
 
+    /**
+     * Function group to View Order .
+     */
+    //region View Orders ( All, unpaid, paid, individual)
     public void allOrder() {
         ArrayList<Order> Order = Database_Controller.readOrderList();
         if (Order != null) {
@@ -256,6 +271,40 @@ public class OrderController {
         }
     }
 
+    public void printOrderById(int orderId) {
+        if (Database_Controller.getOrderById(orderId) == null) {
+            System.out.println("orderId does not exist!");
+        } else {
+            Order Order = Database_Controller.getOrderById(orderId);
+            System.out.println("orderId" + "\t\t\t" + "staffId" + "\t\t\t" + "membership" + "\t\t\t" + "userContact" + "\t\t\t" + "totalPrice" + "\t\t\t" + "tableId" + "\t\t\t" + "paid" + "\t\t\t" + "Date" + "\t\t\t" + "Time" + "\t");
+
+            System.out.println(Order.getOrderId() + "\t\t\t\t" + Order.getStaffId() +
+                    "\t\t\t\t" + Order.isMembership() + "\t\t\t"
+                    + Order.getUserContact() + "\t\t\t" + Order.getTotalPrice() + "\t\t\t" + Order.getTableNum() + "\t\t\t" + Order.isPaid() + "\t\t\t" + Order.getDate() + "\t\t\t" + Order.getTime() + "\t\t\t");
+
+            //Print Alacarte Item in the order
+            System.out.println("Alacarte Item");
+            System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
+            for (int j = 0; j < Order.getAlacarte().size(); j++) {
+                System.out.println("\t" + Order.getAlacarte().get(j).getItemName()
+                        + "\t" + Order.getAlacarte().get(j).getPrice());
+            }
+            //Print Promotion Item in the order
+            System.out.println("Promotion Item");
+            System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
+            for (int j = 0; j < Order.getPromotion().size(); j++) {
+                System.out.println(
+                        "\t" + Order.getPromotion().get(j).getName()
+                                + "\t" + Order.getPromotion().get(j).getPrice());
+            }
+        }
+    }
+    //endregion
+
+    /**
+     * Function to Print Order Invoice .
+     */
+    //region Print order invoide
     public void printOrderInvoice() {
 
         viewUnpaidOrder();
@@ -298,37 +347,12 @@ public class OrderController {
             //endregion
         }
     }
+    //endregion
 
-    public void printOrderById(int orderId) {
-        if (Database_Controller.getOrderById(orderId) == null) {
-            System.out.println("orderId does not exist!");
-        } else {
-            Order Order = Database_Controller.getOrderById(orderId);
-            System.out.println("orderId" + "\t\t\t" + "staffId" + "\t\t\t" + "membership" + "\t\t\t" + "userContact" + "\t\t\t" + "totalPrice" + "\t\t\t" + "tableId" + "\t\t\t" + "paid" + "\t\t\t" + "Date" + "\t\t\t" + "Time" + "\t");
-
-            System.out.println(Order.getOrderId() + "\t\t\t\t" + Order.getStaffId() +
-                    "\t\t\t\t" + Order.isMembership() + "\t\t\t"
-                    + Order.getUserContact() + "\t\t\t" + Order.getTotalPrice() + "\t\t\t" + Order.getTableNum() + "\t\t\t" + Order.isPaid() + "\t\t\t" + Order.getDate() + "\t\t\t" + Order.getTime() + "\t\t\t");
-
-            //Print Alacarte Item in the order
-            System.out.println("Alacarte Item");
-            System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
-            for (int j = 0; j < Order.getAlacarte().size(); j++) {
-                System.out.println("\t" + Order.getAlacarte().get(j).getItemName()
-                        + "\t" + Order.getAlacarte().get(j).getPrice());
-            }
-            //Print Promotion Item in the order
-            System.out.println("Promotion Item");
-            System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
-            for (int j = 0; j < Order.getPromotion().size(); j++) {
-                System.out.println(
-                        "\t" + Order.getPromotion().get(j).getName()
-                                + "\t" + Order.getPromotion().get(j).getPrice());
-            }
-        }
-    }
-
-    //Add/Remove order item/s to/from order
+    /**
+     * Function to Update Order .
+     */
+    //region Create Order
     public void updateOrderById() {
         this.viewUnpaidOrder();
         System.out.println("Enter Order Id to be Updated");
@@ -449,6 +473,7 @@ public class OrderController {
             Database_Controller.updateOrder(order);
         }
     }
+    //endregion
 
     public static void main(String[] args) {
         OrderController OrderController = new OrderController();
