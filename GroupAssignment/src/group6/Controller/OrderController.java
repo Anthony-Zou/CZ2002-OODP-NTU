@@ -4,6 +4,7 @@ import Entity.MenuItem;
 import Entity.Order;
 import Entity.Promotion;
 import Entity.Table;
+import Entity.Reservation;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -79,6 +80,137 @@ public class OrderController {
         //do while loop
         //choose alacarte
         //choose promotion
+        do {
+            System.out.println("Choose Item Type");
+            System.out.println("1. Alacarte");
+            System.out.println("2. Promotion");
+            System.out.println("0. Done");
+            System.out.println("---------------------");
+            choice = sc.nextInt();
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter Alacarte Item");
+                    System.out.println("---------------------");
+                    MenuItemController.printMenuItem();
+                    System.out.println("Enter the name of the alacarte item :");
+                    String itemname = sc.next();
+                    MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
+                    alacarteList.add(MenuItem);
+                    break;
+                case 2:
+                    System.out.println("Enter Promotion Set Item Id");
+                    System.out.println("---------------------");
+                    PromotionController.printPromotion();
+                    System.out.println("Enter the Id of the alacarte item :");
+                    int promotionId = sc.nextInt();
+                    Promotion Promotion = Database_Controller.getPromotionById(promotionId);
+                    promotionList.add(Promotion);
+                    break;
+                default:
+                    break;
+
+            }
+        } while (choice != 0);
+
+
+        double totalPrice = 0;
+        if (alacarteList != null) {
+            for (int i = 0; i < alacarteList.size(); i++) {
+                totalPrice += alacarteList.get(i).getPrice();
+            }
+        }
+        if (promotionList != null) {
+            for (int i = 0; i < promotionList.size(); i++) {
+                totalPrice += promotionList.get(i).getPrice();
+            }
+        }
+        if (membership == true) {
+            totalPrice *= 0.9;
+        }
+
+        boolean paid = false;
+
+        Table table = Database_Controller.getTableById(tableId);
+        table.setReserved(true);
+        Database_Controller.updateTable(table);
+
+        LocalDate Date = LocalDate.now();
+        LocalTime Time = LocalTime.now();
+
+        Order Order = new Order(orderId, staffId, membership, userContact, alacarteList, promotionList, totalPrice, tableId, paid, Date, Time);
+        Database_Controller.addOrder(Order);
+    }
+    public void convertResToOrder(Reservation reservation){
+        int tableId= reservation.getTableId();
+        boolean membership=Database_Controller.getCustomerByName(reservation.getCustomerName()).isMemberShip();
+        int userContact=Database_Controller.getCustomerByName(reservation.getCustomerName()).getContact();
+
+        System.out.println("Create an Order");
+        System.out.println("---------------------");
+        System.out.println("Generating Order Id");
+        System.out.println("---------------------");
+        int orderId = 1;
+        ArrayList<Order> presentOrders = Database_Controller.readOrderList();
+        if (presentOrders != null) {
+            orderId = presentOrders.size() + 1;
+        }
+        System.out.println("Enter Your Staff Id");
+        System.out.println("---------------------");
+        StaffController StaffController = new StaffController();
+        StaffController.printStaffDetails();
+        int staffId;
+        while (true) {
+            staffId = sc.nextInt();
+            if (Database_Controller.getStaffByEmployeeId(staffId) != null) {
+                break;
+            } else {
+                System.out.println("Invalid staff ID! Enter again");
+            }
+        }
+        //System.out.println("Assign Available Table");
+        //System.out.println("---------------------");
+        //System.out.println("Enter pax:");
+        //int pax = sc.nextInt();
+      //  TableController TableController = new TableController();
+        //TableController.printAvailableTables(pax);
+        //System.out.println("Enter Table Id of choices:");
+        //int tableId;
+        //while (true) {
+        //    tableId = sc.nextInt();
+        //    if (Database_Controller.getTableById(tableId) != null) {
+        //        break;
+        //    } else {
+        //        System.out.println("Invalid table ID! Enter again");
+        //    }
+       // }
+        //System.out.println("Is Customer a member?");
+        //System.out.println("0. No");
+        //System.out.println("1. Yes");
+        //System.out.println("---------------------");
+        //boolean membership = false;
+        //int userContact = 10000000;
+        //int choice = sc.nextInt();
+        //if (choice == 1) {
+        //    System.out.println("Verify Membership");
+        //    System.out.println("Enter Customer Contact");
+        //    System.out.println("---------------------");
+        //    userContact = sc.nextInt();
+        //    if (Database_Controller.getCustomerByContact(userContact) != null) {
+        //        membership = Database_Controller.getCustomerByContact(userContact).isMemberShip();
+        //    }
+        //} else if (choice == 0) {
+        //    membership = false;
+       // }
+        System.out.println("Add Order Item");
+        System.out.println("---------------------");
+        MenuItemController MenuItemController = new MenuItemController();
+        PromotionController PromotionController = new PromotionController();
+        ArrayList<MenuItem> alacarteList = new ArrayList<MenuItem>();
+        ArrayList<Promotion> promotionList = new ArrayList<Promotion>();
+        //do while loop
+        //choose alacarte
+        //choose promotion
+        int choice;
         do {
             System.out.println("Choose Item Type");
             System.out.println("1. Alacarte");
