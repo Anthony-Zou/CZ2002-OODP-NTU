@@ -391,10 +391,21 @@ public class Database_Controller {
         }
         return null;
     }
+    public static Reservation getReservationByCustomerName(String customerName) {
+        ArrayList<Reservation> ReservationList = (ArrayList<Reservation>)readReservationList();
+        for (int i = 0 ; i < ReservationList.size() ; i++) {
+            Reservation Reservation = (Reservation)ReservationList.get(i);
+            if (Reservation.getCustomerName().equalsIgnoreCase(customerName))
+            {
+                return Reservation;
+            }
+        }
+        return null;
+    }
 
     public static void addReservation(Reservation Reservation) {
-        // ArrayList<Reservation> Reservationlist = (ArrayList<Reservation>)readReservationList();
-        ArrayList<Reservation> Reservationlist = new ArrayList<Reservation>();
+        ArrayList<Reservation> Reservationlist = (ArrayList<Reservation>)readReservationList();
+        //ArrayList<Reservation> Reservationlist = new ArrayList<Reservation>();
         Reservationlist.add(Reservation);
         writeReservationList(Reservationlist);
 

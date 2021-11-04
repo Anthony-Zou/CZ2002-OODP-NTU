@@ -2,6 +2,8 @@ package Entity;
 import Controller.OrderController;
 
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
@@ -17,11 +19,13 @@ public class Order implements Serializable{
     private double totalPrice;
     private int tableNum;
     private boolean paid ;
+    private LocalDate Date;
+    private LocalTime Time;
 
     public Order() {
     }
 
-    public Order(int orderId, int staffId, boolean membership, int userContact, ArrayList<MenuItem> alacarte, ArrayList<Promotion> promotion, double totalPrice, int tableNum, boolean paid) {
+    public Order(int orderId, int staffId, boolean membership, int userContact, ArrayList<MenuItem> alacarte, ArrayList<Promotion> promotion, double totalPrice, int tableNum, boolean paid, LocalDate date, LocalTime time) {
         this.orderId = orderId;
         this.staffId = staffId;
         this.membership = membership;
@@ -31,6 +35,8 @@ public class Order implements Serializable{
         this.totalPrice = totalPrice;
         this.tableNum = tableNum;
         this.paid = paid;
+        Date = date;
+        Time = time;
     }
 
     public ArrayList<MenuItem> getAlacarte() {
@@ -104,5 +110,21 @@ public class Order implements Serializable{
 
     public void setPaid(boolean paid) {
         this.paid = paid;
+    }
+
+    public LocalDate getDate() {
+        return Date;
+    }
+
+    public void setDate(LocalDate date) {
+        Date = date;
+    }
+
+    public LocalTime getTime() {
+        return Time;
+    }
+
+    public void setTime(LocalTime time) {
+        Time = time;
     }
 }

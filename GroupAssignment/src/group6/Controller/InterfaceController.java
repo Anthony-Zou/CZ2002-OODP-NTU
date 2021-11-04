@@ -141,8 +141,8 @@ public class InterfaceController {
         ReservationController.createReservation();
     }
 
-    public void checkRemoveRervationBooking() {
-        ReservationController.checkRemoveRervationBooking();
+    public void checkRemoveReservationBooking() {
+        ReservationController.checkRemoveReservationBooking();
     }
 
     public void checkTableAvailaabitity() {
