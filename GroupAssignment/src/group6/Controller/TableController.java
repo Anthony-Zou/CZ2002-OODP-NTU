@@ -1,5 +1,6 @@
 package Controller;
 
+import Entity.Order;
 import Entity.Table;
 
 import java.util.ArrayList;
@@ -42,19 +43,28 @@ public class TableController {
     public void addTable() {
         System.out.println("Add a Table");
         System.out.println("---------------------");
-        System.out.println("Enter the Number of the Table:");
-        int TableNumber = sc.nextInt();
-        if (Database_Controller.getTableById(TableNumber) != null) {
-            System.out.println("Table already exists!");
-            return;
-        } else {
-            System.out.println("Capacity of Table:");
-            int capacity = sc.nextInt();
-
-            Table newtable = new Table(TableNumber, capacity, false);
-            Database_Controller.addTable(newtable);
-
+        //System.out.println("Enter the Number of the Table:");
+        int TableNumber = 1;
+        ArrayList<Table> presentTables = Database_Controller.readTableList();
+        if (presentTables != null) {
+            TableNumber = presentTables.size() + 1;
         }
+        System.out.println("Capacity of Table:");
+        int capacity = sc.nextInt();
+        while(true) {
+            if (capacity % 2 == 1 || capacity > 10 || capacity < 2) {
+                System.out.println("Invalid Capacity,Enter again!");
+                System.out.println("Capacity of Table:");
+                capacity = sc.nextInt();
+            }
+            else{
+                break;
+            }
+        }
+
+        Table newtable = new Table(TableNumber, capacity, false);
+        Database_Controller.addTable(newtable);
+
         printTableDetails();
     }
 
@@ -87,13 +97,6 @@ public class TableController {
         }
     }
 
-    public static void main(String[] args) {
-       TableController t = new TableController();
-//        t.addTable();
-//        t.deleteTable();
-//        t.printTableDetails();
-//        t.updateTable(1);
-       t.printTableDetails();
-    }
+    
 
 }

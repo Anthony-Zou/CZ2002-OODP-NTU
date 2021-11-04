@@ -20,7 +20,7 @@ public class StaffController {
     public void addStaff() {
         System.out.println("Add a Staff");
         System.out.println("---------------------");
-        System.out.println("Enter the Employee Id of the Staff:");
+        System.out.println("Enter the Employee Id of the Staff(0000):");
         int employeeId = sc.nextInt();
         if (Database_Controller.getStaffByEmployeeId(employeeId) != null) {
             System.out.println("Staff already exists!");
@@ -133,13 +133,5 @@ public class StaffController {
             Staff.setJobTitle(jobTitle);
             Database_Controller.updateStaff(Staff);
         }
-    }
-
-    public static void main(String[] args) {
-       StaffController Staff= new StaffController();
-//    Staff.addStaff();
-//    Staff.deleteStaff();
-//    Staff.updateStaff(1);
-    Staff.printStaffDetails();
     }
 }

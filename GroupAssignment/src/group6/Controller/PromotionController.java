@@ -18,11 +18,11 @@ public class PromotionController {
         System.out.println("Add a Promotion");
         System.out.println("---------------------");
         System.out.println("Enter the Id of the Promotion:");
-        int id = sc.nextInt();
-//        if (Database_Controller.getPromotionById(id) != null) {
-//            System.out.println("Promotion already exists!");
-//            return;
-//        } else {
+        int id = 1;
+        ArrayList<Promotion> presentPromotions = Database_Controller.readPromotionList();
+        if (presentPromotions != null) {
+            id = presentPromotions.size() + 1;
+        }
         int userChoice;
         System.out.println("Name of Promotion:");
         String name = sc.next();
@@ -32,16 +32,19 @@ public class PromotionController {
         ArrayList<MenuItem> Items = new ArrayList<MenuItem>();
         System.out.println("Number of items in the Promotion:");
         int num = sc.nextInt();
+        String lfh = sc.nextLine();
+        String itemname;
+        MenuItemController.printMenuItem();
         for (int i = 0; i < num; i++) {
-            MenuItemController.printMenuItem();
+
             System.out.println("Enter the name of the " + (i + 1) + " item to be added in the promotion set:");
-            String itemname = sc.next();
+            itemname = sc.nextLine();
             MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
             Items.add(MenuItem);
         }
 
         System.out.println("Description of Promotion:");
-        String description = sc.next();
+        String description = sc.nextLine();
         System.out.println("Price of Promotion:");
         Double price = sc.nextDouble();
 
@@ -87,38 +90,45 @@ public class PromotionController {
         System.out.println("< Available Promotions >");
         System.out.println();
         ArrayList<Promotion> Promotion = new ArrayList<Promotion>();
-        Promotion = Database_Controller.readPromotionList();
+        Promotion = Database_Controller.readPromotionList();System.out.println("Id" + "\t" + "Promotion Name" + "\t" + " Description" + "\t" + " Price(SGD)" + "\t");
+        System.out.println("--------------------------------------------------");
         if(Promotion!=null) {
             for (int i = 0; i < Promotion.size(); i++) {
-            	System.out.println("Id" + "\t" + "Promotion Name" + "\t" + " Description" + "\t" + " Price(SGD)" + "\t");
-            	System.out.println("--------------------------------------------------");
+
                 System.out.println(Promotion.get(i).getId() + "\t" + Promotion.get(i).getName() +
                         "\t\t " + Promotion.get(i).getDecription() + "\t "+ Promotion.get(i).getPrice() + "\n");
                 
-                System.out.println(
-                        "Item "
-                                + "\t"
-                                + "Item Name" + "\t"
-                                + " Description" + "\t"
-                                + " Price(SGD)" + "\t");
-                System.out.println("--------------------------------------------------");
-                for (int j = 0; j < Promotion.get(i).getItems().size(); j++) {
-                    System.out.println(
-                            
-                                    (j + 1)
-                                    + "\t" + Promotion.get(i).getItems().get(j).getItemName()
-                                    + "\t " + Promotion.get(i).getItems().get(j).getDescription()
-                                    + "\t " + Promotion.get(i).getItems().get(j).getType() + "\n");
-                }
+
             }
             
+        }
+    }
+    public void printPromotionById(int Id){
+        Promotion promotion =new Promotion();
+        promotion= Database_Controller.getPromotionById(Id);
+        System.out.println(
+                "Item "
+                        + "\t"
+                        + "Item Name" + "\t"
+                        + " Description" + "\t"
+                        + " Price(SGD)" + "\t");
+        System.out.println("--------------------------------------------------");
+        for (int j = 0; j < promotion.getItems().size(); j++) {
+            System.out.println(
+
+                    (j + 1)
+                            + "\t" + promotion.getItems().get(j).getItemName()
+                            + "\t " + promotion.getItems().get(j).getDescription()
+                            + "\t " + promotion.getItems().get(j).getType() + "\n");
         }
     }
 
     public static void main(String[] args) {
         PromotionController Promotion = new PromotionController();
-        //Promotion.addPromotion();
-        Promotion.UpdatePromotion();
+     //   Promotion.addPromotion(); Promotion.addPromotion(); Promotion.addPromotion(); Promotion.addPromotion(); Promotion.addPromotion();
+        //Promotion.UpdatePromotion();
+        //Promotion.DeletePromotion();
         Promotion.printPromotion();
+        //Promotion.printPromotionById(1);
     }
 }
