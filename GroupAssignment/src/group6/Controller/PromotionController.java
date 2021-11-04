@@ -84,34 +84,34 @@ public class PromotionController {
     }
 
     public void printPromotion() {
-        System.out.println("Print Promotion");
-        System.out.println("---------------------");
-        System.out.println("All available Promotion:");
+        System.out.println("< Available Promotions >");
+        System.out.println();
         ArrayList<Promotion> Promotion = new ArrayList<Promotion>();
         Promotion = Database_Controller.readPromotionList();
         if(Promotion!=null) {
-            System.out.println("Id" + " Promotion Name" + "\t" + " Description" + "\t" + " Price(SGD)" + "\t");
             for (int i = 0; i < Promotion.size(); i++) {
+            	System.out.println("Id" + "\t" + "Promotion Name" + "\t" + " Description" + "\t" + " Price(SGD)" + "\t");
+            	System.out.println("--------------------------------------------------");
                 System.out.println(Promotion.get(i).getId() + "\t" + Promotion.get(i).getName() +
-                        "\t" + Promotion.get(i).getDecription() + "\t"
-                        + Promotion.get(i).getPrice() + "\t");
+                        "\t\t " + Promotion.get(i).getDecription() + "\t "+ Promotion.get(i).getPrice() + "\n");
+                
                 System.out.println(
-                        "\t\t Item "
+                        "Item "
                                 + "\t"
                                 + "Item Name" + "\t"
                                 + " Description" + "\t"
                                 + " Price(SGD)" + "\t");
-
+                System.out.println("--------------------------------------------------");
                 for (int j = 0; j < Promotion.get(i).getItems().size(); j++) {
                     System.out.println(
-                            "\t\t"
-                                    +
+                            
                                     (j + 1)
                                     + "\t" + Promotion.get(i).getItems().get(j).getItemName()
-                                    + "\t" + Promotion.get(i).getItems().get(j).getDescription()
-                                    + "\t" + Promotion.get(i).getItems().get(j).getType());
+                                    + "\t " + Promotion.get(i).getItems().get(j).getDescription()
+                                    + "\t " + Promotion.get(i).getItems().get(j).getType() + "\n");
                 }
             }
+            
         }
     }
 
