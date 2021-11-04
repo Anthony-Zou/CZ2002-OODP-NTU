@@ -94,6 +94,7 @@ public class TableController {
 //        t.printTableDetails();
 //        t.updateTable(1);
        t.printTableDetails();
+
     }
 
 }

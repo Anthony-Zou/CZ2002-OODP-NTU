@@ -197,6 +197,18 @@ public class Database_Controller {
         return null;
     }
 
+    public static int getMenuItemIndex(String itemName) {
+        ArrayList<MenuItem> MenuItemList = (ArrayList<MenuItem>)readMenuItemList();
+        for (int i = 0 ; i < MenuItemList.size() ; i++) {
+            MenuItem MenuItem = (MenuItem)MenuItemList.get(i);
+            if (MenuItem.getItemName().equalsIgnoreCase(itemName))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public static void addMenuItem(MenuItem MenuItem) {
   //      ArrayList<MenuItem> MenuItemlist = (ArrayList<MenuItem>)readMenuItemList();
         ArrayList<MenuItem> MenuItemlist = new ArrayList<MenuItem>();
@@ -313,6 +325,18 @@ public class Database_Controller {
             }
         }
         return null;
+    }
+
+    public static int getPromotionIndex(int Id) {
+        ArrayList<Promotion> PromotionList = (ArrayList<Promotion>)readPromotionList();
+        for (int i = 0 ; i < PromotionList.size() ; i++) {
+            Promotion Promotion = (Promotion)PromotionList.get(i);
+            if (Promotion.getId()==(Id))
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public static void addPromotion(Promotion Promotion) {
