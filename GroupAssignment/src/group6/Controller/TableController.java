@@ -80,9 +80,9 @@ public class TableController {
             System.out.println("Table does not exist!");
         } else {
             Table table = Database_Controller.getTableById(TableNumber);
-            if(table.isReserved()==false){
+            if(!table.isReserved()){
             table.setReserved(true);}
-            else if(table.isReserved()==true){ table.setReserved(false);}
+            else if(table.isReserved()){ table.setReserved(false);}
             Database_Controller.updateTable(table);
         }
     }
@@ -94,9 +94,6 @@ public class TableController {
 //        t.printTableDetails();
 //        t.updateTable(1);
        t.printTableDetails();
-        t.addTable();
-        t.addTable();
-        t.addTable();
     }
 
 }

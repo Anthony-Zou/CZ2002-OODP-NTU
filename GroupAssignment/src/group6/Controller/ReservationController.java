@@ -12,7 +12,15 @@ public class ReservationController {
 
 
     Scanner sc = new Scanner(System.in);
-    public void checkRemoveRervationBooking() {
+    public void checkRemoveReservationBooking() {
+        String resT = "00:20:00";
+        LocalTime reservationT = LocalTime.parse(resT);
+        int id;
+        System.out.println("Enter your reservation ID:");
+        id = sc.nextInt();
+        LocalTime time = Database_Controller.getReservationById(id).getTime();
+
+        //boolean before =
     }
 
     public void printReservationList() {
