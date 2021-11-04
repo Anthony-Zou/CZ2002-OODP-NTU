@@ -27,10 +27,9 @@ public class OrderController {
         System.out.println("---------------------");
         StaffController StaffController = new StaffController();
         StaffController.printStaffDetails();
-
         int staffId;
         while(true) {
-            staffId = sc.nextInt();
+             staffId = sc.nextInt();
             if (Database_Controller.getStaffByEmployeeId(staffId) != null) {
                 break;
             } else {
@@ -45,10 +44,9 @@ public class OrderController {
         TableController TableController = new TableController();
         TableController.printAvailableTables(pax);
         System.out.println("Enter Table Id of choices:");
-
         int tableId;
         while(true) {
-            tableId = sc.nextInt();
+             tableId = sc.nextInt();
             if (Database_Controller.getTableById(tableId) != null) {
                 break;
             } else {
