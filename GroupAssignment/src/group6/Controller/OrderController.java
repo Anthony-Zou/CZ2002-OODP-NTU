@@ -16,7 +16,6 @@ public class OrderController {
     public void createOrder() {
         System.out.println("Create an Order");
         System.out.println("---------------------");
-
         System.out.println("Generating Order Id");
         System.out.println("---------------------");
         int orderId = 1;
@@ -24,7 +23,6 @@ public class OrderController {
         if (presentOrders != null) {
             orderId = presentOrders.size() + 1;
         }
-
         System.out.println("Enter Your Staff Id");
         System.out.println("---------------------");
         StaffController StaffController = new StaffController();
@@ -38,7 +36,6 @@ public class OrderController {
                 System.out.println("Invalid staff ID! Enter again");
             }
         }
-
         System.out.println("Assign Available Table");
         System.out.println("---------------------");
         System.out.println("Enter pax:");
@@ -55,7 +52,6 @@ public class OrderController {
                 System.out.println("Invalid table ID! Enter again");
             }
         }
-
         System.out.println("Is Customer a member?");
         System.out.println("0. No");
         System.out.println("1. Yes");
@@ -74,8 +70,6 @@ public class OrderController {
         } else if (choice == 0) {
             membership = false;
         }
-
-
         System.out.println("Add Order Item");
         System.out.println("---------------------");
         MenuItemController MenuItemController = new MenuItemController();
@@ -339,7 +333,7 @@ public class OrderController {
         this.viewUnpaidOrder();
         System.out.println("Enter Order Id to be Updated");
         System.out.println("---------------------");
-        int orderId= sc.nextInt();
+        int orderId = sc.nextInt();
         if (Database_Controller.getOrderById(orderId) == null) {
             System.out.println("orderId does not exist!");
         } else {
@@ -408,30 +402,38 @@ public class OrderController {
                             choice = sc.nextInt();
                             switch (choice) {
                                 case 1:
-                                    System.out.println("Enter the index of the Alacarte Item to be removed ");
-                                    System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t"+ " Index" + "\t");
-                                    for (int j = 0; j < alacarteList.size(); j++) {
-                                        System.out.println("\t" + alacarteList.get(j).getItemName()
-                                                + "\t" + alacarteList.get(j).getPrice()+ "\t" + j);
-                                    }
-                                    System.out.println("---------------------");
+                                    if (alacarteList.size() < 1) {
+                                        System.out.println("There is no item here ");
+                                    } else {
+                                        System.out.println("Enter the index of the Alacarte Item to be removed ");
+                                        System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t" + " Index" + "\t");
+                                        for (int j = 0; j < alacarteList.size(); j++) {
+                                            System.out.println(j + "\t\t\t" + alacarteList.get(j).getItemName()
+                                                    + "\t" + alacarteList.get(j).getPrice() + "\t");
+                                        }
+                                        System.out.println("---------------------");
 
-                                    int alacateindex= sc.nextInt();
-                                    alacarteList.remove(alacateindex);
-                                    order.setAlacarte(alacarteList);
+                                        int alacateindex = sc.nextInt();
+                                        alacarteList.remove(alacateindex);
+                                        order.setAlacarte(alacarteList);
+                                    }
                                     break;
                                 case 2:
-                                    System.out.println("Enter the index of the Promotion Item to be removed ");
-                                    System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t"+ " Index" + "\t");
-                                    for (int j = 0; j < promotionList.size(); j++) {
-                                        System.out.println("\t" + promotionList.get(j).getDecription()
-                                                + "\t" + promotionList.get(j).getPrice()+ "\t" + j);
-                                    }
-                                    System.out.println("---------------------");
+                                    if (promotionList.size() < 1) {
+                                        System.out.println("There is no item here ");
+                                    } else {
+                                        System.out.println("Enter the index of the Promotion Item to be removed ");
+                                        System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t" + " Index" + "\t");
+                                        for (int j = 0; j < promotionList.size(); j++) {
+                                            System.out.println(j + "\t\t\t" + promotionList.get(j).getDecription()
+                                                    + "\t" + promotionList.get(j).getPrice() + "\t");
+                                        }
+                                        System.out.println("---------------------");
 
-                                    int promotionindex= sc.nextInt();
-                                    promotionList.remove(promotionindex);
-                                    order.setPromotion(promotionList);
+                                        int promotionindex = sc.nextInt();
+                                        promotionList.remove(promotionindex);
+                                        order.setPromotion(promotionList);
+                                    }
                                     break;
                                 default:
                                     break;
