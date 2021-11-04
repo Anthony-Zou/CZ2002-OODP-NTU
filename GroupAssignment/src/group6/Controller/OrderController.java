@@ -164,27 +164,30 @@ public class OrderController {
     public void allOrder() {
         ArrayList<Order> Order = Database_Controller.readOrderList();
         if (Order != null) {
-            System.out.println("orderId" + "\t\t\t" + "staffId" + "\t\t\t" + "membership" + "\t\t\t" + "userContact" + "\t\t\t" + "totalPrice" + "\t\t\t" + "tableId" + "\t\t\t" + "paid" + "\t\t\t");
+            
             for (int i = 0; i < Order.size(); i++) {
-                System.out.println(Order.get(i).getOrderId() + "\t\t\t\t" + Order.get(i).getStaffId() +
-                        "\t\t\t\t" + Order.get(i).isMembership() + "\t\t\t"
-                        + Order.get(i).getUserContact() + "\t\t\t" + Order.get(i).getTotalPrice() + "\t\t\t" + Order.get(i).getTableNum() + "\t\t\t" + Order.get(i).isPaid() + "\t\t\t");
+            	System.out.println("orderId" + "\t\t" + "staffId" + "\t\t" + "membership" + "\t\t" + "userContact" + "\t\t" + "totalPrice" + "\t\t" + "tableId" + "\t\t" + "paid" + "\t\t");
+                System.out.println("=============================================================================================================================");
+                System.out.println(Order.get(i).getOrderId() + "\t\t" + Order.get(i).getStaffId() +
+                        "\t\t" + Order.get(i).isMembership() + "\t\t\t"
+                        + Order.get(i).getUserContact() + "\t\t" + String.format("%.2f", Order.get(i).getTotalPrice()) + "\t\t\t" + Order.get(i).getTableNum() + "\t\t" + Order.get(i).isPaid() + "\t\t\n");
 
                 //Print Alacarte Item in the order
-                System.out.println("Alacarte Item");
+                System.out.println("< Alacarte Item >");
                 System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
                 for (int j = 0; j < Order.get(i).getAlacarte().size(); j++) {
-                    System.out.println("\t" + Order.get(i).getAlacarte().get(j).getItemName()
-                            + "\t" + Order.get(i).getAlacarte().get(j).getPrice());
-                }
+                    System.out.println(Order.get(i).getAlacarte().get(j).getItemName()
+                            + "\t\t " + Order.get(i).getAlacarte().get(j).getPrice());
+                } System.out.println();
+                
                 //Print Promotion Item in the order
-                System.out.println("Promotion Item");
+                System.out.println("< Promotion Item >");
                 System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
                 for (int j = 0; j < Order.get(i).getPromotion().size(); j++) {
                     System.out.println(
-                            "\t" + Order.get(i).getPromotion().get(j).getName()
-                                    + "\t" + Order.get(i).getPromotion().get(j).getPrice());
-                }
+                            Order.get(i).getPromotion().get(j).getName()
+                                    + "\t\t " + Order.get(i).getPromotion().get(j).getPrice());
+                } System.out.println("\n\n");
             }
         }
     }
