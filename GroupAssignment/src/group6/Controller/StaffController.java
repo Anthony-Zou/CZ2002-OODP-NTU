@@ -1,6 +1,7 @@
 package Controller;
 import Entity.Staff;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class StaffController {
@@ -11,29 +12,67 @@ public class StaffController {
         if (Staff != null) {
             System.out.println("Employee Id" + "\t" + " Name" + "\t" + " Gender"+ "\t" + " jobTitle");
             for (int i = 0; i < Staff.size(); i++) {
-                System.out.println(Staff.get(i).getEmployeeId() + "\t\t\t\t\t" + Staff.get(i).getName() + "\t\t\t\t" + Staff.get(i).getGender()+ "\t\t\t\t" + Staff.get(i).getJobTitle());
+                System.out.println(Staff.get(i).getEmployeeId() + "           \t" + Staff.get(i).getName() + "\t" + Staff.get(i).getGender()+ "\t" + Staff.get(i).getJobTitle());
 
             }
         }
     }
 
     public void addStaff() {
-        System.out.println("Add a Staff");
-        System.out.println("---------------------");
-        System.out.println("Enter the Employee Id of the Staff:");
-        int employeeId = sc.nextInt();
+        System.out.println("< Register New Staff >\n");
+        
+     // Input Exception Handling
+        int employeeId = 0;
+        do {
+        	try {
+        		System.out.println("Enter the Employee ID of the Staff:");
+        		employeeId = sc.nextInt();
+        	} catch (InputMismatchException e) {
+        		System.out.println("Please enter a valid ID!");
+        		System.out.println("\n-----------------------------------\n");
+        	}
+        	sc.nextLine(); // clears the buffer
+        } while (employeeId <= 0);
+        
+        
+        
         if (Database_Controller.getStaffByEmployeeId(employeeId) != null) {
-            System.out.println("Staff already exists!");
+            System.out.println("Staff ID already taken!");
             return;
         } else {
-            int userChoice;
-            System.out.println("Name of Staff:");
-            String name = sc.next();
-            System.out.println("Gender of Staff:");
-            System.out.println("0. Female");
-            System.out.println("1. Male");
+            
+         // Input Exception Handling
+            String name = "";
+            do {
+            	try {
+            		System.out.println("Name of Staff: ");
+            		name = sc.nextLine();
+            	} catch (InputMismatchException e) {
+            		System.out.println("Please enter a valid name!");
+            		System.out.println("\n-----------------------------------\n");
+            	}
+            } while (name == "");
+            
+            
+           
+            
+         // Input Exception Handling
+            int userChoice = -1;
+            do {
+            	try {
+            		System.out.println("Gender of Staff: ");
+            		System.out.println("0. Female");
+                    System.out.println("1. Male");
+            		userChoice=sc.nextInt();
+            	} catch (InputMismatchException e) {
+            		System.out.println("Please enter a valid number!");
+            		System.out.println("\n-----------------------------------\n");
+            	}
+            	sc.nextLine(); // clears the buffer
+            } while (userChoice == -1);
+            
+            
             String gender="";
-            userChoice=sc.nextInt();
             do{switch(userChoice)
             {
                 case 0:
@@ -53,8 +92,21 @@ public class StaffController {
             System.out.println("1. Junior");
             System.out.println("2. Senior");
             System.out.println("3. Manager");
+            
+         // Input Exception Handling
+            userChoice = -1;
+            do {
+            	try {
+            		System.out.println("Job Title of Staff: ");
+            		userChoice=sc.nextInt();
+            	} catch (InputMismatchException e) {
+            		System.out.println("Please enter a valid number!");
+            		System.out.println("\n-----------------------------------\n");
+            	}
+            	sc.nextLine(); // clears the buffer
+            } while (userChoice == -1);
+            
             String jobTitle ="";
-            userChoice=sc.nextInt();
             do{switch(userChoice)
             {
                 case 0:
@@ -137,7 +189,7 @@ public class StaffController {
 
     public static void main(String[] args) {
        StaffController Staff= new StaffController();
-//    Staff.addStaff();
+ //   Staff.addStaff();
 //    Staff.deleteStaff();
 //    Staff.updateStaff(1);
     Staff.printStaffDetails();

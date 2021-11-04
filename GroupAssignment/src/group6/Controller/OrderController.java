@@ -254,6 +254,7 @@ public class OrderController {
         }
     }
 
+    // maybe add number of pax +/........
     public void printOrderInvoice() {
 
         viewUnpaidOrder();
@@ -268,6 +269,8 @@ public class OrderController {
             Database_Controller.updateTable(table);
             System.out.println("Table released!");
             //release Table
+            
+            
             Order Order = Database_Controller.getOrderById(Number);
             Order.setPaid(true);
             Database_Controller.updateOrder(Order);
@@ -302,11 +305,11 @@ public class OrderController {
     public static void main(String[] args) {
 
             OrderController OrderController= new OrderController();
-       //    OrderController.createOrder();
-       OrderController.allOrder();
+           OrderController.createOrder();
+      // OrderController.allOrder();
         //OrderController.deleteOrder();
-        //OrderController.viewUnpaidOrder();
-       // OrderController.printOrderInvoice();
+     //  OrderController.viewUnpaidOrder();
+        OrderController.printOrderInvoice();
 
     }
 

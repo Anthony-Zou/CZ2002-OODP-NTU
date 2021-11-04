@@ -4,6 +4,7 @@ import Entity.Table;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class TableController {
 
@@ -19,10 +20,11 @@ public class TableController {
     public void printAvailableTables(int pax) {
         ArrayList<Table> Table = Database_Controller.readTableList();
         if (Table != null) {
-            System.out.println("Table Id" + "\t" + " Table Capacity" + "\t" + " Table Reserved");
+            System.out.println("Table Id" + "\t" + "Table Capacity" + "\t" + " Table Reserved");
+            System.out.println("===============================================");
             for (int i = 0; i < Table.size(); i++) {
                 if(Table.get(i).isReserved()==false && Table.get(i).getCapacity()>=pax) {
-                    System.out.println(Table.get(i).getId() + "\t\t\t\t\t" + Table.get(i).getCapacity() + "\t\t\t\t" + Table.get(i).isReserved());
+                    System.out.println(Table.get(i).getId() + "\t\t" + Table.get(i).getCapacity() + "\t\t" + Table.get(i).isReserved());
                 }
             }
         }
@@ -31,24 +33,38 @@ public class TableController {
     public void printTableDetails() {
         ArrayList<Table> Table = Database_Controller.readTableList();
         if (Table != null) {
-            System.out.println("Table Id" + "\t" + " Table Capacity" + "\t" + " Table Reserved");
+            System.out.println("Table Id" + "\t" + "Table Capacity" + "\t" + "Table Reserved");
+            System.out.println("===============================================");
             for (int i = 0; i < Table.size(); i++) {
-                System.out.println(Table.get(i).getId() + "\t\t\t\t\t" + Table.get(i).getCapacity() + "\t\t\t\t" + Table.get(i).isReserved());
+                System.out.println(Table.get(i).getId() + "\t\t" + Table.get(i).getCapacity() + "\t\t" + Table.get(i).isReserved());
 
             }
         }
     }
 
     public void addTable() {
-        System.out.println("Add a Table");
-        System.out.println("---------------------");
-        System.out.println("Enter the Number of the Table:");
-        int TableNumber = sc.nextInt();
+        System.out.println("< Add New Table >\n\n");
+        
+        // Input Exception Handling
+        int TableNumber = 0;
+        do {
+        	try {
+                System.out.println("Enter the Table Number: ");
+                TableNumber = sc.nextInt();
+        	} catch (InputMismatchException e) {
+        		System.out.println("Please enter a valid Table Number!");
+        		System.out.println("\n-----------------------------------\n");
+        	}
+        	sc.nextLine(); // clears the buffer
+        } while (TableNumber <= 0);
+        
+        
+        
         if (Database_Controller.getTableById(TableNumber) != null) {
             System.out.println("Table already exists!");
             return;
         } else {
-            System.out.println("Capacity of Table:");
+            System.out.println("Capacity of Table: ");
             int capacity = sc.nextInt();
 
             Table newtable = new Table(TableNumber, capacity, false);
@@ -58,12 +74,26 @@ public class TableController {
         printTableDetails();
     }
 
+    
     public void deleteTable() {
-        System.out.println("Remove a Table");
-        System.out.println("---------------------");
+        System.out.println("< Remove a Table >\n\n");
+        
         // find if the Table is in the database or not //
-        System.out.println("Enter the number of the Table:");
-        int TableNumber = sc.nextInt();
+
+        
+        int TableNumber = 0;
+        do {
+        	try {
+                System.out.println("Enter the Table Number: ");
+                TableNumber = sc.nextInt();
+        	} catch (InputMismatchException e) {
+        		System.out.println("Please enter a valid Table Number!");
+        		System.out.println("\n-----------------------------------\n");
+        	}
+        	sc.nextLine(); // clears the buffer
+        } while (TableNumber <= 0);
+        
+        
         if (Database_Controller.getTableById(TableNumber) == null) {
             System.out.println("Table does not exist!");
 
@@ -74,6 +104,7 @@ public class TableController {
         }
     }
 
+    
     public void updateTable(int TableNumber) {
 
         if (Database_Controller.getTableById(TableNumber) == null) {
@@ -90,13 +121,13 @@ public class TableController {
     public static void main(String[] args) {
        TableController t = new TableController();
 //        t.addTable();
-//        t.deleteTable();
+        t.deleteTable();
 //        t.printTableDetails();
+//        t.printAvailableTables(1);
 //        t.updateTable(1);
-       t.printTableDetails();
-        t.addTable();
-        t.addTable();
-        t.addTable();
+//        t.printTableDetails();
+
+
     }
 
 }
