@@ -35,8 +35,9 @@ public class ReservationController {
         boolean after  = beforeTime.isAfter(now);
         if(!before && !after && sameDate==0){
             System.out.println("Welcome!Reservation is available.");
-            //OrderController orderController= new OrderController();
-            //orderController.convertResToOrder(Database_Controller.getReservationById(id));
+            OrderController orderController= new OrderController();
+            orderController.convertResToOrder(Database_Controller.getReservationById(id));
+            deleteReservation(id);
         }
         else{
             System.out.println("This reservation is overdue!");
@@ -125,7 +126,7 @@ public class ReservationController {
 //
     ReservationController ReservationController=new ReservationController();
       // ReservationController.printReservationList();
-       ReservationController.createReservation();
+       //ReservationController.createReservation();
         //ReservationController.deleteReservation(2);
         ReservationController.printReservationList();
         //ReservationController.checkRemoveReservationBooking();

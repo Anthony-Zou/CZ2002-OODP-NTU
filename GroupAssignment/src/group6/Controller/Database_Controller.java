@@ -210,8 +210,8 @@ public class Database_Controller {
     }
 
     public static void addMenuItem(MenuItem MenuItem) {
-  //      ArrayList<MenuItem> MenuItemlist = (ArrayList<MenuItem>)readMenuItemList();
-        ArrayList<MenuItem> MenuItemlist = new ArrayList<MenuItem>();
+       ArrayList<MenuItem> MenuItemlist = (ArrayList<MenuItem>)readMenuItemList();
+  //      ArrayList<MenuItem> MenuItemlist = new ArrayList<MenuItem>();
         MenuItemlist.add(MenuItem);
         writeMenuItemList(MenuItemlist);
 
@@ -340,8 +340,8 @@ public class Database_Controller {
     }
 
     public static void addPromotion(Promotion Promotion) {
-        // ArrayList<Promotion> Promotionlist = (ArrayList<Promotion>)readPromotionList();
-        ArrayList<Promotion> Promotionlist = new ArrayList<Promotion>();
+        ArrayList<Promotion> Promotionlist = (ArrayList<Promotion>)readPromotionList();
+        //ArrayList<Promotion> Promotionlist = new ArrayList<Promotion>();
         Promotionlist.add(Promotion);
         writePromotionList(Promotionlist);
 

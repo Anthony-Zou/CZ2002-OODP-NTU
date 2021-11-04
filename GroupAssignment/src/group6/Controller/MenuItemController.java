@@ -9,14 +9,14 @@ public class MenuItemController {
         System.out.println("Add a MenuItem");
         System.out.println("---------------------");
         System.out.println("Enter the Name of the MenuItem:");
-        String itemName = sc.next();
+        String itemName = sc.nextLine();
         if (Database_Controller.getMenuItemByName(itemName) != null) {
             System.out.println("MenuItem already exists!");
             return;
         } else {
             int userChoice;
             System.out.println("Description of MenuItem:");
-            String description = sc.next();
+            String description = sc.nextLine();
             System.out.println("Price of MenuItem:");
             Double price = sc.nextDouble();
             System.out.println("Type of MenuItem:");
@@ -91,14 +91,5 @@ public class MenuItemController {
             System.out.println(MenuItem.get(i).getItemName()+"\t\t\t"+MenuItem.get(i).getDescription()+"\t\t\t"+MenuItem.get(i).getPrice()+"\t\t\t"+MenuItem.get(i).getType());
         }
 
-    }
-
-    public static void main(String[] args) {
-        MenuItemController MenuItem= new MenuItemController();
-       MenuItem.printMenuItem();
-//        MenuItem.addMenuItem();
-//        MenuItem.updateMenuItem("Coke");
-//        MenuItem.deleteMenuItem();
-//        MenuItem.printMenuItem();
     }
 }
