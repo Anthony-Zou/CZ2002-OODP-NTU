@@ -157,7 +157,7 @@ public class InterfaceController {
     public void printSalesRevenueReport() {
 
         RevenueController RevenueController = new RevenueController();
-        RevenueController.printSalesRevenueReport();
+      //  RevenueController.printSalesRevenueReport();
 
         System.out.println("Print report by: ");
         System.out.println("1. Date \n2.Month \n 3.Year \n0.Cancel Operation");
@@ -174,7 +174,7 @@ public class InterfaceController {
                     int month = sc.nextInt();
                     System.out.println("Enter year: ");
                     int year2 = sc.nextInt();
-                    RevenueController.getSalesReportOfMonth(month, year);
+                    RevenueController.getSalesReportOfMonth(month, year2);
                     break;
                 case 3:
                     System.out.println("Enter year: ");
