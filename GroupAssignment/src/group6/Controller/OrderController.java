@@ -584,11 +584,11 @@ public class OrderController {
 
     public static void main(String[] args) {
         OrderController OrderController = new OrderController();
-        OrderController.createOrder();
-        // OrderController.allOrder();
-        // OrderController.deleteOrder();
+     //   OrderController.createOrder();
+         OrderController.allOrder();
+         OrderController.deleteOrder();
         // OrderController.viewUnpaidOrder();
-        OrderController.printOrderInvoice();
+        //OrderController.printOrderInvoice();
         // OrderController.printOrderById(1);
         // OrderController.updateOrderById();
     }
