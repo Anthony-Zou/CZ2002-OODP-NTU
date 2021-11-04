@@ -19,6 +19,10 @@ public class RevenueController {
                 paidOrders.add(allOrders.get(i));
         }
 
+        System.out.println("\nSales Revenue Report for " + date);
+        System.out.println("===========================================");
+        System.out.println();
+
         printSalesRevenueReport(paidOrders);
     }
 
@@ -33,6 +37,9 @@ public class RevenueController {
             if(allOrders.get(i).getDate().getYear() == year && allOrders.get(i).getDate().getMonthValue() == month && allOrders.get(i).isPaid())
                 paidOrders.add(allOrders.get(i));
         }
+        System.out.println("\nSales Revenue Report for Month " + month + "/" + year);
+        System.out.println("===========================================");
+        System.out.println();
 
         printSalesRevenueReport(paidOrders);
     }
@@ -48,6 +55,9 @@ public class RevenueController {
             if(allOrders.get(i).getDate().getYear() == year && allOrders.get(i).isPaid())
                 paidOrders.add(allOrders.get(i));
         }
+        System.out.println("\nSales Revenue Report for Year " + year);
+        System.out.println("===========================================");
+        System.out.println();
 
         printSalesRevenueReport(paidOrders);
     }
@@ -88,17 +98,18 @@ public class RevenueController {
         double totalGross = 0.00;
         double itemTotal;
 
-        System.out.println("Date: ");
         System.out.println("Gross Total Sales");
-        System.out.println("Name \t Quantity \t Total Gross Revenue");
-        System.out.println("===========================================");
+        System.out.println("--------------------------------------------");
+        System.out.println("Name \t\t Quantity \t Item Revenue");
+        System.out.println("--------------------------------------------");
+
         for(i=0; i<menuItemList.size(); i++){
             System.out.print(menuItemList.get(i).getItemName());
             qty = alacarteCount.get(i);
-            System.out.print("\t" + qty);
+            System.out.print("\t\t" + qty);
             itemTotal = menuItemList.get(i).getPrice()*qty;
             totalGross += itemTotal;
-            System.out.print("\t" +  itemTotal + "\n");
+            System.out.print("\t\t\t" +  itemTotal + "\n");
         }
 
         for(i=0; i<promotionItemList.size(); i++){
@@ -107,23 +118,61 @@ public class RevenueController {
             System.out.print("\t" + qty);
             itemTotal = promotionItemList.get(i).getPrice()*qty;
             totalGross += itemTotal;
-            System.out.print("\t" +  itemTotal);
+            System.out.print("\t" +  itemTotal + "\n");
         }
+        System.out.println("--------------------------------------------");
+        System.out.printf("Total Gross Revenue: \t\t\t\t%.2f\n", totalGross);
+
+        ArrayList<Double> DiscountsTaxes = calcTotalTaxAndDisc(paidOrders);
+        double totalDiscount = DiscountsTaxes.get(0);
+        double totalGST = DiscountsTaxes.get(1);
+        double totalServiceCharge = DiscountsTaxes.get(2);
+
+        System.out.println();
+        System.out.println("Discount");
+        System.out.println("--------------------------------------------");
+        System.out.printf("%.2f\n", totalDiscount);
+        System.out.println();
+
+        System.out.println("Taxes");
+        System.out.println("--------------------------------------------");
+        System.out.printf("Total Service Charge: %.2f\n", totalServiceCharge);
+        System.out.printf("Total GST: %.2f\n", totalGST);
+        System.out.println("--------------------------------------------");
+        System.out.printf("Total Taxes: \t %.2f\n", (totalGST + totalServiceCharge));
+        System.out.println();
+
+        double totalRevenue = totalGross - totalDiscount + totalGST + totalServiceCharge;
+        System.out.printf("Total Net Revenue: %.2f\n", totalRevenue);
 
     }
 
-    public double calcTotalTax(ArrayList<Order> paidOrders){
+    public ArrayList<Double> calcTotalTaxAndDisc (ArrayList<Order> paidOrders){
         int i;
-        double totalGST, totalServiceCharge, totalTax;
-        totalTax = totalGST = totalServiceCharge = 0.00;
+        double totalGST, totalServiceCharge, totalDiscount, beforeGST, beforeServiceCharge;
+        totalGST = totalServiceCharge = totalDiscount = 0.00;
         for(i=0; i<paidOrders.size(); i++){
-            paidOrders.get(i).getTotalPrice()/107*100 =
+            totalGST += paidOrders.get(i).getTotalPrice()/107*7;
+            beforeGST = paidOrders.get(i).getTotalPrice()/107*100;
+            totalServiceCharge += beforeGST/110*10;
+            beforeServiceCharge = beforeGST/110*100;
+            if(paidOrders.get(i).isMembership()){
+                totalDiscount += beforeServiceCharge/90*10;
+            }
         }
+
+        ArrayList<Double> DiscountsTaxes = new ArrayList<Double>();
+        DiscountsTaxes.add(totalDiscount);
+        DiscountsTaxes.add(totalGST);
+        DiscountsTaxes.add(totalServiceCharge);
+
+        return DiscountsTaxes;
     }
-    public double calcTotalDiscount()
 
     public static void main(String[] args){
         RevenueController RevenueController = new RevenueController();
-        RevenueController.printSalesRevenueReport();
+        RevenueController.getSalesReportOfYear(2021);
+        RevenueController.getSalesReportOfDate(LocalDate.parse("2021-11-04"));
+        RevenueController.getSalesReportOfMonth(11, 2021);
     }
 }
