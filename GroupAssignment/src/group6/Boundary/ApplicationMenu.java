@@ -54,7 +54,7 @@ public class ApplicationMenu {
                     InterfaceController.createReservation();
                     break;
                 case 7:
-                    InterfaceController.checkRemoveRervationBooking();
+                    InterfaceController.checkRemoveReservationBooking();
                     break;
                 case 8:
                     InterfaceController.checkTableAvailaabitity();
