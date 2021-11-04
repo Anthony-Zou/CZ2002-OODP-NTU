@@ -7,7 +7,6 @@ import Entity.Table;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -31,8 +30,8 @@ public class OrderController {
         StaffController StaffController = new StaffController();
         StaffController.printStaffDetails();
         int staffId;
-        while(true) {
-             staffId = sc.nextInt();
+        while (true) {
+            staffId = sc.nextInt();
             if (Database_Controller.getStaffByEmployeeId(staffId) != null) {
                 break;
             } else {
@@ -48,8 +47,8 @@ public class OrderController {
         TableController.printAvailableTables(pax);
         System.out.println("Enter Table Id of choices:");
         int tableId;
-        while(true) {
-             tableId = sc.nextInt();
+        while (true) {
+            tableId = sc.nextInt();
             if (Database_Controller.getTableById(tableId) != null) {
                 break;
             } else {
@@ -62,7 +61,7 @@ public class OrderController {
         System.out.println("1. Yes");
         System.out.println("---------------------");
         boolean membership = false;
-        int userContact = 00000000;
+        int userContact = 10000000;
         int choice = sc.nextInt();
         if (choice == 1) {
             System.out.println("Verify Membership");
@@ -130,23 +129,20 @@ public class OrderController {
                 totalPrice += promotionList.get(i).getPrice();
             }
         }
-
         if (membership == true) {
             totalPrice *= 0.9;
         }
 
         boolean paid = false;
 
-
         Table table = Database_Controller.getTableById(tableId);
         table.setReserved(true);
         Database_Controller.updateTable(table);
 
-
-        LocalDate Date =  LocalDate.now();
+        LocalDate Date = LocalDate.now();
         LocalTime Time = LocalTime.now();
 
-        Order Order = new Order(orderId, staffId, membership, userContact, alacarteList, promotionList, totalPrice, tableId, paid,Date,Time);
+        Order Order = new Order(orderId, staffId, membership, userContact, alacarteList, promotionList, totalPrice, tableId, paid, Date, Time);
         Database_Controller.addOrder(Order);
     }
 
@@ -171,14 +167,14 @@ public class OrderController {
     public void allOrder() {
         ArrayList<Order> Order = Database_Controller.readOrderList();
         if (Order != null) {
-            
+
             for (int i = 0; i < Order.size(); i++) {
-            	System.out.println("orderId" + "\t\t" + "staffId" + "\t\t" + "membership" + "\t\t" + "userContact" + "\t\t" + "totalPrice" + "\t\t" + "tableId" + "\t\t" + "paid" + "\t\t");
+                System.out.println("orderId" + "\t\t" + "staffId" + "\t\t" + "membership" + "\t\t" + "userContact" + "\t\t" + "totalPrice" + "\t\t" + "tableId" + "\t\t" + "paid" + "\t\t" + "Date" + "\t\t" + "Time" + "\t\t");
                 System.out.println("=============================================================================================================================");
                 System.out.println(Order.get(i).getOrderId() + "\t\t" + Order.get(i).getStaffId() +
                         "\t\t" + Order.get(i).isMembership() + "\t\t\t"
-                        + Order.get(i).getUserContact() + "\t\t" + String.format("%.2f", Order.get(i).getTotalPrice()) + "\t\t\t" + Order.get(i).getTableNum() + "\t\t" + Order.get(i).isPaid() +"\t\t\t\t" + Order.get(i).getDate()
-                        + "\t\t\t\t" + Order.get(i).getTime()+ "\t\t\n");
+                        + Order.get(i).getUserContact() + "\t\t" + String.format("%.2f", Order.get(i).getTotalPrice()) + "\t\t\t" + Order.get(i).getTableNum() + "\t\t" + Order.get(i).isPaid() + "\t\t\t\t" + Order.get(i).getDate()
+                        + "\t\t\t\t" + Order.get(i).getTime() + "\t\t\n");
 
                 //Print Alacarte Item in the order
                 System.out.println("< Alacarte Item >");
@@ -186,8 +182,9 @@ public class OrderController {
                 for (int j = 0; j < Order.get(i).getAlacarte().size(); j++) {
                     System.out.println(Order.get(i).getAlacarte().get(j).getItemName()
                             + "\t\t " + Order.get(i).getAlacarte().get(j).getPrice());
-                } System.out.println();
-                
+                }
+                System.out.println();
+
                 //Print Promotion Item in the order
                 System.out.println("< Promotion Item >");
                 System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
@@ -195,7 +192,8 @@ public class OrderController {
                     System.out.println(
                             Order.get(i).getPromotion().get(j).getName()
                                     + "\t\t " + Order.get(i).getPromotion().get(j).getPrice());
-                } System.out.println("\n\n");
+                }
+                System.out.println("\n\n");
             }
         }
     }
@@ -203,12 +201,13 @@ public class OrderController {
     public void viewUnpaidOrder() {
         ArrayList<Order> Order = Database_Controller.readOrderList();
         if (Order != null) {
-            System.out.println("orderId" + "\t\t\t" + "staffId" + "\t\t\t" + "membership" + "\t\t\t" + "userContact" + "\t\t\t" + "totalPrice" + "\t\t\t" + "tableId" + "\t\t\t" + "paid" + "\t\t\t");
+            System.out.println("orderId" + "\t\t\t" + "staffId" + "\t\t\t" + "membership" + "\t\t\t" + "userContact" + "\t\t\t" + "totalPrice" + "\t\t\t" + "tableId" + "\t\t\t" + "paid" + "\t\t\t+ \"Date\" + \"\\t\\t\\t+ \"Time\" + \"\\t\\t\\t");
             for (int i = 0; i < Order.size(); i++) {
-                if(Order.get(i).isPaid()==false) {
+                if (Order.get(i).isPaid() == false) {
                     System.out.println(Order.get(i).getOrderId() + "\t\t\t\t" + Order.get(i).getStaffId() +
                             "\t\t\t\t" + Order.get(i).isMembership() + "\t\t\t"
-                            + Order.get(i).getUserContact() + "\t\t\t" + Order.get(i).getTotalPrice() + "\t\t\t" + Order.get(i).getTableNum() + "\t\t\t" + Order.get(i).isPaid() + "\t\t\t");
+                            + Order.get(i).getUserContact() + "\t\t\t" + Order.get(i).getTotalPrice() + "\t\t\t" + Order.get(i).getTableNum() + "\t\t\t" + Order.get(i).isPaid() + "\t\t\t\t" + Order.get(i).getDate()
+                            + "\t\t\t\t" + Order.get(i).getTime() + "\t\t\t");
 
                     //Print Alacarte Item in the order
                     System.out.println("Alacarte Item");
@@ -234,12 +233,13 @@ public class OrderController {
     public void viewpaidOrder() {
         ArrayList<Order> Order = Database_Controller.readOrderList();
         if (Order != null) {
-            System.out.println("orderId" + "\t\t\t" + "staffId" + "\t\t\t" + "membership" + "\t\t\t" + "userContact" + "\t\t\t" + "totalPrice" + "\t\t\t" + "tableId" + "\t\t\t" + "paid" + "\t");
+            System.out.println("orderId" + "\t\t\t" + "staffId" + "\t\t\t" + "membership" + "\t\t\t" + "userContact" + "\t\t\t" + "totalPrice" + "\t\t\t" + "tableId" + "\t\t\t" + "paid" + "\t\t\t" + "Date" + "\t\t\t" + "Time" + "\t");
             for (int i = 0; i < Order.size(); i++) {
-                if(Order.get(i).isPaid()==true) {
+                if (Order.get(i).isPaid() == true) {
                     System.out.println(Order.get(i).getOrderId() + "\t\t\t\t" + Order.get(i).getStaffId() +
                             "\t\t\t\t" + Order.get(i).isMembership() + "\t\t\t"
-                            + Order.get(i).getUserContact() + "\t\t\t" + Order.get(i).getTotalPrice() + "\t\t\t" + Order.get(i).getTableNum() + "\t\t\t" + Order.get(i).isPaid() + "\t\t\t");
+                            + Order.get(i).getUserContact() + "\t\t\t" + Order.get(i).getTotalPrice() + "\t\t\t" + Order.get(i).getTableNum() + "\t\t\t" + Order.get(i).isPaid() + "\t\t\t\t" + Order.get(i).getDate()
+                            + "\t\t\t\t" + Order.get(i).getTime() + "\t\t\t");
 
                     //Print Alacarte Item in the order
                     System.out.println("Alacarte Item");
@@ -266,7 +266,7 @@ public class OrderController {
 
         viewUnpaidOrder();
         System.out.println("Enter Order choice");
-        int Number=sc.nextInt();
+        int Number = sc.nextInt();
         if (Database_Controller.getOrderById(Number) == null) {
             System.out.println("orderId does not exist!");
         } else {
@@ -305,17 +305,157 @@ public class OrderController {
         }
     }
 
-  //  public void  Add/Remove order item/s to/from order (){}
+    public void printOrderById(int orderId) {
+        if (Database_Controller.getOrderById(orderId) == null) {
+            System.out.println("orderId does not exist!");
+        } else {
+            Order Order = Database_Controller.getOrderById(orderId);
+            System.out.println("orderId" + "\t\t\t" + "staffId" + "\t\t\t" + "membership" + "\t\t\t" + "userContact" + "\t\t\t" + "totalPrice" + "\t\t\t" + "tableId" + "\t\t\t" + "paid" + "\t\t\t" + "Date" + "\t\t\t" + "Time" + "\t");
 
-    public static void main(String[] args) {
+            System.out.println(Order.getOrderId() + "\t\t\t\t" + Order.getStaffId() +
+                    "\t\t\t\t" + Order.isMembership() + "\t\t\t"
+                    + Order.getUserContact() + "\t\t\t" + Order.getTotalPrice() + "\t\t\t" + Order.getTableNum() + "\t\t\t" + Order.isPaid() + "\t\t\t" + Order.getDate() + "\t\t\t" + Order.getTime() + "\t\t\t");
 
-            OrderController OrderController= new OrderController();
-           OrderController.createOrder();
-       OrderController.allOrder();
-     //   OrderController.deleteOrder();
-        //OrderController.viewUnpaidOrder();
-       // OrderController.printOrderInvoice();
-
+            //Print Alacarte Item in the order
+            System.out.println("Alacarte Item");
+            System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
+            for (int j = 0; j < Order.getAlacarte().size(); j++) {
+                System.out.println("\t" + Order.getAlacarte().get(j).getItemName()
+                        + "\t" + Order.getAlacarte().get(j).getPrice());
+            }
+            //Print Promotion Item in the order
+            System.out.println("Promotion Item");
+            System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
+            for (int j = 0; j < Order.getPromotion().size(); j++) {
+                System.out.println(
+                        "\t" + Order.getPromotion().get(j).getName()
+                                + "\t" + Order.getPromotion().get(j).getPrice());
+            }
+        }
     }
 
+    //Add/Remove order item/s to/from order
+    public void updateOrderById() {
+        this.viewUnpaidOrder();
+        System.out.println("Enter Order Id to be Updated");
+        System.out.println("---------------------");
+        int orderId= sc.nextInt();
+        if (Database_Controller.getOrderById(orderId) == null) {
+            System.out.println("orderId does not exist!");
+        } else {
+            this.printOrderById(orderId);
+            Order order = Database_Controller.getOrderById(orderId);
+            MenuItemController MenuItemController = new MenuItemController();
+            PromotionController PromotionController = new PromotionController();
+            ArrayList<MenuItem> alacarteList = order.getAlacarte();
+            ArrayList<Promotion> promotionList = order.getPromotion();
+            int choice;
+            do {
+                System.out.println("Add/Remove an Order Item");
+                System.out.println("---------------------");
+                System.out.println("Enter 1. Add an Order Item");
+                System.out.println("Enter 2. Remove an Order Item");
+                System.out.println("Enter 0. Complete");
+                System.out.println("---------------------");
+                choice = sc.nextInt();
+                switch (choice) {
+                    case 1:
+                        System.out.println("Add an Order Item");
+                        System.out.println("---------------------");
+                        do {
+                            System.out.println("Choose Item Type");
+                            System.out.println("1. Alacarte");
+                            System.out.println("2. Promotion");
+                            System.out.println("0. Done");
+                            System.out.println("---------------------");
+                            choice = sc.nextInt();
+                            switch (choice) {
+                                case 1:
+                                    System.out.println("Enter Alacarte Item");
+                                    System.out.println("---------------------");
+                                    MenuItemController.printMenuItem();
+                                    System.out.println("Enter the name of the alacarte item :");
+                                    String itemname = sc.next();
+                                    MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
+                                    alacarteList.add(MenuItem);
+                                    order.setAlacarte(alacarteList);
+                                    break;
+                                case 2:
+                                    System.out.println("Enter Promotion Set Item Id");
+                                    System.out.println("---------------------");
+                                    PromotionController.printPromotion();
+                                    System.out.println("Enter the Id of the alacarte item :");
+                                    int promotionId = sc.nextInt();
+                                    Promotion Promotion = Database_Controller.getPromotionById(promotionId);
+                                    promotionList.add(Promotion);
+                                    order.setPromotion(promotionList);
+                                    break;
+                                default:
+                                    break;
+
+                            }
+                        } while (choice != 0);
+                        break;
+                    case 2:
+                        System.out.println("Remove an Order Item");
+                        System.out.println("---------------------");
+                        do {
+                            System.out.println("Choose Item Type to be removed");
+                            System.out.println("1. Alacarte");
+                            System.out.println("2. Promotion");
+                            System.out.println("0. Done");
+                            System.out.println("---------------------");
+                            choice = sc.nextInt();
+                            switch (choice) {
+                                case 1:
+                                    System.out.println("Enter the index of the Alacarte Item to be removed ");
+                                    System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t"+ " Index" + "\t");
+                                    for (int j = 0; j < alacarteList.size(); j++) {
+                                        System.out.println("\t" + alacarteList.get(j).getItemName()
+                                                + "\t" + alacarteList.get(j).getPrice()+ "\t" + j);
+                                    }
+                                    System.out.println("---------------------");
+
+                                    int alacateindex= sc.nextInt();
+                                    alacarteList.remove(alacateindex);
+                                    order.setAlacarte(alacarteList);
+                                    break;
+                                case 2:
+                                    System.out.println("Enter the index of the Promotion Item to be removed ");
+                                    System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t"+ " Index" + "\t");
+                                    for (int j = 0; j < promotionList.size(); j++) {
+                                        System.out.println("\t" + promotionList.get(j).getDecription()
+                                                + "\t" + promotionList.get(j).getPrice()+ "\t" + j);
+                                    }
+                                    System.out.println("---------------------");
+
+                                    int promotionindex= sc.nextInt();
+                                    promotionList.remove(promotionindex);
+                                    order.setPromotion(promotionList);
+                                    break;
+                                default:
+                                    break;
+
+                            }
+                        } while (choice != 0);
+                        break;
+                    default:
+                        break;
+                }
+            } while (choice != 0);
+
+            Database_Controller.updateOrder(order);
+        }
+    }
+
+    public static void main(String[] args) {
+        OrderController OrderController = new OrderController();
+        // OrderController.createOrder();
+        // OrderController.allOrder();
+        // OrderController.deleteOrder();
+        // OrderController.viewUnpaidOrder();
+        // OrderController.printOrderInvoice();
+        // OrderController.printOrderById(1);
+        OrderController.updateOrderById();
+    }
 }
