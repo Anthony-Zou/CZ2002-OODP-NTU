@@ -101,12 +101,12 @@ public class ReservationController {
     public static void main(String[] args) {
 //
     ReservationController ReservationController=new ReservationController();
-      // ReservationController.printReservationList();
-       //ReservationController.createReservation();
-        ReservationController.deleteReservation();
-        ReservationController.printReservationList();
-        ReservationController.createReservation();
-        TableController TableController = new TableController();
+       ReservationController.printReservationList();
+       ReservationController.createReservation();
+//        ReservationController.deleteReservation();
+//        ReservationController.printReservationList();
+//        ReservationController.createReservation();
+       TableController TableController = new TableController();
         TableController.printTableDetails();
 //
     }
