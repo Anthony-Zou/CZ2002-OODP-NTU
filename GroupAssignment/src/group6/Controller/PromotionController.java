@@ -4,6 +4,7 @@ import Entity.MenuItem;
 import Entity.Promotion;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class PromotionController {
@@ -17,15 +18,38 @@ public class PromotionController {
     public void addPromotion() {
         System.out.println("Add a Promotion");
         System.out.println("---------------------");
-        System.out.println("Enter the Id of the Promotion:");
-        int id = sc.nextInt();
+        
+        int id = 0;
+        do {
+        	try {
+        		System.out.println("Enter the ID of the Promotion:");
+                id = sc.nextInt();
+        	} catch (InputMismatchException e) {
+        		System.out.println("Please enter a valid ID!");
+        		System.out.println("\n-----------------------------------\n");
+        	}
+        	sc.nextLine(); // clears the buffer
+        } while (id == 0);
+        
 //        if (Database_Controller.getPromotionById(id) != null) {
 //            System.out.println("Promotion already exists!");
 //            return;
 //        } else {
+        
         int userChoice;
-        System.out.println("Name of Promotion:");
-        String name = sc.next();
+        
+        String name = "";
+        do {
+        	try {
+        		System.out.println("Name of Promotion:");
+        		name = sc.next();
+        	} catch (InputMismatchException e) {
+        		System.out.println("Please enter a valid name!");
+        		System.out.println("\n-----------------------------------\n");
+        	}
+        	sc.nextLine(); // clears the buffer
+        } while (name == "");
+        
         //view list of menu item
         //input number of items in the promotion set
         MenuItemController MenuItemController = new MenuItemController();
@@ -40,10 +64,30 @@ public class PromotionController {
             Items.add(MenuItem);
         }
 
-        System.out.println("Description of Promotion:");
-        String description = sc.next();
-        System.out.println("Price of Promotion:");
-        Double price = sc.nextDouble();
+        String description = "";
+        do {
+        	try {
+        		System.out.println("Description of Promotion:");
+                description = sc.next();
+        	} catch (InputMismatchException e) {
+        		System.out.println("Please enter a valid description!");
+        		System.out.println("\n-----------------------------------\n");
+        	}
+        	sc.nextLine();
+        } while (description == "");
+        
+        Double price = 0.0;
+        do {
+        	try {
+        		System.out.println("Price of Promotion:");
+                price = sc.nextDouble();
+        	} catch (InputMismatchException e) {
+        		System.out.println("Please enter a valid price!");
+        		System.out.println("\n-----------------------------------\n");
+        	}
+        	sc.nextLine();
+        } while(price == 0);
+        
 
         Promotion Promotion = new Promotion(id, name, Items, description, price);
         Database_Controller.addPromotion(Promotion);
@@ -54,15 +98,37 @@ public class PromotionController {
     //update price
     public void UpdatePromotion() {
         printPromotion();
-        System.out.println("Enter Id of Promotion to be updated");
-        int id=sc.nextInt();
+        
+        int id = 0;
+        do {
+        	try {
+        		System.out.println("Enter ID of Promotion to be updated");
+                id=sc.nextInt();
+        	} catch (InputMismatchException e) {
+        		System.out.println("Please enter a valid ID!");
+        		System.out.println("\n-----------------------------------\n");
+        	}
+        	sc.nextLine();
+        } while(id == 0);
+        
         if (Database_Controller.getPromotionById(id) == null) {
             System.out.println("Promotion does not exist!");
         } else {
             Promotion Promotion = Database_Controller.getPromotionById(id);
             //content
-            System.out.println("Enter new price of the Promotion");
-            Promotion.setPrice(sc.nextDouble());
+            
+            Double newPrice = 0.0;
+            do {
+            	try {
+            		System.out.println("Enter new price of the Promotion");
+                    newPrice = sc.nextDouble();
+            	} catch (InputMismatchException e) {
+            		System.out.println("Please enter a valid price!");
+            		System.out.println("\n-----------------------------------\n");
+            	}
+            	sc.nextLine();
+            } while(newPrice == 0);
+            Promotion.setPrice(newPrice);
             Database_Controller.updatePromotion(Promotion);
         }
     }
@@ -71,8 +137,18 @@ public class PromotionController {
         System.out.println("Remove a Promotion");
         System.out.println("---------------------");
         // find if the Promotion is in the database or not //
-        System.out.println("Enter the Id of the MenuItem:");
-        int id = sc.nextInt();
+        
+        int id = 0;
+        do {
+        	try {
+        		System.out.println("Enter the Id of the MenuItem:");
+                id = sc.nextInt();
+        	} catch (InputMismatchException e) {
+        		System.out.println("Please enter a valid ID!");
+        		System.out.println("\n-----------------------------------\n");
+        	}
+        	sc.nextLine();
+        } while(id == 0);
         if (Database_Controller.getPromotionById(id) == null) {
             System.out.println("Promotion does not exist!");
 
@@ -117,8 +193,8 @@ public class PromotionController {
 
     public static void main(String[] args) {
         PromotionController Promotion = new PromotionController();
-        //Promotion.addPromotion();
-        Promotion.UpdatePromotion();
-        Promotion.printPromotion();
+        Promotion.addPromotion();
+        //Promotion.UpdatePromotion();
+        //Promotion.printPromotion();
     }
 }
