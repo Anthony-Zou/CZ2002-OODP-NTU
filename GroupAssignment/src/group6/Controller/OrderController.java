@@ -6,6 +6,7 @@ import Entity.Promotion;
 import Entity.Table;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class OrderController {
@@ -23,13 +24,24 @@ public class OrderController {
             orderId = presentOrders.size() + 1;
         }
 
-        System.out.println("Enter Your Staff Id");
-        System.out.println("---------------------");
+        
         StaffController StaffController = new StaffController();
         StaffController.printStaffDetails();
         int staffId;
         while(true) {
-             staffId = sc.nextInt();
+        	staffId = 0;
+            do {
+            	try {
+            		System.out.println("Enter Your Staff Id");
+                    System.out.println("---------------------");
+                    staffId = sc.nextInt();
+            	} catch (InputMismatchException e) {
+            		System.out.println("Please enter a valid ID!");
+            		System.out.println("\n-----------------------------------\n");
+            	}
+            	sc.nextLine();
+            } while(staffId == 0);
+             
             if (Database_Controller.getStaffByEmployeeId(staffId) != null) {
                 break;
             } else {
@@ -39,14 +51,41 @@ public class OrderController {
 
         System.out.println("Assign Available Table");
         System.out.println("---------------------");
-        System.out.println("Enter pax:");
-        int pax = sc.nextInt();
+        
+        
+        int pax = 0;
+        do {
+        	try {
+        		System.out.println("Enter pax:");
+                System.out.println("---------------------");
+                pax = sc.nextInt();
+        	} catch (InputMismatchException e) {
+        		System.out.println("Please enter a valid number!");
+        		System.out.println("\n-----------------------------------\n");
+        	}
+        	sc.nextLine();
+        } while(pax == 0);
+        
         TableController TableController = new TableController();
         TableController.printAvailableTables(pax);
-        System.out.println("Enter Table Id of choices:");
+        
+        
+        
         int tableId;
         while(true) {
-             tableId = sc.nextInt();
+        	tableId = 0;
+            do {
+            	try {
+            		System.out.println("Enter Table Id of choices:");
+                    System.out.println("---------------------");
+                    tableId = sc.nextInt();
+            	} catch (InputMismatchException e) {
+            		System.out.println("Please enter a valid ID!");
+            		System.out.println("\n-----------------------------------\n");
+            	}
+            	sc.nextLine();
+            } while(tableId == 0);
+            
             if (Database_Controller.getTableById(tableId) != null) {
                 break;
             } else {
@@ -60,12 +99,33 @@ public class OrderController {
         System.out.println("---------------------");
         boolean membership = false;
         int userContact = 00000000;
-        int choice = sc.nextInt();
+        int choice  = -1;
+        do {
+        	try {
+        		System.out.println("Enter Table Id of choices:");
+                System.out.println("---------------------");
+                choice = sc.nextInt();
+        	} catch (InputMismatchException e) {
+        		System.out.println("Please enter a valid ID!");
+        		System.out.println("\n-----------------------------------\n");
+        	}
+        	sc.nextLine();
+        } while(choice != 1 && choice != 0);
+        
         if (choice == 1) {
             System.out.println("Verify Membership");
-            System.out.println("Enter Customer Contact");
-            System.out.println("---------------------");
-            userContact = sc.nextInt();
+            do {
+            	try {
+            		System.out.println("Enter Customer Contact");
+                    System.out.println("---------------------");
+                    userContact = sc.nextInt();
+            	} catch (InputMismatchException e) {
+            		System.out.println("Please enter a valid ID!");
+            		System.out.println("\n-----------------------------------\n");
+            	}
+            	sc.nextLine();
+            } while(userContact == 00000000);
+            
             if (Database_Controller.getCustomerByContact(userContact) != null) {
                 membership = Database_Controller.getCustomerByContact(userContact).isMemberShip();
             }
@@ -89,14 +149,37 @@ public class OrderController {
             System.out.println("2. Promotion");
             System.out.println("0. Done");
             System.out.println("---------------------");
-            choice = sc.nextInt();
+            choice = 0;
+            do {
+            	try {
+            		System.out.println("Enter Table Id of choices:");
+                    System.out.println("---------------------");
+                    choice = sc.nextInt();
+            	} catch (InputMismatchException e) {
+            		System.out.println("Please enter a valid ID!");
+            		System.out.println("\n-----------------------------------\n");
+            	}
+            	sc.nextLine();
+            } while(choice != 1 && choice != 0);
+            
             switch (choice) {
                 case 1:
                     System.out.println("Enter Alacarte Item");
                     System.out.println("---------------------");
                     MenuItemController.printMenuItem();
-                    System.out.println("Enter the name of the alacarte item :");
-                    String itemname = sc.next();
+                    
+                    String itemname = "";
+                    do {
+                    	try {
+                    		System.out.println("Enter the name of the ala carte item :");
+                            itemname = sc.next();
+                    	} catch (InputMismatchException e) {
+                    		System.out.println("Please enter a valid name!");
+                    		System.out.println("\n-----------------------------------\n");
+                    	}
+                    	sc.nextLine();
+                    } while(itemname == "");
+                    
                     MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
                     alacarteList.add(MenuItem);
                     break;
@@ -104,8 +187,18 @@ public class OrderController {
                     System.out.println("Enter Promotion Set Item Id");
                     System.out.println("---------------------");
                     PromotionController.printPromotion();
-                    System.out.println("Enter the Id of the alacarte item :");
-                    int promotionId = sc.nextInt();
+                    
+                    int promotionId = 0;
+                    do {
+                    	try {
+                    		System.out.println("Enter the Id of the ala carte item :");
+                            promotionId = sc.nextInt();
+                    	} catch (InputMismatchException e) {
+                    		System.out.println("Please enter a valid ID!");
+                    		System.out.println("\n-----------------------------------\n");
+                    	}
+                    	sc.nextLine();
+                    } while(promotionId == 0);
                     Promotion Promotion = Database_Controller.getPromotionById(promotionId);
                     promotionList.add(Promotion);
                     break;
@@ -147,8 +240,19 @@ public class OrderController {
         System.out.println("Remove a Order");
         System.out.println("---------------------");
         // find if the Reservation is in the database or not //
-        System.out.println("Enter the number of the Order:");
-        int Number = sc.nextInt();
+        
+        int Number = 0;
+        do {
+        	try {
+        		System.out.println("Enter the number of the Order:");
+        		Number = sc.nextInt();
+        	} catch (InputMismatchException e) {
+        		System.out.println("Please enter a valid number!");
+        		System.out.println("\n-----------------------------------\n");
+        	}
+        	sc.nextLine();
+        } while(Number == 0);
+        
         if (Database_Controller.getOrderById(Number) == null) {
             System.out.println("Order does not exist!");
 
@@ -258,8 +362,18 @@ public class OrderController {
     public void printOrderInvoice() {
 
         viewUnpaidOrder();
-        System.out.println("Enter Order choice");
-        int Number=sc.nextInt();
+        int Number = 0;
+        do {
+        	try {
+        		System.out.println("Enter Order choice");
+                Number=sc.nextInt();
+        	} catch (InputMismatchException e) {
+        		System.out.println("Please enter a valid choice!");
+        		System.out.println("\n-----------------------------------\n");
+        	}
+        	sc.nextLine();
+        } while(Number == 0);
+        
         if (Database_Controller.getOrderById(Number) == null) {
             System.out.println("orderId does not exist!");
         } else {

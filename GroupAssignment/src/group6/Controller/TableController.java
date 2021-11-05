@@ -56,7 +56,7 @@ public class TableController {
         		System.out.println("\n-----------------------------------\n");
         	}
         	sc.nextLine(); // clears the buffer
-        } while (TableNumber <= 0);
+        } while (TableNumber == 0);
         
         
         
@@ -91,7 +91,7 @@ public class TableController {
         		System.out.println("\n-----------------------------------\n");
         	}
         	sc.nextLine(); // clears the buffer
-        } while (TableNumber <= 0);
+        } while (TableNumber == 0);
         
         
         if (Database_Controller.getTableById(TableNumber) == null) {

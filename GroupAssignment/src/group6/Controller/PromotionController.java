@@ -149,6 +149,7 @@ public class PromotionController {
         	}
         	sc.nextLine();
         } while(id == 0);
+        
         if (Database_Controller.getPromotionById(id) == null) {
             System.out.println("Promotion does not exist!");
 
