@@ -11,8 +11,8 @@ import Entity.Staff;
 
 public class InterfaceController {
     Staff CurrentStaff;
-    public InterfaceController(Staff staff) {
-        CurrentStaff=staff;
+    public InterfaceController() {
+       // CurrentStaff=staff;
     }
     Scanner sc = new Scanner(System.in);
 
@@ -40,7 +40,9 @@ public class InterfaceController {
                     MenuItemController.addMenuItem();
                     break;
                 case 3:
-                    String itemName=sc.next();
+                    System.out.println("Please enter valid Item Name:");
+                    sc.nextLine();
+                    String itemName=sc.nextLine();
                     MenuItemController.updateMenuItem(itemName);
                     break;
                 case 4:

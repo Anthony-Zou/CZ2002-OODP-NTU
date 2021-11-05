@@ -708,17 +708,9 @@ public class OrderController {
 
     public static void main(String[] args) {
      OrderController OrderController = new OrderController();
-//
-    //
- //OrderController.createOrder();
-     //OrderController.populateOrder();
-//OrderController.allOrder();
-        OrderController.PrintallOrderbrief(); //   OrderController.deleteOrder();
- //OrderController.viewUnpaidOrder();
-//        //OrderController.printOrderInvoice();
-//        // OrderController.printOrderById(1);
-//      //   OrderController.updateOrderById();
-//        OrderController.allOrder();
+
+        OrderController.PrintallOrderbrief();
+
 
     }
 

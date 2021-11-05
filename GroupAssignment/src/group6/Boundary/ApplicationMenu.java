@@ -16,8 +16,8 @@ public class ApplicationMenu {
      *
      * */
     private static InterfaceController InterfaceController;
-    public static void display(Staff staff){
-        InterfaceController = new InterfaceController(staff);
+    public static void display(){
+        InterfaceController = new InterfaceController();
         do {
             Scanner sc = new Scanner(System.in);
             System.out.println("Enter your choice");
@@ -72,6 +72,8 @@ public class ApplicationMenu {
         }while(userChoice!=0);
     }
     public static void main(String[] args){
-        display(Database_Controller.getStaffByEmployeeId(1));
+        display(
+               // Database_Controller.getStaffByEmployeeId(1)
+        );
     }
 }
