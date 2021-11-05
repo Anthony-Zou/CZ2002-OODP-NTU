@@ -1,15 +1,13 @@
 package Controller;
 
-import Entity.MenuItem;
-import Entity.Order;
-import Entity.Promotion;
-import Entity.Table;
-import Entity.Reservation;
+import Entity.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class OrderController {
     Scanner sc = new Scanner(System.in);
@@ -25,12 +23,14 @@ public class OrderController {
         if (presentOrders != null) {
             orderId = presentOrders.size() + 1;
         }
+        //endregion
+
+        //region Staff ID
         System.out.println("Enter Your Staff Id");
         System.out.println("---------------------");
         StaffController StaffController = new StaffController();
         StaffController.printStaffDetails();
-        //endregion
-        //region Staff ID
+
         int staffId;
         while (true) {
             staffId = sc.nextInt();
@@ -80,9 +80,7 @@ public class OrderController {
         PromotionController PromotionController = new PromotionController();
         ArrayList<MenuItem> alacarteList = new ArrayList<MenuItem>();
         ArrayList<Promotion> promotionList = new ArrayList<Promotion>();
-        //do while loop
-        //choose alacarte
-        //choose promotion
+
         do {
             System.out.println("Choose Item Type");
             System.out.println("1. Alacarte");
@@ -134,6 +132,8 @@ public class OrderController {
         if (membership == true) {
             totalPrice *= 0.9;
         }
+
+        totalPrice *=1.07;
 
         boolean paid = false;
 
@@ -606,28 +606,121 @@ public class OrderController {
             Database_Controller.updateOrder(order);
         }
     }
+    private void PrintallOrderbrief() {
+        ArrayList<Order> Order = Database_Controller.readOrderList();
+        if (Order != null) {
+
+            for (int i = 0; i < Order.size(); i++) {
+                System.out.println("orderId" + "\t\t" + "staffId" + "\t\t" + "membership" + "\t\t" + "userContact" + "\t\t" + "totalPrice" + "\t\t" + "tableId" + "\t\t" + "paid" + "\t\t" + "Date" + "\t\t" + "Time" + "\t\t");
+                System.out.println("=============================================================================================================================");
+                System.out.println(Order.get(i).getOrderId() + "\t\t" + Order.get(i).getStaffId() +
+                        "\t\t" + Order.get(i).isMembership() + "\t\t\t"
+                        + Order.get(i).getUserContact() + "\t\t" + String.format("%.2f", Order.get(i).getTotalPrice()) + "\t\t\t" + Order.get(i).getTableNum() + "\t\t" + Order.get(i).isPaid() + "\t\t\t\t" + Order.get(i).getDate()
+                        + "\t\t\t\t" + Order.get(i).getTime() + "\t\t\n");
+
+
+            }
+        }
+    }
 
     public void populateOrder(){
-        //int counter = 2000;
-        //  for(int i = 0; i < counter; i++){}
+        int counter = 100;
+          for(int q = 0; q < counter; q++){
         int orderId = 1;
         ArrayList<Order> presentOrders = Database_Controller.readOrderList();
         if (presentOrders != null) {
             orderId = presentOrders.size() + 1;
         }
+        Random rand = new Random();
 
+        // nextInt as provided by Random is exclusive of the top value so you need to add 1
+
+        ArrayList<Staff> Staff = Database_Controller.readStaffList();
+        int randomStaffId= rand.nextInt((Staff.size() - 2) + 1) + 0;;
+        int staffId=Staff.get(randomStaffId).getEmployeeId();
+        boolean membership=false ;
+        int userContact = 10000000;
+        if((rand.nextInt((1 - 0) + 1) + 1)>1){membership=true;
+            ArrayList<Customer> Customer = Database_Controller.readCustomerList();
+             int randomUserId= rand.nextInt((Customer.size() - 2) + 1) + 0;;
+            userContact=Customer.get(randomUserId).getContact();}
+
+        ArrayList<MenuItem> alacarteoptions = Database_Controller.readMenuItemList();
+        ArrayList<Promotion> promotionoptions= Database_Controller.readPromotionList();
+
+        ArrayList<MenuItem> alacarteList = new ArrayList<MenuItem>();
+        ArrayList<Promotion> promotionList = new ArrayList<Promotion>();
+
+        for( int  i = 0; i < rand.nextInt((6 - 0) + 1) + 1;i++){
+            int randomalacarteoptions= rand.nextInt((alacarteoptions.size() - 2) + 1) + 1;;
+            MenuItem MenuItem = Database_Controller.getMenuItemByName(alacarteoptions.get(randomalacarteoptions).getItemName());
+            alacarteList.add(MenuItem);
+        }
+
+        for(  int i = 0; i < rand.nextInt((6 - 0) + 1) + 1;i++){
+            int randompromotionoptions= rand.nextInt((promotionoptions.size() - 2) + 1) + 1;;
+            Promotion Promotion = Database_Controller.getPromotionById(randompromotionoptions);
+            promotionList.add(Promotion);
+        }
+
+
+        double totalPrice = 0;
+        if (alacarteList != null) {
+            for ( int i = 0; i < alacarteList.size(); i++) {
+                totalPrice += alacarteList.get(i).getPrice();
+            }
+        }
+        if (promotionList != null) {
+            for ( int i = 0; i < promotionList.size(); i++) {
+                totalPrice += promotionList.get(i).getPrice();
+            }
+        }
+        if (membership == true) {
+            totalPrice *= 0.9;
+        }
+        totalPrice *=1.07;
+        boolean paid = true;
+
+        ArrayList<Table> Table = Database_Controller.readTableList();
+        int randtableId= rand.nextInt((Table.size() - 2) + 1) + 0;;
+        int tableId= Table.get(randtableId).getId();
+
+        //region randomDate
+        long minDay = LocalDate.of(2020, 1, 1).toEpochDay();
+        long maxDay = LocalDate.of(2021, 11, 5).toEpochDay();
+        long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
+        LocalDate Date = LocalDate.ofEpochDay(randomDay);
+        //endregion
+
+        //region randomTime
+        LocalTime time1 = LocalTime.of(8, 0, 0);
+        LocalTime time2 = LocalTime.of(20, 0, 0);
+        int secondOfDayTime1 = time1.toSecondOfDay();
+        int secondOfDayTime2 = time2.toSecondOfDay();
+        Random random = new Random();
+        int randomSecondOfDay = secondOfDayTime1 + random.nextInt(secondOfDayTime2-secondOfDayTime1);
+        LocalTime Time = LocalTime.ofSecondOfDay(randomSecondOfDay);
+        //endregion
+
+        Order Order = new Order(orderId, staffId, membership, userContact, alacarteList, promotionList, totalPrice, tableId, paid, Date, Time);
+        Database_Controller.addOrder(Order);}
     }
 
     public static void main(String[] args) {
-        OrderController OrderController = new OrderController();
+     OrderController OrderController = new OrderController();
+//
+    //
+ //OrderController.createOrder();
+     OrderController.populateOrder();
+//OrderController.allOrder();
+        OrderController.PrintallOrderbrief(); //   OrderController.deleteOrder();
+ //OrderController.viewUnpaidOrder();
+//        //OrderController.printOrderInvoice();
+//        // OrderController.printOrderById(1);
+//      //   OrderController.updateOrderById();
+//        OrderController.allOrder();
 
-         OrderController.deleteOrder();
-        OrderController.createOrder();
-       // OrderController.allOrder();
-        // OrderController.viewUnpaidOrder();
-        //OrderController.printOrderInvoice();
-        // OrderController.printOrderById(1);
-      //   OrderController.updateOrderById();
-        OrderController.allOrder();
     }
+
+
 }
