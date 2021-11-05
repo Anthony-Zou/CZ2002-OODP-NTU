@@ -11,7 +11,37 @@ public class ReservationController {
 
 
     Scanner sc = new Scanner(System.in);
-    public void checkRemoveRervationBooking() {
+    public void checkRemoveReservationBooking() {
+        int id;
+        System.out.println("Enter your reservation ID:");
+        while(true) {
+            id = sc.nextInt();
+            if(Database_Controller.getReservationById(id)!=null){
+                break;
+            }
+            else{
+                System.out.println("Reservation does not exist!");
+            }
+        }
+        LocalDate date = Database_Controller.getReservationById(id).getDate();
+        LocalDate today = LocalDate.now();
+        int sameDate = date.compareTo(today);
+        LocalTime time = Database_Controller.getReservationById(id).getTime();
+        LocalTime afterTime=time.plusMinutes(20);
+        LocalTime beforeTime=time.minusMinutes(20);
+        LocalTime now=LocalTime.now();
+        boolean before = afterTime.isBefore(now);
+        boolean after  = beforeTime.isAfter(now);
+        if(!before && !after && sameDate==0){
+            System.out.println("Welcome!Reservation is available.");
+            OrderController orderController= new OrderController();
+            orderController.convertResToOrder(Database_Controller.getReservationById(id));
+            deleteReservation(id);
+        }
+        else{
+            System.out.println("This reservation is overdue!");
+            deleteReservation(id);
+        }
     }
 
     public void printReservationList() {
@@ -164,16 +194,16 @@ public class ReservationController {
 
 
     public static void main(String[] args) {
-//
+
     ReservationController ReservationController=new ReservationController();
       // ReservationController.printReservationList();
        //ReservationController.createReservation();
 //        ReservationController.deleteReservation();
 //        ReservationController.printReservationList();
-        ReservationController.createReservation();
-        TableController TableController = new TableController();
-        TableController.printTableDetails();
-//
+        // ReservationController.createReservation();
+        // TableController TableController = new TableController();
+        // TableController.printTableDetails();
+
     }
 
 }
