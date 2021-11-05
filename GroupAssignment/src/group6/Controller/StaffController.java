@@ -25,7 +25,7 @@ public class StaffController {
         int employeeId = 0;
         do {
         	try {
-        		System.out.println("Enter the Employee ID of the Staff:");
+        		System.out.println("Enter the Employee ID of the Staff (0000):");
         		employeeId = sc.nextInt();
         	} catch (InputMismatchException e) {
         		System.out.println("Please enter a valid ID!");
@@ -34,13 +34,13 @@ public class StaffController {
         	sc.nextLine(); // clears the buffer
         } while (employeeId <= 0);
         
-        
-        
         if (Database_Controller.getStaffByEmployeeId(employeeId) != null) {
             System.out.println("Staff ID already taken!");
             return;
         } else {
             
+
+
          // Input Exception Handling
             String name = "";
             do {
@@ -54,7 +54,6 @@ public class StaffController {
             } while (name == "");
             
             
-           
             
          // Input Exception Handling
             int userChoice = -1;
@@ -186,12 +185,3 @@ public class StaffController {
             Database_Controller.updateStaff(Staff);
         }
     }
-
-    public static void main(String[] args) {
-       StaffController Staff= new StaffController();
- //   Staff.addStaff();
-//    Staff.deleteStaff();
-//    Staff.updateStaff(1);
-    Staff.printStaffDetails();
-    }
-}
