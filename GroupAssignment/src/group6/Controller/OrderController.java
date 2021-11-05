@@ -19,6 +19,7 @@ public class OrderController {
         System.out.println("---------------------");
         System.out.println("Generating Order Id");
         System.out.println("---------------------");
+        //region order ID
         int orderId = 1;
         ArrayList<Order> presentOrders = Database_Controller.readOrderList();
         if (presentOrders != null) {
@@ -28,6 +29,8 @@ public class OrderController {
         System.out.println("---------------------");
         StaffController StaffController = new StaffController();
         StaffController.printStaffDetails();
+        //endregion
+        //region Staff ID
         int staffId;
         while (true) {
             staffId = sc.nextInt();
@@ -93,6 +96,7 @@ public class OrderController {
                     System.out.println("---------------------");
                     MenuItemController.printMenuItem();
                     System.out.println("Enter the name of the alacarte item :");
+                    sc.nextLine();
                     String itemname = sc.next();
                     MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
                     alacarteList.add(MenuItem);
@@ -303,15 +307,17 @@ public class OrderController {
                         + "\t\t\t\t" + Order.get(i).getTime() + "\t\t\n");
 
                 //Print Alacarte Item in the order
+                if (Order.get(i).getAlacarte() != null) {
                 System.out.println("< Alacarte Item >");
                 System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
                 for (int j = 0; j < Order.get(i).getAlacarte().size(); j++) {
                     System.out.println(Order.get(i).getAlacarte().get(j).getItemName()
                             + "\t\t " + Order.get(i).getAlacarte().get(j).getPrice());
                 }
-                System.out.println();
+                System.out.println();}
 
                 //Print Promotion Item in the order
+                if (Order.get(i).getPromotion() != null) {
                 System.out.println("< Promotion Item >");
                 System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
                 for (int j = 0; j < Order.get(i).getPromotion().size(); j++) {
@@ -319,7 +325,7 @@ public class OrderController {
                             Order.get(i).getPromotion().get(j).getName()
                                     + "\t\t " + Order.get(i).getPromotion().get(j).getPrice());
                 }
-                System.out.println("\n\n");
+                System.out.println("\n\n");}
             }
         }
     }
@@ -501,10 +507,19 @@ public class OrderController {
                                     System.out.println("---------------------");
                                     MenuItemController.printMenuItem();
                                     System.out.println("Enter the name of the alacarte item :");
-                                    String itemname = sc.next();
+                                    String itemname;
+
+                                    sc.nextLine();
+                                    itemname= sc.nextLine();
+
+                                    if(Database_Controller.getMenuItemByName(itemname)!=null){
                                     MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
                                     alacarteList.add(MenuItem);
-                                    order.setAlacarte(alacarteList);
+                                    order.setAlacarte(alacarteList);}
+                                    else {
+                                        System.out.println("Please enter correct Name");
+                                    }
+
                                     break;
                                 case 2:
                                     System.out.println("Enter Promotion Set Item Id");
@@ -512,9 +527,15 @@ public class OrderController {
                                     PromotionController.printPromotion();
                                     System.out.println("Enter the Id of the alacarte item :");
                                     int promotionId = sc.nextInt();
+
+                                    if(Database_Controller.getPromotionById(promotionId)!=null){
                                     Promotion Promotion = Database_Controller.getPromotionById(promotionId);
                                     promotionList.add(Promotion);
                                     order.setPromotion(promotionList);
+                                    }
+                                    else {
+                                        System.out.println("Please enter correct Id");
+                                    }
                                     break;
                                 default:
                                     break;
@@ -582,14 +603,26 @@ public class OrderController {
         }
     }
 
+
+    public void populateOrder(){
+        //int counter = 2000;
+        //  for(int i = 0; i < counter; i++){}
+        int orderId = 1;
+        ArrayList<Order> presentOrders = Database_Controller.readOrderList();
+        if (presentOrders != null) {
+            orderId = presentOrders.size() + 1;
+        }
+
+    }
     public static void main(String[] args) {
         OrderController OrderController = new OrderController();
      //   OrderController.createOrder();
          OrderController.allOrder();
-         OrderController.deleteOrder();
+         //OrderController.deleteOrder();
         // OrderController.viewUnpaidOrder();
         //OrderController.printOrderInvoice();
         // OrderController.printOrderById(1);
-        // OrderController.updateOrderById();
+         OrderController.updateOrderById();
+        OrderController.allOrder();
     }
 }
