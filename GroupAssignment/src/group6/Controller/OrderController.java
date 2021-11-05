@@ -96,8 +96,9 @@ public class OrderController {
                     System.out.println("---------------------");
                     MenuItemController.printMenuItem();
                     System.out.println("Enter the name of the alacarte item :");
+
                     sc.nextLine();
-                    String itemname = sc.next();
+                    String itemname = sc.nextLine();
                     MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
                     alacarteList.add(MenuItem);
                     break;
@@ -105,8 +106,10 @@ public class OrderController {
                     System.out.println("Enter Promotion Set Item Id");
                     System.out.println("---------------------");
                     PromotionController.printPromotion();
-                    System.out.println("Enter the Id of the alacarte item :");
-                    int promotionId = sc.nextInt();
+                    System.out.println("Enter the Id of the Promotion item :");
+                    int promotionId ;
+                    sc.nextLine();
+                    promotionId= sc.nextInt();
                     Promotion Promotion = Database_Controller.getPromotionById(promotionId);
                     promotionList.add(Promotion);
                     break;
@@ -144,6 +147,7 @@ public class OrderController {
         Order Order = new Order(orderId, staffId, membership, userContact, alacarteList, promotionList, totalPrice, tableId, paid, Date, Time);
         Database_Controller.addOrder(Order);
     }
+
     public void convertResToOrder(Reservation reservation){
         int tableId= reservation.getTableId();
         boolean membership=Database_Controller.getCustomerByName(reservation.getCustomerName()).isMemberShip();
@@ -603,7 +607,6 @@ public class OrderController {
         }
     }
 
-
     public void populateOrder(){
         //int counter = 2000;
         //  for(int i = 0; i < counter; i++){}
@@ -614,15 +617,17 @@ public class OrderController {
         }
 
     }
+
     public static void main(String[] args) {
         OrderController OrderController = new OrderController();
-     //   OrderController.createOrder();
-         OrderController.allOrder();
-         //OrderController.deleteOrder();
+
+         OrderController.deleteOrder();
+        OrderController.createOrder();
+       // OrderController.allOrder();
         // OrderController.viewUnpaidOrder();
         //OrderController.printOrderInvoice();
         // OrderController.printOrderById(1);
-         OrderController.updateOrderById();
+      //   OrderController.updateOrderById();
         OrderController.allOrder();
     }
 }
