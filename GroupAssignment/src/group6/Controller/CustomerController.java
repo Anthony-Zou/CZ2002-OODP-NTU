@@ -112,7 +112,7 @@ public class CustomerController {
 
     public static void main(String[] args) {
         CustomerController Customer = new CustomerController();
-//        Customer.printCustomerDetails();
+       Customer.printCustomerDetails();
       //      Customer.addCustomer();
 //        Customer.addCustomer();
 //        Customer.deleteCustomer();
