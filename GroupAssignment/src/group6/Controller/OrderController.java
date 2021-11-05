@@ -711,7 +711,7 @@ public class OrderController {
 //
     //
  //OrderController.createOrder();
-     OrderController.populateOrder();
+     //OrderController.populateOrder();
 //OrderController.allOrder();
         OrderController.PrintallOrderbrief(); //   OrderController.deleteOrder();
  //OrderController.viewUnpaidOrder();
