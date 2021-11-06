@@ -1,5 +1,7 @@
 package Boundary;
 import java.util.*;
+
+import Controller.Database_Controller;
 import Controller.InterfaceController;
 import Entity.*;
 
@@ -14,8 +16,8 @@ public class ApplicationMenu {
      *
      * */
     private static InterfaceController InterfaceController;
-    public static void display(Staff Staff){
-        InterfaceController = new InterfaceController(Staff);
+    public static void display(Staff staff){
+        InterfaceController = new InterfaceController(staff);
         do {
             Scanner sc = new Scanner(System.in);
             System.out.println("Enter your choice");
@@ -54,7 +56,7 @@ public class ApplicationMenu {
                     InterfaceController.createReservation();
                     break;
                 case 7:
-                    InterfaceController.checkRemoveRervationBooking();
+                    InterfaceController.checkRemoveReservationBooking();
                     break;
                 case 8:
                     InterfaceController.checkTableAvailaabitity();
@@ -68,5 +70,8 @@ public class ApplicationMenu {
                 default: System.out.println("Invalid");
             }
         }while(userChoice!=0);
+    }
+    public static void main(String[] args){
+        display(Database_Controller.getStaffByEmployeeId(1));
     }
 }

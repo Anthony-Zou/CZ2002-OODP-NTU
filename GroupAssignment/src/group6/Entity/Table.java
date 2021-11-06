@@ -38,8 +38,4 @@ public class Table implements Serializable{
     public void setReserved(boolean reserved) {
         this.reserved = reserved;
     }
-
-
-
-
 }

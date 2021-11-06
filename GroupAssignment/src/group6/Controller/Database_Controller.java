@@ -197,9 +197,21 @@ public class Database_Controller {
         return null;
     }
 
+    public static int getMenuItemIndex(String itemName) {
+        ArrayList<MenuItem> MenuItemList = (ArrayList<MenuItem>)readMenuItemList();
+        for (int i = 0 ; i < MenuItemList.size() ; i++) {
+            MenuItem MenuItem = (MenuItem)MenuItemList.get(i);
+            if (MenuItem.getItemName().equalsIgnoreCase(itemName))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public static void addMenuItem(MenuItem MenuItem) {
-  //      ArrayList<MenuItem> MenuItemlist = (ArrayList<MenuItem>)readMenuItemList();
-        ArrayList<MenuItem> MenuItemlist = new ArrayList<MenuItem>();
+       ArrayList<MenuItem> MenuItemlist = (ArrayList<MenuItem>)readMenuItemList();
+  //      ArrayList<MenuItem> MenuItemlist = new ArrayList<MenuItem>();
         MenuItemlist.add(MenuItem);
         writeMenuItemList(MenuItemlist);
 
@@ -315,9 +327,21 @@ public class Database_Controller {
         return null;
     }
 
+    public static int getPromotionIndex(int Id) {
+        ArrayList<Promotion> PromotionList = (ArrayList<Promotion>)readPromotionList();
+        for (int i = 0 ; i < PromotionList.size() ; i++) {
+            Promotion Promotion = (Promotion)PromotionList.get(i);
+            if (Promotion.getId()==(Id))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public static void addPromotion(Promotion Promotion) {
-        // ArrayList<Promotion> Promotionlist = (ArrayList<Promotion>)readPromotionList();
-        ArrayList<Promotion> Promotionlist = new ArrayList<Promotion>();
+        ArrayList<Promotion> Promotionlist = (ArrayList<Promotion>)readPromotionList();
+        //ArrayList<Promotion> Promotionlist = new ArrayList<Promotion>();
         Promotionlist.add(Promotion);
         writePromotionList(Promotionlist);
 
@@ -367,10 +391,21 @@ public class Database_Controller {
         }
         return null;
     }
+    public static Reservation getReservationByCustomerName(String customerName) {
+        ArrayList<Reservation> ReservationList = (ArrayList<Reservation>)readReservationList();
+        for (int i = 0 ; i < ReservationList.size() ; i++) {
+            Reservation Reservation = (Reservation)ReservationList.get(i);
+            if (Reservation.getCustomerName().equalsIgnoreCase(customerName))
+            {
+                return Reservation;
+            }
+        }
+        return null;
+    }
 
     public static void addReservation(Reservation Reservation) {
-        // ArrayList<Reservation> Reservationlist = (ArrayList<Reservation>)readReservationList();
-        ArrayList<Reservation> Reservationlist = new ArrayList<Reservation>();
+        ArrayList<Reservation> Reservationlist = (ArrayList<Reservation>)readReservationList();
+        //ArrayList<Reservation> Reservationlist = new ArrayList<Reservation>();
         Reservationlist.add(Reservation);
         writeReservationList(Reservationlist);
 

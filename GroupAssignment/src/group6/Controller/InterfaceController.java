@@ -1,5 +1,7 @@
 package Controller;
 import Entity.*;
+
+import java.time.LocalDate;
 import java.util.*;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -139,8 +141,8 @@ public class InterfaceController {
         ReservationController.createReservation();
     }
 
-    public void checkRemoveRervationBooking() {
-        ReservationController.checkRemoveRervationBooking();
+    public void checkRemoveReservationBooking() {
+        ReservationController.checkRemoveReservationBooking();
     }
 
     public void checkTableAvailaabitity() {
@@ -153,7 +155,36 @@ public class InterfaceController {
     }
 
     public void printSalesRevenueReport() {
-        RevenueController RevenueController = new RevenueController();
-        RevenueController.printSalesRevenueReport();
-    }
-}
+    	RevenueController RevenueController = new RevenueController();
+        //  RevenueController.printSalesRevenueReport();
+
+          System.out.println("Print report by: ");
+          System.out.println("1. Date \n2.Month \n 3.Year \n0.Cancel Operation");
+          int choice = sc.nextInt();
+          while(choice != 0) {
+              switch (choice) { // need to add exceptions
+                  case 1:
+                      System.out.println("Enter date YYYY-MM-DD: ");
+                      String date = sc.next();
+                      RevenueController.getSalesReportOfDate(LocalDate.parse(date));
+                      break;
+                  case 2:
+                      System.out.println("Enter month (1 to 12): ");
+                      int month = sc.nextInt();
+                      System.out.println("Enter year: ");
+                      int year2 = sc.nextInt();
+                      RevenueController.getSalesReportOfMonth(month, year2);
+                      break;
+                  case 3:
+                      System.out.println("Enter year: ");
+                      int year3 = sc.nextInt();
+                      RevenueController.getSalesReportOfYear(year3);
+                      break;
+                  default:
+                      System.out.println("Please enter a valid choice: ");
+                      choice = sc.nextInt();
+                      break;
+              }
+          }
+      }
+  }

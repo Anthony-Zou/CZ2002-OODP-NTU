@@ -12,7 +12,7 @@ public class StaffController {
         if (Staff != null) {
             System.out.println("Employee Id" + "\t" + " Name" + "\t" + " Gender"+ "\t" + " jobTitle");
             for (int i = 0; i < Staff.size(); i++) {
-                System.out.println(Staff.get(i).getEmployeeId() + "           \t" + Staff.get(i).getName() + "\t" + Staff.get(i).getGender()+ "\t" + Staff.get(i).getJobTitle());
+                System.out.println(Staff.get(i).getEmployeeId() + "\t\t\t\t\t" + Staff.get(i).getName() + "\t" + Staff.get(i).getGender()+ "\t" + Staff.get(i).getJobTitle());
 
             }
         }
@@ -155,13 +155,24 @@ public class StaffController {
         } else {
             Staff Staff = Database_Controller.getStaffByEmployeeId(employeeId);
             //content
-            System.out.println("Update JobTitle of Staff:");
-            System.out.println("0. Intern");
-            System.out.println("1. Junior");
-            System.out.println("2. Senior");
-            System.out.println("3. Manager");
+           
             String jobTitle ="";
-            int userChoice=sc.nextInt();
+            int userChoice = 0;
+            do {
+            	try {
+            		System.out.println("Update JobTitle of Staff:");
+                    System.out.println("0. Intern");
+                    System.out.println("1. Junior");
+                    System.out.println("2. Senior");
+                    System.out.println("3. Manager");
+            		userChoice=sc.nextInt();
+            	} catch (InputMismatchException e) {
+            		System.out.println("Please enter a valid chocie!");
+            		System.out.println("\n-----------------------------------\n");
+            	}
+            	sc.nextLine(); // clears the buffer
+            } while (userChoice == 0);
+            
             do{switch(userChoice)
             {
                 case 0:
@@ -185,3 +196,4 @@ public class StaffController {
             Database_Controller.updateStaff(Staff);
         }
     }
+}

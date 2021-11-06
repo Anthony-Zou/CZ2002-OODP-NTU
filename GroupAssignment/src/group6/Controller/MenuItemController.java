@@ -8,15 +8,27 @@ public class MenuItemController {
     public void addMenuItem() {
         System.out.println("Add a MenuItem");
         System.out.println("---------------------");
-        System.out.println("Enter the Name of the MenuItem:");
-        String itemName = sc.next();
+        
+        String itemName = "";
+        do {
+        	try {
+        		System.out.println("Enter the Name of the MenuItem:");
+                itemName = sc.next();
+        	} catch (InputMismatchException e) {
+        		System.out.println("Please enter a valid choice!");
+        		System.out.println("\n-----------------------------------\n");
+        	}
+        	sc.nextLine();
+        } while(itemName == "");
+        
         if (Database_Controller.getMenuItemByName(itemName) != null) {
             System.out.println("MenuItem already exists!");
             return;
         } else {
-            int userChoice;
+            
             System.out.println("Description of MenuItem:");
             String description = sc.next();
+            
             System.out.println("Price of MenuItem:");
             Double price = sc.nextDouble();
             System.out.println("Type of MenuItem:");
@@ -24,7 +36,21 @@ public class MenuItemController {
             System.out.println("2. Drinks");
             System.out.println("3. Dessert");
             String type="";
-            userChoice=sc.nextInt();
+            
+            
+            int userChoice = -1;
+            do {
+            	try {
+            		userChoice=sc.nextInt();
+            	} catch (InputMismatchException e) {
+            		System.out.println("Please enter a valid choice!");
+            		System.out.println("\n-----------------------------------\n");
+            	}
+            	sc.nextLine();
+            } while(userChoice != 0 && userChoice != 1);
+            
+            
+           
             do{switch(userChoice)
             {
                 case 1:
