@@ -92,4 +92,9 @@ public class MenuItemController {
         }
 
     }
+    public static void main(String[] args) {
+    MenuItemController menuItem = new MenuItemController();
+    menuItem.printMenuItem();
+
+    }
 }
