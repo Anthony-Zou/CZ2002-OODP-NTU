@@ -4,35 +4,42 @@ import java.util.*;
 import Entity.*;
 
 public class RevenueController {
-
+    /**
+     * Creates empty controller object
+     */
     public RevenueController() {}
 
+    /**
+     * getSalesReportOfDate Method
+     * Generates Sales Report with inputing
+     * @param date and caretes an array list of orders return
+     * for that specific date and the arraylist is sent to printSalesRevenueReport method
+     */
     public void getSalesReportOfDate(LocalDate date){
-
         int i;
-
         ArrayList<Order> paidOrders = new ArrayList<Order>();
         ArrayList<Order> allOrders = Database_Controller.readOrderList();
-
         for(i=0; i<allOrders.size(); i++){
             if(allOrders.get(i).getDate().equals(date) && allOrders.get(i).isPaid())
                 paidOrders.add(allOrders.get(i));
         }
-
         System.out.println("\nSales Revenue Report for " + date);
         System.out.println("===========================================");
         System.out.println();
-
         printSalesRevenueReport(paidOrders);
     }
 
+    /**
+     * getSalesReportOfMonth Method With passed in values, an arraylist of
+     * Order objects that falles in the year and month range and with paid status equals to true will be
+     * created and read from the data file. Next it will be pass in to the printSalesRevenueReport method
+     * @param month
+     * @param year
+     */
     public void getSalesReportOfMonth(int month, int year){
-
         int i;
-
         ArrayList<Order> paidOrders = new ArrayList<Order>();
         ArrayList<Order> allOrders = Database_Controller.readOrderList();
-
         for(i=0; i<allOrders.size(); i++){
             if(allOrders.get(i).getDate().getYear() == year && allOrders.get(i).getDate().getMonthValue() == month && allOrders.get(i).isPaid())
                 paidOrders.add(allOrders.get(i));
@@ -40,10 +47,15 @@ public class RevenueController {
         System.out.println("\nSales Revenue Report for Month " + month + "/" + year);
         System.out.println("===========================================");
         System.out.println();
-
         printSalesRevenueReport(paidOrders);
     }
 
+    /**
+     * getSalesReportOfYear Method With passed in values, an arraylist of
+     * Order objects that falles in the year range and with paid status equals to true will be
+     * created and read from the data file. Next it will be pass in to the printSalesRevenueReport method
+     * @param year
+     */
     public void getSalesReportOfYear(int year){
 
         int i;
@@ -62,6 +74,12 @@ public class RevenueController {
         printSalesRevenueReport(paidOrders);
     }
 
+    /**
+     * printSalesRevenueReport Method, with the passed in values there will be a calculated of the sum of item sold
+     * for each of the item in menuitem and promotion. Next total discount, total GST, total ServiceCharge will also be
+     * calculated. After the calculations, they will be printed in the sales report format.
+     * @param paidOrders
+     */
     public void printSalesRevenueReport(ArrayList<Order> paidOrders) {
 
         int i, j, index, qty;
@@ -147,6 +165,12 @@ public class RevenueController {
 
     }
 
+    /**
+     * calcTotalTaxAndDisc Method:
+     * This method calculates and returns the total tax  and discount details for the passed in order objects
+     * @param paidOrders
+     * @return
+     */
     public ArrayList<Double> calcTotalTaxAndDisc (ArrayList<Order> paidOrders){
         int i;
         double totalGST, totalServiceCharge, totalDiscount, beforeGST, beforeServiceCharge;
@@ -160,20 +184,11 @@ public class RevenueController {
                 totalDiscount += beforeServiceCharge/90*10;
             }
         }
-
         ArrayList<Double> DiscountsTaxes = new ArrayList<Double>();
         DiscountsTaxes.add(totalDiscount);
         DiscountsTaxes.add(totalGST);
         DiscountsTaxes.add(totalServiceCharge);
-
         return DiscountsTaxes;
     }
 
-    public static void main(String[] args){
-        RevenueController RevenueController = new RevenueController();
-     //   RevenueController.getSalesReportOfYear(2021);
-        //  RevenueController.getSalesReportOfMonth(11, 2020);
-   //    RevenueController.getSalesReportOfDate(LocalDate.parse("201-11-04"));
-
-    }
 }

@@ -25,6 +25,12 @@ public class Database_Controller {
      * Base function to write and read content to and from the .dat file .
      */
     //region File I/O
+
+    /**
+     * Method to Write arraylist objects into Dat.File
+     * @param list
+     * @param path
+     */
     public static void writeList(List list, String path) {
         try {
             FileOutputStream fos = new FileOutputStream(path);
@@ -37,6 +43,12 @@ public class Database_Controller {
         }
 
     }
+
+    /**
+     * Method to read and return arraylist object from Dat file.
+     * @param path
+     * @return
+     */
     public static List readList(String path) {
         List list = null;
         FileInputStream fis;
@@ -64,19 +76,39 @@ public class Database_Controller {
 
     /**
      * Database function for Table CRUD
+     *
+    //region Table
+
+    /**
+     *
+     * @param TableList
      */
     //region Table
+
+    /**
+     * Writes the arraylist of Tables into Table.Dat
+     * @param TableList
+     */
     public static void writeTableList(ArrayList<Table> TableList){
 
         writeList(TableList,tablePath);
     }
 
+    /**
+     * Read all table objects from Table.Dat
+     * @return
+     */
     public static ArrayList<Table> readTableList() {
         ArrayList<Table> TableList;
         TableList=(ArrayList)readList(tablePath);
         return TableList;
     }
 
+    /**
+     * Get and return the Table object from Table.dat file
+     * @param number
+     * @return
+     */
     public static Table getTableById(int number) {
         ArrayList<Table> tableList = (ArrayList<Table>)readTableList();
         for (int i = 0 ; i < tableList.size() ; i++) {
@@ -89,6 +121,10 @@ public class Database_Controller {
         return null;
     }
 
+    /**
+     * Write the Table object passed in into the Table.Dat file
+     * @param table
+     */
     public static void addTable(Table table) {
        ArrayList<Table> tablelist = (ArrayList<Table>)readTableList();
        // ArrayList<Table> tablelist = new ArrayList<Table>();
@@ -97,6 +133,12 @@ public class Database_Controller {
 
     }
 
+    /**
+     * Create a local arraylist assign it with values read the array list of Table objects from Table.Dat file.
+     * Then Find the object that corresponds to the tableNumber passed in and remove it from the local array list
+     * passin the local array list object to the WriteTableList to overwrite the previous records.
+     * @param tableNumber
+     */
     public static void deleteTable(int tableNumber) {
         ArrayList<Table> TableList = (ArrayList<Table>)readTableList();
         for (int i = 0 ; i < TableList.size() ; i++) {
@@ -110,6 +152,12 @@ public class Database_Controller {
         writeTableList(TableList);
     }
 
+    /**
+     * With the Table object passed in,
+     * it will first delete the object with the same id in the Table.DAT file
+     * Then it will add in the object with addTable method
+     * @param table
+     */
     public static void updateTable(Table table) {
         deleteTable(table.getId());
         addTable(table);
@@ -120,17 +168,30 @@ public class Database_Controller {
      * Database function for Staff CRUD
      */
     //region Staff
+    /**
+     * Writes the arraylist of Staff into Staff.Dat
+     * @param StaffList
+     */
     public static void writeStaffList(ArrayList<Staff> StaffList){
 
         writeList(StaffList,staffPath);
     }
 
+    /**
+     * Read all Staff objects from Staff.Dat
+     * @return
+     */
     public static ArrayList<Staff> readStaffList() {
         ArrayList<Staff> StaffList;
         StaffList=(ArrayList)readList(staffPath);
         return StaffList;
     }
 
+    /**
+     * Get and return the Staff object from Staff.dat file
+     * @param employeeId
+     * @return
+     */
     public static Staff getStaffByEmployeeId(int employeeId) {
         ArrayList<Staff> StaffList = (ArrayList<Staff>)readStaffList();
         for (int i = 0 ; i < StaffList.size() ; i++) {
@@ -143,6 +204,10 @@ public class Database_Controller {
         return null;
     }
 
+    /**
+     * Write the Staff object passed in into the Staff.Dat file
+     * @param Staff
+     */
     public static void addStaff(Staff Staff) {
         ArrayList<Staff> Stafflist = (ArrayList<Staff>)readStaffList();
          //ArrayList<Staff> Stafflist = new ArrayList<Staff>();
@@ -151,6 +216,12 @@ public class Database_Controller {
 
     }
 
+    /**
+     * Create a local arraylist assign it with values read the array list of Staff objects from Staff.Dat file.
+     * Then Find the object that corresponds to the Staff employeeId passed in and remove it from the local array list
+     * passin the local array list object to the WriteTableList to overwrite the previous records.
+     * @param employeeId
+     */
     public static void deleteStaff(int employeeId) {
         ArrayList<Staff> StaffList = (ArrayList<Staff>)readStaffList();
         for (int i = 0 ; i < StaffList.size() ; i++) {
@@ -164,6 +235,12 @@ public class Database_Controller {
         writeStaffList(StaffList);
     }
 
+    /**
+     * With the Staff object passed in,
+     * it will first delete the object with the same id in the Staff.DAT file
+     * Then it will add in the object with addStaff method
+     * @param Staff
+     */
     public static void updateStaff(Staff Staff) {
         deleteStaff(Staff.getEmployeeId());
         addStaff(Staff);
@@ -174,17 +251,30 @@ public class Database_Controller {
      * Database function for MenuItem CRUD
      */
     //region MenuItem
+    /**
+     * Writes the arraylist of MenuItem into MenuItem.Dat
+     * @param MenuItemList
+     */
     public static void writeMenuItemList(ArrayList<MenuItem> MenuItemList){
 
         writeList(MenuItemList,menuItemPath);
     }
 
+    /**
+     * Read all MenuItem objects from MenuItem.Dat
+     * @return
+     */
     public static ArrayList<MenuItem> readMenuItemList() {
         ArrayList<MenuItem> MenuItemList;
         MenuItemList=(ArrayList)readList(menuItemPath);
         return MenuItemList;
     }
 
+    /**
+     * Get and return the MenuItem object from MenuItem.dat file
+     * @param itemName
+     * @return
+     */
     public static MenuItem getMenuItemByName(String itemName) {
         ArrayList<MenuItem> MenuItemList = (ArrayList<MenuItem>)readMenuItemList();
         for (int i = 0 ; i < MenuItemList.size() ; i++) {
@@ -197,6 +287,11 @@ public class Database_Controller {
         return null;
     }
 
+    /**
+     * Get and return the MenuItem object  index from MenuItem.dat file
+     * @param itemName
+     * @return
+     */
     public static int getMenuItemIndex(String itemName) {
         ArrayList<MenuItem> MenuItemList = (ArrayList<MenuItem>)readMenuItemList();
         for (int i = 0 ; i < MenuItemList.size() ; i++) {
@@ -209,6 +304,10 @@ public class Database_Controller {
         return -1;
     }
 
+    /**
+     * Write the MenuItem object passed in into the MenuItem.Dat file
+     * @param MenuItem
+     */
     public static void addMenuItem(MenuItem MenuItem) {
        ArrayList<MenuItem> MenuItemlist = (ArrayList<MenuItem>)readMenuItemList();
   //      ArrayList<MenuItem> MenuItemlist = new ArrayList<MenuItem>();
@@ -217,6 +316,12 @@ public class Database_Controller {
 
     }
 
+    /**
+     * Create a local arraylist assign it with values read the array list of MenuItem objects from MenuItem.Dat file.
+     * Then Find the object that corresponds to the MenuItem name passed in and remove it from the local array list
+     * passin the local array list object to the WriteMenuItemList to overwrite the previous records.
+     * @param itemName
+     */
     public static void deleteMenuItem(String itemName) {
         ArrayList<MenuItem> MenuItemList = (ArrayList<MenuItem>)readMenuItemList();
         for (int i = 0 ; i < MenuItemList.size() ; i++) {
@@ -230,6 +335,12 @@ public class Database_Controller {
         writeMenuItemList(MenuItemList);
     }
 
+    /**
+     * With the MenuItem object passed in,
+     * it will first delete the object with the same id in the MenuItem.DAT file
+     * Then it will add in the object with addMenuItem method
+     * @param MenuItem
+     */
     public static void updateMenuItem(MenuItem MenuItem) {
         deleteMenuItem(MenuItem.getItemName());
         addMenuItem(MenuItem);
@@ -239,17 +350,30 @@ public class Database_Controller {
     /**
      * Database function for Customer  CRUD */
     //region Customer
+    /**
+     * Writes the arraylist of Customer into Customer.Dat
+     * @param CustomerList
+     */
     public static void writeCustomerList(ArrayList<Customer> CustomerList){
 
         writeList(CustomerList,customerPath);
     }
 
+    /**
+     * Read all Staff objects from Customer.Dat
+     * @return
+     */
     public static ArrayList<Customer> readCustomerList() {
         ArrayList<Customer> CustomerList;
         CustomerList=(ArrayList)readList(customerPath);
         return CustomerList;
     }
 
+    /**
+     * Get and return the Customer object from Customer.dat file
+     * @param name
+     * @return
+     */
     public static Customer getCustomerByName(String name) {
         ArrayList<Customer> CustomerList = (ArrayList<Customer>)readCustomerList();
         for (int i = 0 ; i < CustomerList.size() ; i++) {
@@ -262,6 +386,11 @@ public class Database_Controller {
         return null;
     }
 
+    /**
+     * Get and return the Contact object from Contact.dat file
+     * @param contact
+     * @return
+     */
     public static Customer getCustomerByContact(int contact) {
         ArrayList<Customer> CustomerList = (ArrayList<Customer>)readCustomerList();
         for (int i = 0 ; i < CustomerList.size() ; i++) {
@@ -274,6 +403,10 @@ public class Database_Controller {
         return null;
     }
 
+    /**
+     * Write the Customer object passed in into the Customer.Dat file
+     * @param Customer
+     */
     public static void addCustomer(Customer Customer) {
         ArrayList<Customer> Customerlist = (ArrayList<Customer>)readCustomerList();
         //ArrayList<Customer> Customerlist = new ArrayList<Customer>();
@@ -282,6 +415,12 @@ public class Database_Controller {
 
     }
 
+    /**
+     * Create a local arraylist assign it with values read the array list of Customer objects from Customer.Dat file.
+     * Then Find the object that corresponds to the Customer name passed in and remove it from the local array list
+     * pass in the local array list object to the WriteCustomerList to overwrite the previous records.
+     * @param name
+     */
     public static void deleteCustomer(String name) {
         ArrayList<Customer> CustomerList = (ArrayList<Customer>)readCustomerList();
         for (int i = 0 ; i < CustomerList.size() ; i++) {
@@ -295,6 +434,12 @@ public class Database_Controller {
         writeCustomerList(CustomerList);
     }
 
+    /**
+     * With the Customer object passed in,
+     * it will first delete the object with the same id in the Customer.DAT file
+     * Then it will add in the object with addCustomer method
+     * @param Customer
+     */
     public static void updateCustomer(Customer Customer) {
         deleteCustomer(Customer.getName());
         addCustomer(Customer);
@@ -304,17 +449,30 @@ public class Database_Controller {
     /**
      * Database function for Promotion CRUD */
     //region Promotion
+    /**
+     * Writes the arraylist of Promotion into Promotion.Dat
+     * @param PromotionList
+     */
     public static void writePromotionList(ArrayList<Promotion> PromotionList){
 
         writeList(PromotionList,promotionPath);
     }
 
+    /**
+     * Read all Promotion objects from Promotion.Dat
+     * @return
+     */
     public static ArrayList<Promotion> readPromotionList() {
         ArrayList<Promotion> PromotionList;
         PromotionList=(ArrayList)readList(promotionPath);
         return PromotionList;
     }
 
+    /**
+     * Get and return the Promotion object from Promotion.dat file
+     * @param Id
+     * @return
+     */
     public static Promotion getPromotionById(int Id) {
         ArrayList<Promotion> PromotionList = (ArrayList<Promotion>)readPromotionList();
         for (int i = 0 ; i < PromotionList.size() ; i++) {
@@ -327,6 +485,11 @@ public class Database_Controller {
         return null;
     }
 
+    /**
+     * Get and return the Promotion object index from Promotion.dat file
+     * @param Id
+     * @return
+     */
     public static int getPromotionIndex(int Id) {
         ArrayList<Promotion> PromotionList = (ArrayList<Promotion>)readPromotionList();
         for (int i = 0 ; i < PromotionList.size() ; i++) {
@@ -339,6 +502,10 @@ public class Database_Controller {
         return -1;
     }
 
+    /**
+     * Write the Promotion object passed in into the Promotion.Dat file
+     * @param Promotion
+     */
     public static void addPromotion(Promotion Promotion) {
         ArrayList<Promotion> Promotionlist = (ArrayList<Promotion>)readPromotionList();
         //ArrayList<Promotion> Promotionlist = new ArrayList<Promotion>();
@@ -347,6 +514,12 @@ public class Database_Controller {
 
     }
 
+    /**
+     * Create a local arraylist assign it with values read the array list of Promotion objects from Promotion.Dat file.
+     * Then Find the object that corresponds to the Promotion employeeId passed in and remove it from the local array list
+     * pass in the local array list object to the WritePromotionList to overwrite the previous records.
+     * @param Id
+     */
     public static void deletePromotion(int Id) {
         ArrayList<Promotion> PromotionList = (ArrayList<Promotion>)readPromotionList();
         for (int i = 0 ; i < PromotionList.size() ; i++) {
@@ -360,6 +533,12 @@ public class Database_Controller {
         writePromotionList(PromotionList);
     }
 
+    /**
+     * With the Promotion object passed in,
+     * it will first delete the object with the same id in the Promotion.DAT file
+     * Then it will add in the object with addPromotion method
+     * @param Promotion
+     */
     public static void updatePromotion(Promotion Promotion) {
         deletePromotion(Promotion.getId());
         addPromotion(Promotion);
@@ -369,17 +548,30 @@ public class Database_Controller {
     /**
      * Database function for Reservation CRUD */
     //region Reservation
+    /**
+     * Writes the arraylist of Reservation into Reservation.Dat
+     * @param ReservationList
+     */
     public static void writeReservationList(ArrayList<Reservation> ReservationList){
 
         writeList(ReservationList,reservationPath);
     }
 
+    /**
+     * Read all Reservation objects from Reservation.Dat
+     * @return
+     */
     public static ArrayList<Reservation> readReservationList() {
         ArrayList<Reservation> ReservationList;
         ReservationList=(ArrayList)readList(reservationPath);
         return ReservationList;
     }
 
+    /**
+     * Get and return the Reservation object from Reservation.dat file
+     * @param Id
+     * @return
+     */
     public static Reservation getReservationById(int Id) {
         ArrayList<Reservation> ReservationList = (ArrayList<Reservation>)readReservationList();
         for (int i = 0 ; i < ReservationList.size() ; i++) {
@@ -391,6 +583,12 @@ public class Database_Controller {
         }
         return null;
     }
+
+    /**
+     * Get and return the Reservation object from Reservation.dat file with customer name
+     * @param customerName
+     * @return
+     */
     public static Reservation getReservationByCustomerName(String customerName) {
         ArrayList<Reservation> ReservationList = (ArrayList<Reservation>)readReservationList();
         for (int i = 0 ; i < ReservationList.size() ; i++) {
@@ -403,6 +601,10 @@ public class Database_Controller {
         return null;
     }
 
+    /**
+     * Write the Staff object passed in into the Reservation.Dat file
+     * @param Reservation
+     */
     public static void addReservation(Reservation Reservation) {
         ArrayList<Reservation> Reservationlist = (ArrayList<Reservation>)readReservationList();
         //ArrayList<Reservation> Reservationlist = new ArrayList<Reservation>();
@@ -411,6 +613,12 @@ public class Database_Controller {
 
     }
 
+    /**
+     * Create a local arraylist assign it with values read the array list of Reservation objects from Reservation.Dat file.
+     * Then Find the object that corresponds to the Reservation Id passed in and remove it from the local array list
+     * pass in the local array list object to the WriteReservationList to overwrite the previous records.
+     * @param Id
+     */
     public static void deleteReservation(int Id) {
         ArrayList<Reservation> ReservationList = (ArrayList<Reservation>)readReservationList();
         for (int i = 0 ; i < ReservationList.size() ; i++) {
@@ -424,6 +632,12 @@ public class Database_Controller {
         writeReservationList(ReservationList);
     }
 
+    /**
+     * With the Reservation object passed in,
+     * it will first delete the object with the same id in the Reservation.DAT file
+     * Then it will add in the object with addReservation method
+     * @param Reservation
+     */
     public static void updateReservation(Reservation Reservation) {
         deleteReservation(Reservation.getId());
         addReservation(Reservation);
@@ -433,17 +647,29 @@ public class Database_Controller {
     /**
      * Database function for Order CRUD */
     //region Order
+    /**
+     * Writes the arraylist of Order into Order.Dat
+     * @param OrderList
+     */
     public static void writeOrderList(ArrayList<Order> OrderList){
 
         writeList(OrderList,orderPath);
     }
 
+    /**
+     * Read all Order objects from Order.Dat
+     * @return
+     */
     public static ArrayList<Order> readOrderList() {
         ArrayList<Order> OrderList;
         OrderList=(ArrayList)readList(orderPath);
         return OrderList;
     }
 
+    /**
+     * Get and return the Order object from Order.dat file
+     * @param Id
+     */
     public static Order getOrderById(int Id) {
         ArrayList<Order> OrderList = (ArrayList<Order>)readOrderList();
         for (int i = 0 ; i < OrderList.size() ; i++) {
@@ -456,6 +682,10 @@ public class Database_Controller {
         return null;
     }
 
+    /**
+     * Write the Order object passed in into the Order.Dat file
+     * @param Order
+     */
     public static void addOrder(Order Order) {
          ArrayList<Order> Orderlist = (ArrayList<Order>)readOrderList();
       //  ArrayList<Order> Orderlist = new ArrayList<Order>();
@@ -464,6 +694,12 @@ public class Database_Controller {
 
     }
 
+    /**
+     * Create a local arraylist assign it with values read the array list of Order objects from Order.Dat file.
+     * Then Find the object that corresponds to the Order employeeId passed in and remove it from the local array list
+     * passin the local array list object to the WriteOrderList to overwrite the previous records.
+     * @param Id
+     */
     public static void deleteOrder(int Id) {
         ArrayList<Order> OrderList = (ArrayList<Order>)readOrderList();
         for (int i = 0 ; i < OrderList.size() ; i++) {
@@ -477,27 +713,45 @@ public class Database_Controller {
         writeOrderList(OrderList);
     }
 
+    /**
+     * With the Order object passed in,
+     * it will first delete the object with the same id in the Order.DAT file
+     * Then it will add in the object with addOrder method
+     * @param Order
+     */
     public static void updateOrder(Order Order) {
         deleteOrder(Order.getOrderId());
         addOrder(Order);
     }
     //endregion
 
-
     /**
      * Database function for Revenue CRUD */
     //region Order
+    /**
+     * Writes the arraylist of Revenue into Revenue.Dat
+     * @param RevenueList
+     */
     public static void writeRevenueList(ArrayList<Revenue> RevenueList){
 
         writeList(RevenueList,revenuePath);
     }
 
+    /**
+     * Read all Revenue objects from Revenue.Dat
+     * @return
+     */
     public static ArrayList<Revenue> readRevenueList() {
         ArrayList<Revenue> RevenueList;
         RevenueList=(ArrayList)readList(revenuePath);
         return RevenueList;
     }
 
+    /**
+     * Get and return the Revenue object from Revenue.dat file
+     * @param Id
+     * @return
+     */
     public static Revenue getRevenueById(int Id) {
         ArrayList<Revenue> RevenueList = (ArrayList<Revenue>)readRevenueList();
         for (int i = 0 ; i < RevenueList.size() ; i++) {
@@ -510,6 +764,10 @@ public class Database_Controller {
         return null;
     }
 
+    /**
+     * Write the Revenue object passed in into the Revenue.Dat file
+     * @param Revenue
+     */
     public static void addRevenue(Revenue Revenue) {
         // ArrayList<Revenue> Revenuelist = (ArrayList<Revenue>)readRevenueList();
         ArrayList<Revenue> Revenuelist = new ArrayList<Revenue>();
@@ -518,6 +776,12 @@ public class Database_Controller {
 
     }
 
+    /**
+     * Create a local arraylist assign it with values read the array list of Revenue objects from Revenue.Dat file.
+     * Then Find the object that corresponds to the Revenue employeeId passed in and remove it from the local array list
+     * pass in the local array list object to the WriteRevenueList to overwrite the previous records.
+     * @param Id
+     */
     public static void deleteRevenue(int Id) {
         ArrayList<Revenue> RevenueList = (ArrayList<Revenue>)readRevenueList();
         for (int i = 0 ; i < RevenueList.size() ; i++) {
@@ -531,6 +795,12 @@ public class Database_Controller {
         writeRevenueList(RevenueList);
     }
 
+    /**
+     * With the Staff object passed in,
+     * it will first delete the object with the same id in the Revenue.DAT file
+     * Then it will add in the object with addRevenue method
+     * @param Revenue
+     */
     public static void updateRevenue(Revenue Revenue) {
         deleteRevenue(Revenue.getId());
         addRevenue(Revenue);

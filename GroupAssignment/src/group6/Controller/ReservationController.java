@@ -13,6 +13,16 @@ public class ReservationController {
     Scanner sc = new Scanner(System.in);
     //endregion
 
+    /**
+     * checkRemoveReservationBooking Method:
+     * It will first check if the reservation id enter exists
+     * then compares the reservation date time with current date time
+     * if the difference is more than 20 minutes, the reservation will be cancled
+     * and table will be released
+     * if the result is less than 20 minutes which means that the customer arrives in time
+     * The reservarion will convert to orders with the convertResToOrder method
+     * where staff will choose  available table  for the customer
+     */
     public void checkRemoveReservationBooking() {
         int id;
         System.out.println("Enter your reservation ID:");
@@ -41,8 +51,15 @@ public class ReservationController {
             deleteReservation(id);
         }
         else{
+            if(sameDate>0){
+                System.out.println("Before the valid Time of Reservation");
+            }
+            else if(sameDate==0 && after){
+                System.out.println("Before the valid Time of Reservation");
+            }
+            else{
             System.out.println("This reservation is overdue!");
-            deleteReservation(id);
+            deleteReservation(id);}
         }
     }
 
