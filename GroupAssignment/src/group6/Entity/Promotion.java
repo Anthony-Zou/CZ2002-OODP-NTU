@@ -41,7 +41,7 @@ public class Promotion implements Serializable{
     //region Setter for Promotion
 
     /**
-     * Set/Update the object id with
+     * Set/Update the Promotion object id with
      * @param id
      */
     public void setId(int id) {
@@ -49,7 +49,7 @@ public class Promotion implements Serializable{
     }
 
     /**
-     * Set/Update the object name with
+     * Set/Update the Promotion object name with
      * @param name
      */
     public void setName(String name) {
@@ -57,33 +57,68 @@ public class Promotion implements Serializable{
     }
 
     /**
-     * Set/Update the object with
+     * Set/Update the Promotion object array list with
      * @param items
      */
     public void setItems(ArrayList<MenuItem> items) {
         Items = items;
     }
+
+    /**
+     * Set/Update the Promotion object description with
+     * @param decription
+     */
     public void setDecription(String decription) {
         Decription = decription;
     }
+
+    /**
+     * Set/Update the Promotion object price with
+     * @param price
+     */
     public void setPrice(double price) {
         this.price = price;
     }
     //endregion
 
     //region for getter or Promotion
+
+    /**
+     * Return object price
+     * @return
+     */
     public double getPrice() {
         return price;
     }
+
+    /**
+     * Return object description
+     * @return
+     */
     public String getDecription() {
         return Decription;
     }
+
+    /**
+     * Return object arraylist menuitems
+     * @return
+     */
     public ArrayList<MenuItem> getItems() {
         return Items;
     }
+
+    /**
+     * Return object Id
+     * @return
+     */
     public int getId() {
         return Id;
     }
+
+    /**
+     * Return object name
+     * @return
+     */
     public String getName() {
         return Name;
     }
