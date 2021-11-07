@@ -2,6 +2,7 @@ package Controller;
 
 import Entity.*;
 
+import java.util.InputMismatchException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -23,9 +24,8 @@ public class OrderController {
      * With AddOrder method in the Database controller
      */
     public void createOrder() {
-        System.out.println("Create an Order");
-        System.out.println("---------------------");
-        System.out.println("Generating Order Id");
+        System.out.println("< Create an Order >\n");
+        System.out.println("Generating Order Id...");
         System.out.println("---------------------");
         //region order ID
         int orderId = 1;
@@ -36,96 +36,198 @@ public class OrderController {
         //endregion
 
         //region Staff ID
-        System.out.println("Enter Your Staff Id");
-        System.out.println("---------------------");
         StaffController StaffController = new StaffController();
         StaffController.printStaffDetails();
 
-        int staffId;
-        while (true) {
-            staffId = sc.nextInt();
-            if (Database_Controller.getStaffByEmployeeId(staffId) != null) {
-                break;
-            } else {
-                System.out.println("Invalid staff ID! Enter again");
-            }
-        }
-        System.out.println("Assign Available Table");
-        System.out.println("---------------------");
-        System.out.println("Enter pax:");
-        int pax = sc.nextInt();
+        // 1. Input Staff ID
+        int staffId = 0;
+        do {
+            try {
+                while (true) {
+                	System.out.println("Enter Your Staff Id: ");
+                    staffId = sc.nextInt();
+                    if (Database_Controller.getStaffByEmployeeId(staffId) != null) {
+                        break;
+                    } else {
+                		System.out.println("Please enter a valid ID!");
+                		System.out.println("\n-----------------------------------\n");
+                    }
+                }
+            } catch (InputMismatchException e) {
+            		System.out.println("Please enter a valid ID!");
+            		System.out.println("\n-----------------------------------\n");
+            		staffId = 0;
+            	}
+            	sc.nextLine();
+            } while(staffId == 0);
+        
+        // 2. Input number of pax
+        System.out.println("< Assign Available Table >\n");
+        
+        int pax = 0;
+        do {
+        	try {
+        		while(true) {
+        			System.out.println("Enter pax:");
+        			pax = sc.nextInt();
+        			if (pax <= 0) {
+        				System.out.println("\nPlease enter a valid number!");
+                		System.out.println("\n-----------------------------------\n");
+        			} else break;
+        		}
+        	} catch (InputMismatchException e) {
+        		System.out.println("Please enter a valid number!");
+        		System.out.println("\n-----------------------------------\n");
+        		pax = 0;
+        	}
+        	sc.nextLine();
+        } while(pax == 0);
+        
         TableController TableController = new TableController();
         TableController.printAvailableTables(pax);
-        System.out.println("Enter Table Id of choices:");
-        int tableId;
-        while (true) {
-            tableId = sc.nextInt();
-            if (Database_Controller.getTableById(tableId) != null) {
-                break;
-            } else {
-                System.out.println("Invalid table ID! Enter again");
-            }
-        }
-        System.out.println("Is Customer a member?");
-        System.out.println("0. No");
-        System.out.println("1. Yes");
-        System.out.println("---------------------");
+        
+        
+        // 3. Input table ID
+        int tableId = 0;
+        do {
+        	try {
+        		while (true) {
+        			System.out.println("Enter Table Id of choices:");
+                    tableId = sc.nextInt();
+                    if (Database_Controller.getTableById(tableId) != null) {
+                        break;
+                    } else {
+                    	System.out.println("\nPlease enter a valid ID!");
+                		System.out.println("\n-----------------------------------\n");
+                    }
+                }
+        	} catch (InputMismatchException e) {
+        		System.out.println("\nPlease enter a valid ID!");
+        		System.out.println("\n-----------------------------------\n");
+        		tableId = 0;
+        	}
+        	sc.nextLine();
+        } while(tableId == 0);    
+        
+        
+        // 4. member / non-member choice
         boolean membership = false;
-        int userContact = 10000000;
-        int choice = sc.nextInt();
+        int choice  = -1;
+        do {
+        	try {
+        		while(true) {
+        			System.out.println("Is Customer a member?");
+                    System.out.println("0. No");
+                    System.out.println("1. Yes");
+                    System.out.println("---------------------");
+                    choice = sc.nextInt();
+                    if(choice == 0 || choice == 1) break;
+                    else {
+                    	System.out.println("\nPlease enter a valid choice!");
+                		System.out.println("\n-----------------------------------\n");
+                    }
+        		}
+        		
+        	} catch (InputMismatchException e) {
+        		System.out.println("\nPlease enter a valid choice!");
+        		System.out.println("\n-----------------------------------\n");
+        		choice = -1;
+        	}
+        	sc.nextLine();
+        } while(choice == -1);
+        
+        // 4-1 if user chooses member, get contact number to verify membership
+        int userContact = 0;
         if (choice == 1) {
-            System.out.println("Verify Membership");
-            System.out.println("Enter Customer Contact");
-            System.out.println("---------------------");
-            userContact = sc.nextInt();
+            System.out.println("< Verify Membership >\n");
+            System.out.println("Enter Customer Contact: ");
+            
+            do {
+            	try {
+            		System.out.println("Contact number: ");
+            		userContact = sc.nextInt();
+            		while(userContact < 10000000 || userContact > 99999999) {
+                    	System.out.println("\nPlease enter a valid number!");
+                		System.out.println("\n-----------------------------------\n");
+                		System.out.println("Contact number: ");
+                		userContact = sc.nextInt();
+                    }
+            		
+            	} catch (InputMismatchException e) {
+            		System.out.println("\nPlease enter a valid number!");
+            		System.out.println("\n-----------------------------------\n");
+            		userContact = 0;
+            	}
+            	sc.nextLine(); //clears buffer
+            } while(userContact == 0);
+            
             if (Database_Controller.getCustomerByContact(userContact) != null) {
                 membership = Database_Controller.getCustomerByContact(userContact).isMemberShip();
             }
         } else if (choice == 0) {
             membership = false;
         }
-        System.out.println("Add Order Item");
-        System.out.println("---------------------");
+        
+        // 5. Input order item
+        System.out.println("< Add Order Item >\n");
         MenuItemController MenuItemController = new MenuItemController();
         PromotionController PromotionController = new PromotionController();
         ArrayList<MenuItem> alacarteList = new ArrayList<MenuItem>();
         ArrayList<Promotion> promotionList = new ArrayList<Promotion>();
 
+        choice = -1;
         do {
-            System.out.println("Choose Item Type");
-            System.out.println("1. Alacarte");
-            System.out.println("2. Promotion");
-            System.out.println("0. Done");
-            System.out.println("---------------------");
-            choice = sc.nextInt();
-            switch (choice) {
-                case 1:
-                    System.out.println("Enter Alacarte Item");
-                    System.out.println("---------------------");
-                    MenuItemController.printMenuItem();
-                    System.out.println("Enter the name of the alacarte item :");
-
-                    sc.nextLine();
-                    String itemname = sc.nextLine();
-                    MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
-                    alacarteList.add(MenuItem);
-                    break;
-                case 2:
-                    System.out.println("Enter Promotion Set Item Id");
-                    System.out.println("---------------------");
-                    PromotionController.printPromotion();
-                    System.out.println("Enter the Id of the Promotion item :");
-                    int promotionId ;
-                    sc.nextLine();
-                    promotionId= sc.nextInt();
-                    Promotion Promotion = Database_Controller.getPromotionById(promotionId);
-                    promotionList.add(Promotion);
-                    break;
-                default:
-                    break;
-
-            }
-        } while (choice != 0);
+        	try {
+        		System.out.println("Choose Item Type");
+                System.out.println("1. Alacarte");
+                System.out.println("2. Promotion");
+                System.out.println("0. Done");
+                System.out.println("---------------------");
+                choice = sc.nextInt();
+                do {
+                	switch (choice) {
+                    case 1:
+                        System.out.println("< Alacarte Item >\n");
+                        MenuItemController.printMenuItem();
+                        System.out.println("Enter the name of the alacarte item: ");
+                        sc.nextLine();
+                        String itemname = sc.nextLine();
+                        MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
+                        alacarteList.add(MenuItem);
+                        break;
+                    case 2:
+                        System.out.println("< Enter Promotion Set Item Id >\n");
+                        PromotionController.printPromotion();
+                        System.out.println("Enter the Id of the Promotion item: ");
+                        int promotionId ;
+                        sc.nextLine();
+                        promotionId= sc.nextInt();
+                        Promotion Promotion = Database_Controller.getPromotionById(promotionId);
+                        promotionList.add(Promotion);
+                        break;
+                    default:
+                    	System.out.println("Please enter a valid choice!");
+                		System.out.println("\n-----------------------------------\n");
+                		System.out.println("Choose Item Type");
+                        System.out.println("1. Alacarte");
+                        System.out.println("2. Promotion");
+                        System.out.println("0. Done");
+                        System.out.println("---------------------");
+                        choice = sc.nextInt();
+                	}
+                		
+                } while (choice != 1 || choice != 2);
+                
+                
+        	} catch (InputMismatchException e) {
+        		System.out.println("Please enter a valid choice!");
+        		System.out.println("\n-----------------------------------\n");
+        		choice = -1;
+        	}
+        	sc.nextLine();
+        } while(choice == -1);
+        
+        
 
 
         double totalPrice = 0;
@@ -168,8 +270,7 @@ public class OrderController {
         boolean membership=Database_Controller.getCustomerByName(reservation.getCustomerName()).isMemberShip();
         int userContact=Database_Controller.getCustomerByName(reservation.getCustomerName()).getContact();
 
-        System.out.println("Create an Order");
-        System.out.println("---------------------");
+        System.out.println("< Create an Order >\n");
         System.out.println("Generating Order Id");
         System.out.println("---------------------");
         int orderId = 1;
@@ -177,19 +278,33 @@ public class OrderController {
         if (presentOrders != null) {
             orderId = presentOrders.size() + 1;
         }
-        System.out.println("Enter Your Staff Id");
-        System.out.println("---------------------");
+        
+        
+        // input Staff Id
         StaffController StaffController = new StaffController();
         StaffController.printStaffDetails();
-        int staffId;
-        while (true) {
-            staffId = sc.nextInt();
-            if (Database_Controller.getStaffByEmployeeId(staffId) != null) {
-                break;
-            } else {
-                System.out.println("Invalid staff ID! Enter again");
-            }
-        }
+        
+        int staffId = 0;
+        do {
+        	try {
+                while (true) {
+                	System.out.println("Enter Your Staff Id: ");
+                    staffId = sc.nextInt();
+                    if (Database_Controller.getStaffByEmployeeId(staffId) != null) {
+                        break;
+                    } else {
+                    	System.out.println("\nPlease enter a valid ID!");
+                		System.out.println("\n-----------------------------------\n");
+                    }
+                }
+        	} catch (InputMismatchException e) {
+        		System.out.println("\nPlease enter a valid ID!");
+        		System.out.println("\n-----------------------------------\n");
+        		staffId = 0;
+        	}
+        	sc.nextLine();
+        } while(staffId == 0);
+
         //System.out.println("Assign Available Table");
         //System.out.println("---------------------");
         //System.out.println("Enter pax:");
@@ -224,8 +339,7 @@ public class OrderController {
         //} else if (choice == 0) {
         //    membership = false;
        // }
-        System.out.println("Add Order Item");
-        System.out.println("---------------------");
+        System.out.println("< Add Order Item >\n");
         MenuItemController MenuItemController = new MenuItemController();
         PromotionController PromotionController = new PromotionController();
         ArrayList<MenuItem> alacarteList = new ArrayList<MenuItem>();
@@ -233,40 +347,56 @@ public class OrderController {
         //do while loop
         //choose alacarte
         //choose promotion
-        int choice;
+        int choice = 0;
         do {
-            System.out.println("Choose Item Type");
-            System.out.println("1. Alacarte");
-            System.out.println("2. Promotion");
-            System.out.println("0. Done");
-            System.out.println("---------------------");
-            choice = sc.nextInt();
-            switch (choice) {
-                case 1:
-                    System.out.println("Enter Alacarte Item");
-                    System.out.println("---------------------");
-                    MenuItemController.printMenuItem();
-                    System.out.println("Enter the name of the alacarte item :");
-                    String itemname = sc.next();
-                    MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
-                    alacarteList.add(MenuItem);
-                    break;
-                case 2:
-                    System.out.println("Enter Promotion Set Item Id");
-                    System.out.println("---------------------");
-                    PromotionController.printPromotion();
-                    System.out.println("Enter the Id of the alacarte item :");
-                    int promotionId = sc.nextInt();
-                    Promotion Promotion = Database_Controller.getPromotionById(promotionId);
-                    promotionList.add(Promotion);
-                    break;
-                default:
-                    break;
+        	try {
+        		System.out.println("Choose Item Type");
+                System.out.println("1. Alacarte");
+                System.out.println("2. Promotion");
+                System.out.println("0. Done");
+                System.out.println("---------------------");
+                choice = sc.nextInt();
+                switch (choice) {
+                    case 1:
+                        System.out.println("Enter Alacarte Item");
+                        System.out.println("---------------------");
+                        MenuItemController.printMenuItem();
+                        System.out.println("Enter the name of the alacarte item :");
+                        String itemname = sc.next();
+                        MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
+                        alacarteList.add(MenuItem);
+                        break;
+                    case 2:
+                        System.out.println("Enter Promotion Set Item Id");
+                        System.out.println("---------------------");
+                        PromotionController.printPromotion();
+                        System.out.println("Enter the Id of the alacarte item :");
+                        int promotionId = sc.nextInt();
+                        Promotion Promotion = Database_Controller.getPromotionById(promotionId);
+                        promotionList.add(Promotion);
+                        break;
+                    default:
+                    	System.out.println("\nPlease enter a valid choice!");
+                		System.out.println("\n-----------------------------------\n");
+                		System.out.println("Choose Item Type");
+                        System.out.println("1. Alacarte");
+                        System.out.println("2. Promotion");
+                        System.out.println("0. Done");
+                        System.out.println("---------------------");
+                        choice = sc.nextInt();
+                    
+                } while (choice != 0);
+        	} catch(InputMismatchException e) {
+        		System.out.println("\nPlease enter a valid choice!");
+        		System.out.println("\n-----------------------------------\n");
+        		choice = 0;
+        	}
+        	sc.nextLine();
+        } while(choice == 0);
+        
 
-            }
-        } while (choice != 0);
 
-
+        
         double totalPrice = 0;
         if (alacarteList != null) {
             for (int i = 0; i < alacarteList.size(); i++) {
@@ -304,11 +434,21 @@ public class OrderController {
      * passing in the Order Id
      */
     public void deleteOrder() {
-        System.out.println("Remove a Order");
-        System.out.println("---------------------");
+        System.out.println("< Remove an Order >\n");
         // find if the Reservation is in the database or not //
-        System.out.println("Enter the number of the Order:");
-        int Number = sc.nextInt();
+        int Number = 0;
+        do {
+        	try {
+        		System.out.println("Enter the number of the Order:");
+        		Number = sc.nextInt();
+        	} catch (InputMismatchException e) {
+        		System.out.println("Please enter a valid number!");
+        		System.out.println("\n-----------------------------------\n");
+        		Number = 0;
+        	}
+        	sc.nextLine();
+        } while(Number == 0);
+        
         if (Database_Controller.getOrderById(Number) == null) {
             System.out.println("Order does not exist!");
 
@@ -540,9 +680,21 @@ public class OrderController {
      */
     public void updateOrderById() {
         this.viewUnpaidOrder();
-        System.out.println("Enter Order Id to be Updated");
-        System.out.println("---------------------");
-        int orderId = sc.nextInt();
+        
+        // Input order id to update
+        int orderId = -1;
+        do {
+        	try {
+        		System.out.println("Enter Order Id to be Updated: ");
+                orderId = sc.nextInt();
+        	} catch (InputMismatchException e) {
+        		System.out.println("\nPlease enter a valid ID!");
+        		System.out.println("\n-----------------------------------\n");
+        		orderId = -1;
+        	}
+        	sc.nextLine();
+        } while(orderId == -1);
+        
         if (Database_Controller.getOrderById(orderId) == null &&
                 Database_Controller.getOrderById(orderId).isPaid()==false) {
             System.out.println("orderId does not exist!");
@@ -553,123 +705,240 @@ public class OrderController {
             PromotionController PromotionController = new PromotionController();
             ArrayList<MenuItem> alacarteList = order.getAlacarte();
             ArrayList<Promotion> promotionList = order.getPromotion();
-            int choice;
+            
+            
+
+            System.out.println("< Add/Remove an Order Item >\n");
+            int choice = -1;
             do {
-                System.out.println("Add/Remove an Order Item");
-                System.out.println("---------------------");
-                System.out.println("Enter 1. Add an Order Item");
-                System.out.println("Enter 2. Remove an Order Item");
-                System.out.println("Enter 0. Complete");
-                System.out.println("---------------------");
-                choice = sc.nextInt();
-                switch (choice) {
-                    case 1:
-                        System.out.println("Add an Order Item");
-                        System.out.println("---------------------");
-                        do {
-                            System.out.println("Choose Item Type");
+            	try {
+                    System.out.println("Enter 1. Add an Order Item");
+                    System.out.println("Enter 2. Remove an Order Item");
+                    System.out.println("Enter 0. Complete");
+                    System.out.println("---------------------");
+                    choice = sc.nextInt();
+                    do {
+                    	switch (choice) {
+                        case 1:
+                            System.out.println("< Add an Order Item >\n");
+                            
+                            choice = -1;
+                            do {
+                            	try {
+                            		System.out.println("Choose Item Type: ");
+                                    System.out.println("1. Alacarte");
+                                    System.out.println("2. Promotion");
+                                    System.out.println("0. Done");
+                                    System.out.println("---------------------");
+                            		choice = sc.nextInt();
+                            		do {
+                                    	switch (choice) {
+                                    	case 0:
+                                    		System.out.println("Done adding!");
+                                    		break;
+                                        case 1:
+                                            MenuItemController.printMenuItem();
+                                            System.out.println("\nEnter Alacarte Item: ");
+                                            String itemname = sc.next();
+                                            
+                                            while(true) {
+                                            	if(Database_Controller.getMenuItemByName(itemname)!=null){
+                                                	MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
+                                                	alacarteList.add(MenuItem);
+                                                	order.setAlacarte(alacarteList);
+                                                	System.out.println("Menu added!");
+                                                	break;
+                                                } else {
+                                                    System.out.println("Please enter a vaild item name!");
+                                                    itemname= sc.next();
+                                                }
+                                            }
+                                            break;
+                                        case 2:
+                                            PromotionController.printPromotion();
+                                       
+                                            int promotionId = 0;
+                                            do {
+                                            	try {
+                                            		while(true) {
+                                            			System.out.println("\nEnter Promotion Set Item Id: ");
+                                            			promotionId = sc.nextInt();
+                                            			if(Database_Controller.getPromotionById(promotionId)!=null){
+                                            				Promotion Promotion = Database_Controller.getPromotionById(promotionId);
+                                            				promotionList.add(Promotion);
+                                            				order.setPromotion(promotionList);
+                                            				System.out.println("Menu added!");
+                                            				break;
+                                                        } else {
+                                                        	System.out.println("\nPlease enter a valid ID!");
+                                                    		System.out.println("\n-----------------------------------\n");
+                                                        }
+                                            		}
+                                            		
+                                            	} catch (InputMismatchException e) {
+                                            		System.out.println("\nPlease enter a valid ID!");
+                                            		System.out.println("\n-----------------------------------\n");
+                                            		promotionId = 0;
+                                            	}
+                                            	sc.nextLine();
+                                            } while(promotionId == 0);
+
+                                            break;
+                                        default:
+                                        	System.out.println("\nPlease enter a valid choice!");
+                                    		System.out.println("\n-----------------------------------\n");
+                                        	System.out.println("Choose Item Type");
+                                            System.out.println("1. Alacarte");
+                                            System.out.println("2. Promotion");
+                                            System.out.println("0. Done");
+                                            System.out.println("-----------------------------------");
+                                            choice = sc.nextInt();
+
+                                    	}
+                                    } while (choice != 1 && choice != 2 && choice != 0);
+                            	} catch (InputMismatchException e) {
+                            		System.out.println("\nPlease enter a valid choice!");
+                            		System.out.println("\n-----------------------------------\n");
+                            		choice = -1;
+                            	}
+                            	sc.nextLine();
+                            } while(choice == -1); 
+                            break;
+                            
+                        case 2:
+                            System.out.println("< Remove an Order Item >\n");
+                            
+                            System.out.println("Choose Item Type to remove");
                             System.out.println("1. Alacarte");
                             System.out.println("2. Promotion");
                             System.out.println("0. Done");
-                            System.out.println("---------------------");
+                            System.out.println("-----------------------------------");
+                            choice = -1;
+                            do {
+                            	try {
+                            		choice = sc.nextInt();
+                            		do {
+                            			switch (choice) {
+                            			case 0:
+                                    		System.out.println("Done removing!");
+                                    		break;
+                                        case 1:
+                                            if (alacarteList.size() < 1) {
+                                                System.out.println("There is no item here!");
+                                                break;
+                                            } else {
+                                                System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t" + " Index" + "\t");
+                                                for (int j = 0; j < alacarteList.size(); j++) {
+                                                    System.out.println(j + "\t\t\t" + alacarteList.get(j).getItemName()
+                                                            + "\t" + alacarteList.get(j).getPrice() + "\t");
+                                                }
+                                                System.out.println("-----------------------------------");
+
+                                                int alacarteindex = 0;
+                                                do {
+                                                	try {
+                                                		while(true) {
+                                                			System.out.println("Enter the index of the Alacarte Item to remove: ");
+                                                			alacarteindex = sc.nextInt();
+                                                			if(alacarteindex >= alacarteList.size()-1) {
+                                                				System.out.println("\nPlease enter a valid index!");
+                                                        		System.out.println("\n-----------------------------------\n");
+                                                			}
+                                                			else break;
+                                                		}
+                                                		
+                                                	} catch (InputMismatchException e) {
+                                                		System.out.println("\nPlease enter a valid index!");
+                                                		System.out.println("\n-----------------------------------\n");
+                                                		alacarteindex = 0;
+                                                	}
+                                                	sc.nextLine();
+                                                } while(alacarteindex == 0);
+                                                
+                                                alacarteList.remove(alacarteindex);
+                                                order.setAlacarte(alacarteList);
+                                                System.out.println("Item removed!");
+                                            }
+                                            break;
+                                        case 2:
+                                            if (promotionList.size() < 1) {
+                                                System.out.println("There is no item here!");
+                                                break;
+                                            } else {
+                                                System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t" + " Index" + "\t");
+                                                for (int j = 0; j < promotionList.size(); j++) {
+                                                    System.out.println(j + "\t\t\t" + promotionList.get(j).getDecription()
+                                                            + "\t" + promotionList.get(j).getPrice() + "\t");
+                                                }
+                                                System.out.println("-----------------------------------");
+
+                                                
+                                                int promotionindex = 0;
+                                                do {
+                                                	try {
+                                                		while(true) {
+                                                			System.out.println("Enter the index of the Promotion Item to remove: ");
+                                                			promotionindex = sc.nextInt();
+                                                			if(promotionindex >= promotionList.size()-1) {
+                                                				System.out.println("\nPlease enter a valid index!");
+                                                        		System.out.println("\n-----------------------------------\n");
+                                                			}
+                                                			else break;
+                                                		}
+                                                	} catch (InputMismatchException e) {
+                                                		System.out.println("\nPlease enter a valid index!");
+                                                		System.out.println("\n-----------------------------------\n");
+                                                		promotionindex = 0;
+                                                	}
+                                                	sc.nextLine();
+                                                } while(promotionindex == 0);
+                                                
+                                                promotionList.remove(promotionindex);
+                                                order.setPromotion(promotionList);
+                                                System.out.println("Item removed!");
+                                            }
+                                            break;
+                                        default:
+                                        	System.out.println("\nPlease enter a valid choice!");
+                                    		System.out.println("\n-----------------------------------\n");
+                                            
+                                            System.out.println("Choose Item Type to remove");
+                                            System.out.println("1. Alacarte");
+                                            System.out.println("2. Promotion");
+                                            System.out.println("0. Done");
+                                            System.out.println("-----------------------------------");
+                                            choice = sc.nextInt();
+                                    	}
+                            		} while(choice != 1 && choice != 2 && choice != 0);
+                            	}catch (InputMismatchException e) {
+                            		System.out.println("\nPlease enter a valid choice!");
+                            		System.out.println("\n-----------------------------------\n");
+                            		choice = -1;
+                            	}
+                            	sc.nextLine();
+                            } while(choice == -1);
+                                
+                            break;
+                            
+                        default:
+                        	System.out.println("\nPlease enter a valid choice!");
+                    		System.out.println("\n-----------------------------------\n");
+                            System.out.println("Enter 1. Add an Order Item");
+                            System.out.println("Enter 2. Remove an Order Item");
+                            System.out.println("Enter 0. Complete");
+                            System.out.println("-----------------------------------");
                             choice = sc.nextInt();
-                            switch (choice) {
-                                case 1:
-                                    System.out.println("Enter Alacarte Item");
-                                    System.out.println("---------------------");
-                                    MenuItemController.printMenuItem();
-                                    System.out.println("Enter the name of the alacarte item :");
-                                    String itemname;
-
-                                    sc.nextLine();
-                                    itemname= sc.nextLine();
-
-                                    if(Database_Controller.getMenuItemByName(itemname)!=null){
-                                    MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
-                                    alacarteList.add(MenuItem);
-                                    order.setAlacarte(alacarteList);}
-                                    else {
-                                        System.out.println("Please enter correct Name");
-                                    }
-
-                                    break;
-                                case 2:
-                                    System.out.println("Enter Promotion Set Item Id");
-                                    System.out.println("---------------------");
-                                    PromotionController.printPromotion();
-                                    System.out.println("Enter the Id of the alacarte item :");
-                                    int promotionId = sc.nextInt();
-
-                                    if(Database_Controller.getPromotionById(promotionId)!=null){
-                                    Promotion Promotion = Database_Controller.getPromotionById(promotionId);
-                                    promotionList.add(Promotion);
-                                    order.setPromotion(promotionList);
-                                    }
-                                    else {
-                                        System.out.println("Please enter correct Id");
-                                    }
-                                    break;
-                                default:
-                                    break;
-
-                            }
-                        } while (choice != 0);
-                        break;
-                    case 2:
-                        System.out.println("Remove an Order Item");
-                        System.out.println("---------------------");
-                        do {
-                            System.out.println("Choose Item Type to be removed");
-                            System.out.println("1. Alacarte");
-                            System.out.println("2. Promotion");
-                            System.out.println("0. Done");
-                            System.out.println("---------------------");
-                            choice = sc.nextInt();
-                            switch (choice) {
-                                case 1:
-                                    if (alacarteList.size() < 1) {
-                                        System.out.println("There is no item here ");
-                                    } else {
-                                        System.out.println("Enter the index of the Alacarte Item to be removed ");
-                                        System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t" + " Index" + "\t");
-                                        for (int j = 0; j < alacarteList.size(); j++) {
-                                            System.out.println(j + "\t\t\t" + alacarteList.get(j).getItemName()
-                                                    + "\t" + alacarteList.get(j).getPrice() + "\t");
-                                        }
-                                        System.out.println("---------------------");
-
-                                        int alacateindex = sc.nextInt();
-                                        alacarteList.remove(alacateindex);
-                                        order.setAlacarte(alacarteList);
-                                    }
-                                    break;
-                                case 2:
-                                    if (promotionList.size() < 1) {
-                                        System.out.println("There is no item here ");
-                                    } else {
-                                        System.out.println("Enter the index of the Promotion Item to be removed ");
-                                        System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t" + " Index" + "\t");
-                                        for (int j = 0; j < promotionList.size(); j++) {
-                                            System.out.println(j + "\t\t\t" + promotionList.get(j).getDecription()
-                                                    + "\t" + promotionList.get(j).getPrice() + "\t");
-                                        }
-                                        System.out.println("---------------------");
-
-                                        int promotionindex = sc.nextInt();
-                                        promotionList.remove(promotionindex);
-                                        order.setPromotion(promotionList);
-                                    }
-                                    break;
-                                default:
-                                    break;
-
-                            }
-                        } while (choice != 0);
-                        break;
-                    default:
-                        break;
-                }
-            } while (choice != 0);
+                    	}
+                    } while(choice != 1 && choice != 2 && choice != 0);
+                    
+            	} catch (InputMismatchException e) {
+            		System.out.println("\nPlease enter a valid choice!");
+            		System.out.println("\n-----------------------------------\n");
+            		choice = -1;
+            	}
+            	sc.nextLine();
+            } while(choice == -1);
+            
 
             Database_Controller.updateOrder(order);
         }
@@ -698,6 +967,10 @@ public class OrderController {
             }
         }
     }
+    public static void main(String[] args) {
+        OrderController OrderController = new OrderController();
 
+        OrderController.createOrder();
+    }
 
 }
