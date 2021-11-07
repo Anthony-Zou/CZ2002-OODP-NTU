@@ -15,42 +15,104 @@ public class MenuItemController {
      * With AddMenuItem method in the Database controller
      */
     public void addMenuItem() {
-        System.out.println("Add a MenuItem");
-        System.out.println("---------------------");
-        System.out.println("Enter the Name of the MenuItem:");
-        String itemName = sc.nextLine();
+        System.out.println("< Add a MenuItem >\n");
+        
+        
+     // inputs name of the menu (check if it exists in the arraylist)
+        String itemName = "";
+        do {
+        	try {
+        		System.out.println("Enter the Name of the MenuItem:");
+                itemName = sc.next();
+        	} catch (InputMismatchException e) {
+        		System.out.println("Please enter a valid choice!");
+        		System.out.println("\n-----------------------------------\n");
+        	}
+        	sc.nextLine();
+        } while(itemName == "");
+        
+        // if the item already exists
         if (Database_Controller.getMenuItemByName(itemName) != null) {
             System.out.println("MenuItem already exists!");
             return;
+            
+        // or else the item is not in the arraylist --> proceed to register
         } else {
-            int userChoice;
-            System.out.println("Description of MenuItem:");
-            String description = sc.nextLine();
-            System.out.println("Price of MenuItem:");
-            Double price = sc.nextDouble();
-            System.out.println("Type of MenuItem:");
-            System.out.println("1. Main course");
-            System.out.println("2. Drinks");
-            System.out.println("3. Dessert");
+            
+        	// 1. inputs description of the new menu
+            String description = "";
+            do {
+            	try {
+            		System.out.println("Description of the Menu: ");
+            		description = sc.next();
+            	} catch (InputMismatchException e) {
+            		System.out.println("Please describe the menu properly!");
+            		System.out.println("\n-----------------------------------\n");
+            	}
+            	sc.nextLine();
+            } while(description == "");
+            
+            
+            // 2. inputs the price of the menu
+            Double price = 0.0;
+            do {
+            	try {
+            		System.out.println("Price of MenuItem:");
+                    price = sc.nextDouble();
+            	} catch (InputMismatchException e) {
+            		System.out.println("Please enter a valid price!");
+            		System.out.println("\n-----------------------------------\n");
+            	}
+            	sc.nextLine();
+            } while(price <= 0);
+            
+            
+            // 3. inputs the type of the new menu
+            
             String type="";
-            userChoice=sc.nextInt();
-            do{switch(userChoice)
-            {
-                case 1:
-                    type="Main course";
-                    break;
-                case 2:
-                    type="Drinks";
-                    break;
-                case 3:
-                    type="Dessert";
-                    break;
-                default:
-                    System.out.println("Invalid");
-                    userChoice=sc.nextInt();
-            }
-            }while(userChoice <1 && userChoice>3);
-
+            
+            // control invalid type / wrong value inputs
+            int userChoice = 0;
+            do {
+            	try {
+            		do {
+            			System.out.println("Type of MenuItem:");
+                        System.out.println("1. Main course");
+                        System.out.println("2. Drinks");
+                        System.out.println("3. Dessert");
+            			userChoice=sc.nextInt();
+	            		switch(userChoice)
+	                    {
+	                        case 1:
+	                            type="Main course";
+	                            break;
+	                        case 2:
+	                            type="Drinks";
+	                            break;
+	                        case 3:
+	                            type="Dessert";
+	                            break;
+	                        default:
+	                        	System.out.println("\nPlease enter a valid choice!");
+	                    		System.out.println("\n-----------------------------------\n");
+	                        	System.out.println("Type of MenuItem:");
+	                            System.out.println("1. Main course");
+	                            System.out.println("2. Drinks");
+	                            System.out.println("3. Dessert");
+	                			userChoice=sc.nextInt();
+	                        	
+	                    }
+            		} while(userChoice < 1 || userChoice > 3);
+            		
+            	} catch (InputMismatchException e) {
+            		System.out.println("\nPlease enter a valid choice!");
+            		System.out.println("\n-----------------------------------\n");
+            		userChoice = 0;
+            	}
+            	sc.nextLine(); //clears buffer
+            } while(userChoice == 0);
+            
+            
 
             MenuItem MenuItem = new MenuItem(itemName, description,price,type);
             Database_Controller.addMenuItem(MenuItem);
@@ -69,13 +131,31 @@ public class MenuItemController {
      * updateMenuItem method in the database controller to update the MenuItem.Dat file
      */
     public void updateMenuItem(String itemName) {
+    	
+    	// if the item does not exist in the arraylist
         if (Database_Controller.getMenuItemByName(itemName) == null) {
             System.out.println("MenuItem does not exist!");
+            
+         // or else it exists in the arraylist
         } else {
             MenuItem MenuItem = Database_Controller.getMenuItemByName(itemName);
-            //content
-            System.out.println("Enter new price of the Item");
-            MenuItem.setPrice(sc.nextDouble());
+            
+         // get input & update the new price & update
+            double newPrice = 0.0;
+            do {
+            	try {
+            		System.out.println("Enter new price of the Item: ");
+            		newPrice = sc.nextDouble();
+            		
+            	} catch (InputMismatchException e) {
+            		System.out.println("\nPlease enter a valid price!");
+            		System.out.println("\n-----------------------------------\n");
+            		newPrice = 0.0;
+            	}
+            	sc.nextLine(); //clears buffer
+            } while(newPrice == 0);
+            
+            MenuItem.setPrice(newPrice);
             Database_Controller.updateMenuItem(MenuItem);
         }
     }
@@ -89,16 +169,28 @@ public class MenuItemController {
      * passing in the MenuItem name value
      */
     public void deleteMenuItem() {
-        System.out.println("Remove a MenuItem");
-        System.out.println("---------------------");
-        // find if the MenuItem is in the database or not //
-        System.out.println("Enter the Item Name of the MenuItem:");
-        String itemName = sc.next();
+        System.out.println("< Remove a MenuItem >\n");
+        
+        String itemName = "";
+        do {
+        	try {
+        		System.out.println("Enter the Item Name of the MenuItem:");
+        		itemName = sc.next();
+        	} catch (InputMismatchException e) {
+        		System.out.println("\nPlease enter a valid item name!");
+        		System.out.println("\n-----------------------------------\n");
+        		itemName = "";
+        	}
+        	sc.nextLine();
+        } while(itemName == "");
+        
+        // if the item does not exist in the arraylist
         if (Database_Controller.getMenuItemByName(itemName) == null) {
             System.out.println("MenuItem does not exist!");
 
+        // if exists
         } else {
-            Database_Controller.deleteMenuItem(itemName);// =---- from the database
+            Database_Controller.deleteMenuItem(itemName);// ---- from the database
             System.out.println("MenuItem removed!");
 
         }
@@ -111,9 +203,7 @@ public class MenuItemController {
      * All entries in the MenuItem detail will be printed out with a for loop
      */
     public void printMenuItem() {
-        System.out.println("Print MenuItem");
-        System.out.println("---------------------");
-        System.out.println("All available MenuItem:");
+        System.out.println("< Available MenuItems >");
         ArrayList<MenuItem> MenuItem = new ArrayList<MenuItem>();
         MenuItem = Database_Controller.readMenuItemList();
         System.out.println("Item Name" + "\t\t\t" + " Description" + "\t\t\t" + " Price(SGD)"+ "\t\t\t" + " Type");
@@ -122,5 +212,4 @@ public class MenuItemController {
         }
 
     }
-
 }
