@@ -102,39 +102,40 @@ public class InterfaceController {
     }
 
     public void viewOrder() {
-        OrderController.allOrder();
+        OrderController.PrintallOrderbrief();
     }
 
     public void addDeleteOrderItem() {
-        System.out.println("Add/Delete a OrderItem");
-        System.out.println("---------------------");
-        int choice=0;
-        do{
-            System.out.println("\nWhat do you wish to do:");
-            System.out.println("1. Print All OrderItem\n" + "2. Add OrderItem\n"
-                    + "3. Delete Promotion\n"+"4.Cancel");
-
-            while(!sc.hasNextInt()){
-                sc.next();
-                System.out.println("Please enter valid option:");
-
-            }
-            choice = sc.nextInt();
-            switch(choice){
-                case 1:
-                    OrderController.allOrder();
-                    break;
-                case 2:
-                    OrderController.createOrder();
-                    break;
-                case 3:
-                    OrderController.deleteOrder();
-                    break;
-                default:
-                    System.out.println("Please enter a valid choice number.");
-                    break;
-            }
-        }while(choice<4 );
+        OrderController.updateOrderById();
+//        System.out.println("Add/Delete a OrderItem");
+//        System.out.println("---------------------");
+//        int choice=0;
+//        do{
+//            System.out.println("\nWhat do you wish to do:");
+//            System.out.println("1. Print All OrderItem\n" + "2. Add OrderItem\n"
+//                    + "3. Delete Promotion\n"+"4.Cancel");
+//
+//            while(!sc.hasNextInt()){
+//                sc.next();
+//                System.out.println("Please enter valid option:");
+//
+//            }
+//            choice = sc.nextInt();
+//            switch(choice){
+//                case 1:
+//                    OrderController.allOrder();
+//                    break;
+//                case 2:
+//                    OrderController.createOrder();
+//                    break;
+//                case 3:
+//                    OrderController.deleteOrder();
+//                    break;
+//                default:
+//                    System.out.println("Please enter a valid choice number.");
+//                    break;
+//            }
+//        }while(choice<4 );
     }
 
     ReservationController ReservationController = new ReservationController();
@@ -149,7 +150,7 @@ public class InterfaceController {
 
     public void checkTableAvailaabitity() {
         TableController TableController = new TableController();
-        TableController.checkTableAvailabitity();
+        TableController.printTableDetails();
     }
 
     public void printOrderInvoice() {

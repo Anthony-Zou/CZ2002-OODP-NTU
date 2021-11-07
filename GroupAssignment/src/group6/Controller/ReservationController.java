@@ -9,9 +9,10 @@ import java.util.*;
 import java.util.ArrayList;
 
 public class ReservationController {
-
-
+    //region Scanner
     Scanner sc = new Scanner(System.in);
+    //endregion
+
     public void checkRemoveReservationBooking() {
         int id;
         System.out.println("Enter your reservation ID:");
@@ -45,6 +46,13 @@ public class ReservationController {
         }
     }
 
+    /**
+     * printReservationList Method:
+     * The printReservationList Method creates an arraylist of Reservation objects with values
+     * retrieved from Reservation.Dat file with the Database_Controller. If the ArrayList is not empty,
+     * All entries in the Reservation will be printed out with a for loop
+     *
+     */
     public void printReservationList() {
         ArrayList<Reservation> Reservation = Database_Controller.readReservationList();
         if (Reservation != null) {
@@ -57,6 +65,13 @@ public class ReservationController {
         }
     }
 
+    /**
+     * createReservation Method:
+     * The createReservation Method will create a Reservation object
+     * with id, tableId, customerName, Date, Time, pax
+     * Furthermore, a table that have the capacity to server the pax of customer
+     * will be reserved for this reservation
+     */
     public void createReservation() {
         System.out.println("Add a Reservation");
         System.out.println("---------------------");
@@ -109,6 +124,14 @@ public class ReservationController {
         }
     }
 
+    /**
+     * deleteReservation method:
+     * The deleteReservation Method will request user to input the reservation Id
+     * to be deleted. It will first check the existance of the reservation with the
+     * getReservationById method from the Database Controller and if the object exist,
+     * it will activate the deleteReservation method from the Database Controller with
+     * passing in the Reservation Id
+     */
     public void deleteReservation(int Number) {
         System.out.println("Remove a Reservation");
         System.out.println("---------------------");
@@ -121,19 +144,5 @@ public class ReservationController {
 
     }
 
-
-    public static void main(String[] args) {
-//
-    ReservationController ReservationController=new ReservationController();
-      // ReservationController.printReservationList();
-       //ReservationController.createReservation();
-        //ReservationController.deleteReservation(2);
-        ReservationController.printReservationList();
-        //ReservationController.checkRemoveReservationBooking();
-        //ReservationController.createReservation();
-        //TableController TableController = new TableController();
-        //TableController.printTableDetails();
-//
-    }
 
 }

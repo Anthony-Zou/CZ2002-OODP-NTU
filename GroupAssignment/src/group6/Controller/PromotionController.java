@@ -7,13 +7,18 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PromotionController {
-    //    private int Id;
-//    private String Name;
-//    private ArrayList<MenuItem> Items = new ArrayList<MenuItem>();
-//    private String Decription;
-//    private double price;
-    Scanner sc = new Scanner(System.in);
 
+    //region Scanner
+    Scanner sc = new Scanner(System.in);
+    //endregion
+
+    /**
+     * addPromotion Method:
+     * The addPromotion Method will create a Promotion object with  requesting
+     * id, name, Items, description, price from user
+     * Furthermore, the Promotion object will be written and save in to the Promotion.Dat file
+     * With AddPromotion method in the Database controller
+     */
     public void addPromotion() {
         System.out.println("Add a Promotion");
         System.out.println("---------------------");
@@ -54,7 +59,15 @@ public class PromotionController {
         //    }
         printPromotion();
     }
-    //update price
+
+    /**
+     * Update MenuItem Method:
+     * With in put Promotion Id, The method will first check of the object existance
+     * with getPromotionById  method from the Database Controller
+     * If the object exist, User can update the Price of the Promotion
+     * object. Finally, the updated object will be passed to the
+     * updatePromotion method in the database controller to update the Promotion.Dat file
+     */
     public void UpdatePromotion() {
         printPromotion();
         System.out.println("Enter Id of Promotion to be updated");
@@ -70,6 +83,14 @@ public class PromotionController {
         }
     }
 
+    /**
+     * DeletePromotion method:
+     * The DeletePromotion Method will request user to input the Promotion Id
+     * to be deleted. It will first check the existance of the MenuItem with the
+     * getPromotionById method from the Database Controller and if the object exist,
+     * it will activate the deletePromotion method from the Database Controller with
+     * passing in the Promotion Id
+     */
     public void DeletePromotion() {
         System.out.println("Remove a Promotion");
         System.out.println("---------------------");
@@ -86,6 +107,13 @@ public class PromotionController {
         }
     }
 
+    /**
+     * printPromotion Method:
+     * The printPromotion Method creates an arraylist of Promotion objects with values
+     * retrieved from Promotion.Dat file with the Database_Controller. If the ArrayList is not empty,
+     * All entries in the Promotion detail will be printed out with a for loop
+     * there there will be another forloop to print the MenuItem contained in the Promotional Set Meal
+     */
     public void printPromotion() {
         System.out.println("< Available Promotions >");
         System.out.println();
@@ -106,6 +134,12 @@ public class PromotionController {
             
         }
     }
+
+    /**
+     * printPromotionById Method:
+     * This will print the Promotional Set Meal detail specific to the input order Id
+     * @param Id
+     */
     public void printPromotionById(int Id){
         Promotion promotion =new Promotion();
         promotion= Database_Controller.getPromotionById(Id);
@@ -129,12 +163,5 @@ public class PromotionController {
 
     }
 
-    public static void main(String[] args) {
-        PromotionController Promotion = new PromotionController();
-     //   Promotion.addPromotion(); Promotion.addPromotion(); Promotion.addPromotion(); Promotion.addPromotion(); Promotion.addPromotion();
-        //Promotion.UpdatePromotion();
-        //Promotion.DeletePromotion();
-        Promotion.printPromotion();
-        //Promotion.printPromotionById(1);
-    }
+
 }

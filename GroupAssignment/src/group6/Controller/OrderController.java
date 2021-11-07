@@ -14,6 +14,14 @@ public class OrderController {
     Scanner sc = new Scanner(System.in);
     //endregion
 
+    /**
+     * createOrder Method:
+     * The createOrder Method will create a Order object with generating Order Id, date and time
+     * and  requesting  staffId, membership, userContact, alacarteList,
+     * promotionList, totalPrice, tableId, paid from user
+     * Furthermore, the Order object will be written and save in to the Order.Dat file
+     * With AddOrder method in the Database controller
+     */
     public void createOrder() {
         System.out.println("Create an Order");
         System.out.println("---------------------");
@@ -150,6 +158,11 @@ public class OrderController {
         Database_Controller.addOrder(Order);
     }
 
+    /**
+     * Conver Reservation to an Order with keeping the sam content in the reservation object passed in with
+     * @param reservation ,addtional information that are required in the order are requested from user
+     * to input into the variables.
+     */
     public void convertResToOrder(Reservation reservation){
         int tableId= reservation.getTableId();
         boolean membership=Database_Controller.getCustomerByName(reservation.getCustomerName()).isMemberShip();
@@ -282,6 +295,14 @@ public class OrderController {
         Database_Controller.addOrder(Order);
     }
 
+    /**
+     * deleteOrder method:
+     * The deleteOrder Method will request user to input the Order Id
+     * to be deleted. It will first check the existance of the Order with the
+     * getOrderById method from the Database Controller and if the object exist,
+     * it will activate the deleteOrder method from the Database Controller with
+     * passing in the Order Id
+     */
     public void deleteOrder() {
         System.out.println("Remove a Order");
         System.out.println("---------------------");
@@ -300,6 +321,14 @@ public class OrderController {
         }
     }
 
+    /**
+     * allOrder Method:
+     * The allOrder Method creates an arraylist of Order objects with values
+     * retrieved from Orders.Dat file with the Database_Controller. If the ArrayList is not empty,
+     * All entries in the Order will be printed out with a for loop
+     * Furthermore, there are two array list to be printed
+     * They are the alacarte list and promotion list that are stored in the order
+     */
     public void allOrder() {
         ArrayList<Order> Order = Database_Controller.readOrderList();
         if (Order != null) {
@@ -336,6 +365,15 @@ public class OrderController {
         }
     }
 
+    /**
+     * viewUnpaidOrder Method:
+     * This wll print all orders that have not been paid
+     * The allOrder Method creates an arraylist of Order objects with values
+     * retrieved from Orders.Dat file with the Database_Controller. If the ArrayList is not empty,
+     * All entries in the Order will be printed out with a for loop
+     * Furthermore, there are two array list to be printed
+     * They are the alacarte list and promotion list that are stored in the order
+     */
     public void viewUnpaidOrder() {
         ArrayList<Order> Order = Database_Controller.readOrderList();
         if (Order != null) {
@@ -368,6 +406,15 @@ public class OrderController {
         }
     }
 
+    /**
+     * viewpaidOrder Method:
+     * This wll print all orders that are paid
+     * The allOrder Method creates an arraylist of Order objects with values
+     * retrieved from Orders.Dat file with the Database_Controller. If the ArrayList is not empty,
+     * All entries in the Order will be printed out with a for loop
+     * Furthermore, there are two array list to be printed
+     * They are the alacarte list and promotion list that are stored in the order
+     */
     public void viewpaidOrder() {
         ArrayList<Order> Order = Database_Controller.readOrderList();
         if (Order != null) {
@@ -400,12 +447,19 @@ public class OrderController {
         }
     }
 
+    /**
+     * printOrderInvoice Method:
+     * If the order is Unpaid, This method will allow users to make payment for the order
+     * While the the enter order id is valid, the method will first update the order payment status
+     * to be true, then it will release the vacancy of the table. Next, the Order invoice will be printed
+     */
     public void printOrderInvoice() {
 
         viewUnpaidOrder();
         System.out.println("Enter Order choice");
         int Number = sc.nextInt();
-        if (Database_Controller.getOrderById(Number) == null) {
+        if (Database_Controller.getOrderById(Number) == null
+        && Database_Controller.getOrderById(Number).isPaid() ==false ) {
             System.out.println("orderId does not exist!");
         } else {
             //update order paid status to be true to mark
@@ -413,6 +467,7 @@ public class OrderController {
             table.setReserved(false);
             Database_Controller.updateTable(table);
             System.out.println("Table released!");
+
             //release Table
             Order Order = Database_Controller.getOrderById(Number);
             Order.setPaid(true);
@@ -443,6 +498,11 @@ public class OrderController {
         }
     }
 
+    /**
+     * printOrderById Method:
+     * This will print the order detail specific to the input order Id
+     * @param orderId
+     */
     public void printOrderById(int orderId) {
         if (Database_Controller.getOrderById(orderId) == null) {
             System.out.println("orderId does not exist!");
@@ -472,13 +532,19 @@ public class OrderController {
         }
     }
 
-
+    /**
+     * updateOrderById Method:
+     * Add/Remove order item/s to/from order
+     * If the order is still unpaid, Method allow user to input valid order id and choose option
+     * to add or remove alacarte/promotion items in the current order
+     */
     public void updateOrderById() {
         this.viewUnpaidOrder();
         System.out.println("Enter Order Id to be Updated");
         System.out.println("---------------------");
         int orderId = sc.nextInt();
-        if (Database_Controller.getOrderById(orderId) == null) {
+        if (Database_Controller.getOrderById(orderId) == null &&
+                Database_Controller.getOrderById(orderId).isPaid()==false) {
             System.out.println("orderId does not exist!");
         } else {
             this.printOrderById(orderId);
@@ -609,7 +675,14 @@ public class OrderController {
         }
     }
 
-    private void PrintallOrderbrief() {
+    /**
+     * PrintallOrderbrief Method:
+     * The PrintallOrderbrief Method creates an arraylist of Order objects with values
+     * retrieved from Orders.Dat file with the Database_Controller. If the ArrayList is not empty,
+     * All entries in the Order will be printed out with a for loop
+     * The items and promotions ordered will not be printed
+     */
+    public void PrintallOrderbrief() {
         ArrayList<Order> Order = Database_Controller.readOrderList();
         if (Order != null) {
 
@@ -624,13 +697,6 @@ public class OrderController {
 
             }
         }
-    }
-
-    public static void main(String[] args) {
-     OrderController OrderController = new OrderController();
-
-      //  OrderController.PrintallOrderbrief();
-
     }
 
 

@@ -4,8 +4,17 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class StaffController {
+    //region Scanner
     Scanner sc = new Scanner(System.in);
+    //endregion
 
+    /**
+     * printStaffDetails Method:
+     * The printStaffDetails Method creates an arraylist of Staff objects with values
+     * retrieved from Staff.Dat file with the Database_Controller. If the ArrayList is not empty,
+     * All entries in the Staff will be printed out with a for loop
+     *
+     */
     public void printStaffDetails() {
         ArrayList<Staff> Staff = Database_Controller.readStaffList();
         if (Staff != null) {
@@ -17,6 +26,13 @@ public class StaffController {
         }
     }
 
+    /**
+     * addStaff Method:
+     * The addStaff Method will create a Order object with
+     * employeeId, name,gender,jobTitle from user
+     * Furthermore, the Staff object will be written and save in to the Staff.Dat file
+     * With AddStaff method in the Database controller
+     */
     public void addStaff() {
         System.out.println("Add a Staff");
         System.out.println("---------------------");
@@ -81,6 +97,14 @@ public class StaffController {
         printStaffDetails();
     }
 
+    /**
+     * deleteStaff method:
+     * The deleteStaff Method will request user to input the Staff Id
+     * to be deleted. It will first check the existance of the Staff with the
+     * getStaffById method from the Database Controller and if the object exist,
+     * it will activate the deleteStaff method from the Database Controller with
+     * passing in the Staff Id
+     */
     public void deleteStaff() {
         System.out.println("Remove a Staff");
         System.out.println("---------------------");
@@ -96,7 +120,16 @@ public class StaffController {
 
         }
     }
-    //update Staff jobtitle
+
+    /**
+     * updateStaff Method:
+     * with passing value of
+     * @param employeeId , the method will first check of the object existance
+     * with getStaffById  method from the Database Controller
+     * If the object exist, User can update the setJobTitle of the Staff
+     * object. Finally, the updated object will be passed to the
+     * updateStaff method in the database controller to update the Staff.Dat file
+     */
     public void updateStaff(int employeeId) {
 
         if (Database_Controller.getStaffByEmployeeId(employeeId) == null) {

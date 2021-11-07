@@ -7,16 +7,25 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TableController {
-
+    //region Scanner
     Scanner sc = new Scanner(System.in);
+    //endregion
 
-    public void checkTableAvailabitity() {
-    }
-
+    /**
+     * With input value of
+     * @param TableNumber
+     * the reservation status of the Table will be given in
+     * @return
+     */
     public boolean checkTableAvailabitity(int TableNumber) {
         return Database_Controller.getTableById(TableNumber).isReserved();
     }
 
+    /**
+     * With input of number of customer
+     * @param pax
+     * Tables that have enough capacity to serve the customer will be printed
+     */
     public void printAvailableTables(int pax) {
         ArrayList<Table> Table = Database_Controller.readTableList();
         if (Table != null) {
@@ -29,6 +38,13 @@ public class TableController {
         }
     }
 
+    /**
+     * printTableDetails Method:
+     * The printTableDetails Method creates an arraylist of Table objects with values
+     * retrieved from Table.Dat file with the Database_Controller. If the ArrayList is not empty,
+     * All entries in the Table will be printed out with a for loop
+     *
+     */
     public void printTableDetails() {
         ArrayList<Table> Table = Database_Controller.readTableList();
         if (Table != null) {
@@ -40,6 +56,13 @@ public class TableController {
         }
     }
 
+    /**
+     * addTable Method:
+     * The addTable Method will create a Table object with
+     * auto generated Table Id, capacity from user and the reserved status will be default false
+     * Furthermore, the Table object will be written and save in to the Table.Dat file
+     * With AddTable method in the Database controller
+     */
     public void addTable() {
         System.out.println("Add a Table");
         System.out.println("---------------------");
@@ -68,6 +91,14 @@ public class TableController {
         printTableDetails();
     }
 
+    /**
+     * deleteTable method:
+     * The deleteTable Method will request user to input the Table Id
+     * to be deleted. It will first check the existence of the Staff with the
+     * getTableById method from the Database Controller and if the object exist,
+     * it will activate the deleteTable method from the Database Controller with
+     * passing in the Table Id
+     */
     public void deleteTable() {
         System.out.println("Remove a Table");
         System.out.println("---------------------");
@@ -84,6 +115,15 @@ public class TableController {
         }
     }
 
+    /**
+     * updateTable Method:
+     * with passing value of
+     * @param TableNumber , the method will first check of the object existance
+     * with getTableById  method from the Database Controller
+     * If the object exist, User can update the boolean reserved of the Table
+     * object. Finally, the updated object will be passed to the
+     * updateTable method in the database controller to update the Table.Dat file
+     */
     public void updateTable(int TableNumber) {
 
         if (Database_Controller.getTableById(TableNumber) == null) {
@@ -95,14 +135,5 @@ public class TableController {
             else if(table.isReserved()){ table.setReserved(false);}
             Database_Controller.updateTable(table);
         }
-    }
-
-    public static void main(String[] args) {
-        TableController Promotion = new TableController();
-        //   Promotion.addPromotion(); Promotion.addPromotion(); Promotion.addPromotion(); Promotion.addPromotion(); Promotion.addPromotion();
-        //Promotion.UpdatePromotion();
-        //Promotion.DeletePromotion();
-        Promotion.printTableDetails();
-        //Promotion.printPromotionById(1);
     }
 }
