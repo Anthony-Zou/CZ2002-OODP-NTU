@@ -18,81 +18,98 @@ public class InterfaceController {
 
     public void addUpdateDeleteMenuItem() {
         MenuItemController MenuItemController = new MenuItemController();
-        System.out.println("Add/Update/Delete a MenuItem");
-        System.out.println("---------------------");
+        System.out.println("< Add/Update/Delete a MenuItem >/n");
         int choice=0;
-        do{
-            System.out.println("\nWhat do you wish to do:");
-            System.out.println("1. Print All MenuItem\n" + "2. Add MenuItem\n" + "3. Update Existing MenuItem\n"
-                    + "4. Delete MenuItem\n"+"5.Cancel");
+        do {
+        	try {
+        		System.out.println("\nWhat do you wish to do:");
+                System.out.println("1. Print All MenuItem\n" + "2. Add MenuItem\n" + "3. Update Existing MenuItem\n"
+                        + "4. Delete MenuItem\n"+"5. Cancel");
+                choice = sc.nextInt();
+                
+                do {
+                	switch(choice){
+                    case 1:
+                        MenuItemController.printMenuItem();
+                        break;
+                    case 2:
+                        MenuItemController.addMenuItem();
+                        break;
+                    case 3:
+                        System.out.println("Please enter valid Item Name:");
+                        sc.nextLine();
+                        String itemName=sc.nextLine();
+                        MenuItemController.updateMenuItem(itemName);
+                        break;
+                    case 4:
+                        MenuItemController.deleteMenuItem();
+                        break;
 
-            while(!sc.hasNextInt()){
-                sc.next();
-                System.out.println("Please enter valid option:");
-
-            }
-            choice = sc.nextInt();
-            switch(choice){
-                case 1:
-                    MenuItemController.printMenuItem();
-                    break;
-                case 2:
-                    MenuItemController.addMenuItem();
-                    break;
-                case 3:
-                    System.out.println("Please enter valid Item Name:");
-                    sc.nextLine();
-                    String itemName=sc.nextLine();
-                    MenuItemController.updateMenuItem(itemName);
-                    break;
-                case 4:
-                    MenuItemController.deleteMenuItem();
-                    break;
-
-                default:
-                    System.out.println("Please enter a valid choice number.");
-                    break;
-            }
-        }while(choice<5 );
+                    default:
+                    	System.out.println("\nPlease enter a valid choice!");
+	                    System.out.println("\n-----------------------------------\n");
+	                    System.out.println("\nWhat do you wish to do:");
+	                    System.out.println("1. Print All MenuItem\n" + "2. Add MenuItem\n" + "3. Update Existing MenuItem\n"
+	                            + "4. Delete MenuItem\n"+"5. Cancel");
+	                    choice = sc.nextInt();
+                	}
+                } while(choice <= 4);
+        	} catch(InputMismatchException e){
+        		System.out.println("\nPlease enter a valid choice!");
+        		System.out.println("\n-----------------------------------\n");
+        		choice = 0;
+        	}
+        	sc.nextLine(); //clears buffer
+        } while (choice == 0);
+        
 
     }
 
     public void addUpdateDeletePromotion() {
         PromotionController PromotionController = new PromotionController();
-        System.out.println("Add/Update/Delete a Promotion");
-        System.out.println("---------------------");
-        int choice=0;
-        do{
-            System.out.println("\nWhat do you wish to do:");
-            System.out.println("1. Print All Promotion\n" + "2. Add Promotion\n" + "3. Update Existing Promotion\n"
-                    + "4. Delete Promotion\n"+"5.Cancel");
+        System.out.println("< Add/Update/Delete a Promotion >\n");
+        
 
-            while(!sc.hasNextInt()){
-                sc.next();
-                System.out.println("Please enter valid option:");
-
-            }
-            choice = sc.nextInt();
-            switch(choice){
-                case 1:
-                    PromotionController.printPromotion();
-                    break;
-                case 2:
-                    PromotionController.addPromotion();
-                    break;
-                case 3:
-
-                    PromotionController.UpdatePromotion();
-                    break;
-                case 4:
-                    PromotionController.DeletePromotion();
-                    break;
-
-                default:
-                    System.out.println("Please enter a valid choice number.");
-                    break;
-            }
-        }while(choice<5 );
+        int choice = 0;
+        do {
+            try {
+            	System.out.println("\nWhat do you wish to do:");
+                System.out.println("1. Print All Promotion\n" + "2. Add Promotion\n" + "3. Update Existing Promotion\n"
+                          + "4. Delete Promotion\n"+"5. Cancel");
+            	choice = sc.nextInt();
+            	
+            	do {
+	            	switch(choice){
+	                case 1:
+	                    PromotionController.printPromotion();
+	                    break;
+	                case 2:
+	                    PromotionController.addPromotion();
+	                    break;
+	                case 3:
+	                	PromotionController.UpdatePromotion();
+	                    break;
+	                case 4:
+	                    PromotionController.DeletePromotion();
+	                    break;
+	
+	                default:
+	                    System.out.println("\nPlease enter a valid choice!");
+	                    System.out.println("\n-----------------------------------\n");
+	                    System.out.println("\nWhat do you wish to do:");
+	                    System.out.println("1. Print All Promotion\n" + "2. Add Promotion\n" + "3. Update Existing Promotion\n"
+	                              + "4. Delete Promotion\n"+"5. Cancel");
+	                	choice = sc.nextInt();
+	                    }
+            	} while (choice <= 4);
+             } catch (InputMismatchException e) {
+            		System.out.println("\nPlease enter a valid choice!");
+            		System.out.println("\n-----------------------------------\n");
+            		choice = 0;
+            	}
+            	sc.nextLine(); //clears buffer
+            } while(choice == 0);
+            
     }
 
     OrderController OrderController = new OrderController();
@@ -158,37 +175,52 @@ public class InterfaceController {
     }
 
     public void printSalesRevenueReport() {
-
+    	Scanner sc = new Scanner(System.in);
         RevenueController RevenueController = new RevenueController();
       //  RevenueController.printSalesRevenueReport();
 
-        System.out.println("Print report by: ");
-        System.out.println("1. Date \n2.Month \n 3.Year \n0.Cancel Operation");
-        int choice = sc.nextInt();
-        while(choice != 0) {
-            switch (choice) { // need to add exceptions
-                case 1:
-                    System.out.println("Enter date YYYY-MM-DD: ");
-                    String date = sc.next();
-                    RevenueController.getSalesReportOfDate(LocalDate.parse(date));
-                    break;
-                case 2:
-                    System.out.println("Enter month (1 to 12): ");
-                    int month = sc.nextInt();
-                    System.out.println("Enter year: ");
-                    int year2 = sc.nextInt();
-                    RevenueController.getSalesReportOfMonth(month, year2);
-                    break;
-                case 3:
-                    System.out.println("Enter year: ");
-                    int year3 = sc.nextInt();
-                    RevenueController.getSalesReportOfYear(year3);
-                    break;
-                default:
-                    System.out.println("Please enter a valid choice: ");
-                    choice = sc.nextInt();
-                    break;
-            }
-        }
+        
+        int choice = -1;
+        do {
+        	try {
+        		System.out.println("Print report by: ");
+                System.out.println("1. Date \n2. Month \n3. Year \n0. Cancel Operation");
+        		choice = sc.nextInt();
+                while(choice != 0) {
+                    switch (choice) { // need to add exceptions
+                        case 1:
+                            System.out.println("Enter date YYYY-MM-DD: ");
+                            String date = sc.next();
+                            RevenueController.getSalesReportOfDate(LocalDate.parse(date));
+                            break;
+                        case 2:
+                            System.out.println("Enter month (1 to 12): ");
+                            int month = sc.nextInt();
+                            System.out.println("Enter year: ");
+                            int year2 = sc.nextInt();
+                            RevenueController.getSalesReportOfMonth(month, year2);
+                            break;
+                        case 3:
+                            System.out.println("Enter year: ");
+                            int year3 = sc.nextInt();
+                            RevenueController.getSalesReportOfYear(year3);
+                            break;
+                        default:
+                            System.out.println("\nPlease enter a valid choice: ");
+                            System.out.println("\n-----------------------------------\n");
+                            choice = sc.nextInt();
+                            break;
+                    }
+       
+                }
+        		
+        	} catch (InputMismatchException e) {
+        		System.out.println("\nPlease enter a valid choice: ");
+        		System.out.println("\n-----------------------------------\n");
+        		choice = -1;
+        	}
+        	sc.nextLine(); //clears buffer
+        } while(choice == -1);
+    
     }
 }
