@@ -97,7 +97,6 @@ public class TableController {
         }
     }
 
-
     public static void main(String[] args) {
         TableController Promotion = new TableController();
         //   Promotion.addPromotion(); Promotion.addPromotion(); Promotion.addPromotion(); Promotion.addPromotion(); Promotion.addPromotion();

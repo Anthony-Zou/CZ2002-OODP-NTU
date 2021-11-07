@@ -63,7 +63,6 @@ public class MenuItemController {
             Database_Controller.updateMenuItem(MenuItem);
         }
     }
-
     public void deleteMenuItem() {
         System.out.println("Remove a MenuItem");
         System.out.println("---------------------");
@@ -79,7 +78,6 @@ public class MenuItemController {
 
         }
     }
-
     public void printMenuItem() {
         System.out.println("Print MenuItem");
         System.out.println("---------------------");
