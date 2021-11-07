@@ -1,14 +1,21 @@
 package Controller;
 
 import Entity.Customer;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class CustomerController {
-
+    //region Scanner
     Scanner sc = new Scanner(System.in);
+    //endregion
 
+    /**
+     * printCustomerDetails Method:
+     * The printCustomerDetails Method creates an arraylist of customer objects with values
+     * retrieved from Customer.Dat file with the Database_Controller. If the ArrayList is not empty,
+     * All entries in the customer detail will be printed out with a for loop
+     */
     public void printCustomerDetails() {
         ArrayList<Customer> Customer = Database_Controller.readCustomerList();
         if (Customer != null) {
@@ -16,11 +23,17 @@ public class CustomerController {
             for (int i = 0; i < Customer.size(); i++) {
                 System.out.println(Customer.get(i).getName() + "\t\t\t\t\t" + Customer.get(i).getContact()
                         + "\t\t\t\t" + Customer.get(i).isMemberShip());
-
             }
         }
     }
 
+    /**
+     * Add Customer Method:
+     * The addCustomer Method will create a Customer object with
+     * requesting Customer name, contact and setting membership status from user
+     * Furthermore, the object will be written and save in to the Customer.Dat file
+     * With Add customer method in the Database controller
+     */
     public void addCustomer() {
         System.out.println("Add a Customer");
         System.out.println("---------------------");
@@ -64,6 +77,14 @@ public class CustomerController {
         printCustomerDetails();
     }
 
+    /**
+     * DeleteCustomer method:
+     * The DeleteCustomer Method will request user to input the customer name ( String)
+     * to be deleted. It will first check the existance of the Customer with the
+     * getCustomerByName method from the Database Controller and if the object exist,
+     * it will activate the deleteCustomer method from the Database Controller with
+     * passing in the customer name value
+     */
     public void deleteCustomer() {
         System.out.println("Remove a Customer");
         System.out.println("---------------------");
@@ -80,13 +101,20 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Update Customer Method:
+     * with passing value of
+     * @param name , the method will first check of the object  existance
+     * with getCustomerByName  method from the Database Controller
+     * If the object exist, User can update the membership status of the Customer
+     * object. Finally, the updated object will be passed to the
+     * updateCustomer method in the database controller to update the customer.Dat file
+     */
     public void updateCustomer(String name) {
-
         if (Database_Controller.getCustomerByName(name) == null) {
             System.out.println("Customer does not exist!");
         } else {
             Customer Customer = Database_Controller.getCustomerByName(name);
-            //content
             System.out.println("Update Membership of Customer:");
             System.out.println("0. false");
             System.out.println("1. true");
@@ -110,14 +138,4 @@ public class CustomerController {
         }
     }
 
-    public static void main(String[] args) {
-        CustomerController Customer = new CustomerController();
-       Customer.printCustomerDetails();
-      //      Customer.addCustomer();
-//        Customer.addCustomer();
-//        Customer.deleteCustomer();
-//        Customer.updateCustomer("Cathy");
-  Customer.printCustomerDetails();
-
-    }
 }
