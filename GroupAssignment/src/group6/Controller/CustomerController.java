@@ -1,9 +1,9 @@
 package Controller;
 
 import Entity.Customer;
+import java.util.InputMismatchException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.InputMismatchException;
 
 
 public class CustomerController {
@@ -22,8 +22,8 @@ public class CustomerController {
         if (Customer != null) {
             System.out.println("Customer Name" + "\t" + " Contact" + "\t" + " MemberShip");
             for (int i = 0; i < Customer.size(); i++) {
-                System.out.println(Customer.get(i).getName() + "\t\t\t\t\t" + Customer.get(i).getContact()
-                        + "\t\t\t\t" + Customer.get(i).isMemberShip());
+                System.out.println(Customer.get(i).getName() + "\t\t" + Customer.get(i).getContact()
+                        + "\t" + Customer.get(i).isMemberShip());
             }
         }
     }
@@ -36,17 +36,17 @@ public class CustomerController {
      * With Add customer method in the Database controller
      */
     public void addCustomer() {
-        System.out.println("Add a Customer");
-        System.out.println("---------------------");
+        System.out.println("< Register new Customer>\n");
         String name = "";
         do {
         	try {
-        		System.out.println("Enter the name of the customer: ");
+        		System.out.println("Enter the name: ");
         		name = sc.next();
         		
         	} catch (InputMismatchException e) {
         		System.out.println("Please enter a valid name!");
         		System.out.println("\n-----------------------------------\n");
+        		name = "";
         	}
         	sc.nextLine(); //clears buffer
         } while(name == "");
@@ -56,52 +56,63 @@ public class CustomerController {
             System.out.println("Customer already exists!");
             return;
         } else {
+        	//1. Input Contact number
             int contact = 0;
             do {
             	try {
             		System.out.println("Contact number: ");
             		contact = sc.nextInt();
+            		while(contact < 10000000 || contact > 99999999) {
+                    	System.out.println("Please enter a valid number!");
+                		System.out.println("\n-----------------------------------\n");
+                		System.out.println("Contact number: ");
+                        contact = sc.nextInt();
+                    }
             		
             	} catch (InputMismatchException e) {
             		System.out.println("Please enter a valid number!");
             		System.out.println("\n-----------------------------------\n");
+            		contact = 0;
             	}
             	sc.nextLine(); //clears buffer
             } while(contact == 0);
-            //int contact;
-            //while(true)
-               //{System.out.println("Contact of Customer:")
-                //contact = sc.nextInt();
-                //if(contact>10000000 && contact<99999999) break;
-                //else System.out.println("Invalid contact number!");
+
+            
+            // 2. Input Member / Non-member
             boolean membership = false;
-            int userChoice = 0;
+            int userChoice = -1;
             do {
             	try {
             		System.out.println("Membership of Staff:");
                     System.out.println("0. False");
                     System.out.println("1. True");
             		userChoice = sc.nextInt();
+            		do {
+                        switch (userChoice) {
+                            case 0:
+                                membership = false;
+                                break;
+                            case 1:
+                                membership = true;
+                                break;
+                            default:
+                                System.out.println("Please enter a valid choice!");
+                                System.out.println("\n-----------------------------------\n");
+                                System.out.println("Membership of Staff:");
+                                System.out.println("0. False");
+                                System.out.println("1. True");
+                                userChoice = sc.nextInt();
+                        }
+                    } while (userChoice < 0 && userChoice > 1);
             		
             	} catch (InputMismatchException e) {
-            		System.out.println("Please enter 0 / 1");
+            		System.out.println("Please enter a valid choice!");
             		System.out.println("\n-----------------------------------\n");
+            		userChoice = -1;
             	}
             	sc.nextLine(); //clears buffer
-            } while(userChoice == 0);
-            do {
-                switch (userChoice) {
-                    case 0:
-                        membership = false;
-                        break;
-                    case 1:
-                        membership = true;
-                        break;
-                    default:
-                        System.out.println("Invalid");
-                        userChoice = sc.nextInt();
-                }
-            } while (userChoice < 0 && userChoice > 1);
+            } while(userChoice == -1);
+            
             Customer newCustomer = new Customer(name, contact, membership);
             Database_Controller.addCustomer(newCustomer);
 
@@ -118,23 +129,21 @@ public class CustomerController {
      * passing in the customer name value
      */
     public void deleteCustomer() {
-        System.out.println("< Remove Registered Customer >");
-        System.out.println("---------------------");
-        
+        System.out.println("< Remove Customer >\n");
         // find if the Customer is in the database or not //
         String name = "";
         do {
         	try {
-        		System.out.println("Enter the name of the customer: ");
+        		System.out.println("Please enter the name of the customer: ");
         		name = sc.next();
         		
         	} catch (InputMismatchException e) {
         		System.out.println("Please enter a valid name!");
         		System.out.println("\n-----------------------------------\n");
+        		name = "";
         	}
         	sc.nextLine(); //clears buffer
         } while(name == "");
-        
         if (Database_Controller.getCustomerByName(name) == null) {
             System.out.println("Customer does not exist!");
 
@@ -161,37 +170,49 @@ public class CustomerController {
             Customer Customer = Database_Controller.getCustomerByName(name);
             
             boolean membership = false;
-            int userChoice = 0;
+            int userChoice = -1;
             do {
             	try {
-            		System.out.println("Update Membership of Customer:");
-                    System.out.println("0. false");
-                    System.out.println("1. true");
+            		System.out.println("< Update Membership of Customer >\n");
+                    System.out.println("0. False");
+                    System.out.println("1. True");
             		userChoice = sc.nextInt();
+            		do {
+                        switch (userChoice) {
+                            case 0:
+                                membership = false;
+                                break;
+                            case 1:
+                                membership = true;
+                                break;
+                            default:
+                                System.out.println("Please enter a valid choice!");
+                                System.out.println("\n-----------------------------------\n");
+                                System.out.println("Membership of Staff:");
+                                System.out.println("0. False");
+                                System.out.println("1. True");
+                                userChoice = sc.nextInt();
+                        }
+                    } while (userChoice < 0 && userChoice > 1);
             		
             	} catch (InputMismatchException e) {
-            		System.out.println("Please enter 0 / 1");
+            		System.out.println("Please enter a valid choice!");
             		System.out.println("\n-----------------------------------\n");
+            		userChoice = -1;
             	}
             	sc.nextLine(); //clears buffer
-            } while(userChoice == 0);
-            
-            do {
-                switch (userChoice) {
-                    case 0:
-                        membership = false;
-                        break;
-                    case 1:
-                        membership = true;
-                        break;
-                    default:
-                        System.out.println("Invalid");
-                        userChoice = sc.nextInt();
-                }
-            } while (userChoice < 0 && userChoice > 1);
+            } while(userChoice == -1);
             Customer.setMemberShip(membership);
             Database_Controller.updateCustomer(Customer);
         }
     }
+    public static void main(String[] args) {
+        CustomerController Customer = new CustomerController();
+      // Customer.printCustomerDetails();
+          Customer.addCustomer();
+//        Customer.addCustomer();
+//        Customer.deleteCustomer();
+      //  Customer.updateCustomer("Cathy");
 
+    }
 }
