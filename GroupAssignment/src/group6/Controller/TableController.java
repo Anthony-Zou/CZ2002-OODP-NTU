@@ -1,9 +1,13 @@
 package Controller;
 
 import Entity.Order;
+import Entity.Reservation;
 import Entity.Table;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TableController {
@@ -13,29 +17,60 @@ public class TableController {
 
     /**
      * With input value of
-     * @param TableNumber
-     * the reservation status of the Table will be given in
+     *
+     * @param TableNumber the reservation status of the Table will be given in
      * @return
      */
-    public boolean checkTableAvailabitity(int TableNumber) {
-        return Database_Controller.getTableById(TableNumber).isReserved();
+    public boolean checkTableAvailability(int TableNumber) {
+        ReservationController ReservationController = new ReservationController();
+        ReservationController.deleteOverdueBookings();
+        return !Database_Controller.getTableById(TableNumber).isReserved();
     }
 
+
     /**
-     * With input of number of customer
-     * @param pax
-     * Tables that have enough capacity to serve the customer will be printed
+     * Tables that have enough capacity to serve the customer will be printed.
+     * Every time this method is called, it will check if any reservation is overdue,
+     * release that table if overdue, and print it as well.
+     *
+     * @param pax Number of customers to the table
+     * @return false if there are no available tables of the selected pax
      */
-    public void printAvailableTables(int pax) {
+    public boolean printAvailableTables(int pax) {
+        ReservationController ReservationController = new ReservationController();
+        ReservationController.deleteOverdueBookings();
         ArrayList<Table> Table = Database_Controller.readTableList();
         if (Table != null) {
-            System.out.println("Table Id" + "\t" + " Table Capacity" + "\t" + " Table Reserved");
+            System.out.println("Table Id" + "\t" + " Table Capacity" + "\t" + " Table Reserved/Occupied");
             for (int i = 0; i < Table.size(); i++) {
-                if(Table.get(i).isReserved()==false && Table.get(i).getCapacity()>=pax) {
+                if (!Table.get(i).isReserved() && Table.get(i).getCapacity() >= pax) {
                     System.out.println(Table.get(i).getId() + "\t\t\t\t\t" + Table.get(i).getCapacity() + "\t\t\t\t" + Table.get(i).isReserved());
                 }
             }
+            return true;
+        } else {
+            System.out.println("No tables available at the moment.");
+            return false;
         }
+    }
+
+    /**
+     * Stores ID of tables that have enough capacity in an <code>ArrayList</code>.
+     *
+     * @param pax Number of customers to the table
+     * @return <code>ArrayList</code> of the <code>tableId</code>s
+     */
+    public ArrayList<Integer> listAvailableTables(int pax) {
+        ArrayList<Table> Table = Database_Controller.readTableList();
+        ArrayList<Integer> availableTables = new ArrayList<Integer>();
+        if (Table != null) {
+            for (int i = 0; i < Table.size(); i++) {
+                if (!Table.get(i).isReserved() && Table.get(i).getCapacity() >= pax) {
+                    availableTables.add(Table.get(i).getId());
+                }
+            }
+        }
+        return availableTables;
     }
 
     /**
@@ -43,9 +78,10 @@ public class TableController {
      * The printTableDetails Method creates an arraylist of Table objects with values
      * retrieved from Table.Dat file with the Database_Controller. If the ArrayList is not empty,
      * All entries in the Table will be printed out with a for loop
-     *
      */
     public void printTableDetails() {
+        ReservationController ReservationController = new ReservationController();
+        ReservationController.deleteOverdueBookings();
         ArrayList<Table> Table = Database_Controller.readTableList();
         if (Table != null) {
             System.out.println("Table Id" + "\t" + " Table Capacity" + "\t" + " Table Reserved");
@@ -72,18 +108,28 @@ public class TableController {
         if (presentTables != null) {
             TableNumber = presentTables.size() + 1;
         }
-        System.out.println("Capacity of Table:");
-        int capacity = sc.nextInt();
-        while(true) {
-            if (capacity % 2 == 1 || capacity > 10 || capacity < 2) {
-                System.out.println("Invalid Capacity,Enter again!");
+
+        int capacity = -1;
+        do {
+            try {
                 System.out.println("Capacity of Table:");
                 capacity = sc.nextInt();
+                while (true) {
+                    if (capacity % 2 == 1 || capacity > 10 || capacity < 2) {
+                        System.out.println("Invalid Capacity,Enter again!");
+                        System.out.println("Capacity of Table:");
+                        capacity = sc.nextInt();
+                    } else {
+                        break;
+                    }
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("\nPlease enter a valid number! ");
+                System.out.println("\n-----------------------------------\n");
+                capacity = -1;
             }
-            else{
-                break;
-            }
-        }
+            sc.nextLine();
+        } while (capacity == -1);
 
         Table newtable = new Table(TableNumber, capacity, false);
         Database_Controller.addTable(newtable);
@@ -103,26 +149,37 @@ public class TableController {
         System.out.println("Remove a Table");
         System.out.println("---------------------");
         // find if the Table is in the database or not //
-        System.out.println("Enter the number of the Table:");
-        int TableNumber = sc.nextInt();
-        if (Database_Controller.getTableById(TableNumber) == null) {
-            System.out.println("Table does not exist!");
+        int TableNumber;
+        do {
+            try {
+                System.out.println("Enter the number of the Table:");
+                TableNumber = sc.nextInt();
+                if (Database_Controller.getTableById(TableNumber) == null) {
+                    System.out.println("Table does not exist!");
 
-        } else {
-            Database_Controller.deleteTable(TableNumber);// remove the Table from the database
-            System.out.println("Table removed!");
+                } else {
+                    Database_Controller.deleteTable(TableNumber);// remove the Table from the database
+                    System.out.println("Table removed!");
 
-        }
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("\nPlease enter a valid number! ");
+                System.out.println("\n-----------------------------------\n");
+                TableNumber = -1;
+            }
+            sc.nextLine();
+        } while (TableNumber == -1);
     }
 
     /**
      * updateTable Method:
      * with passing value of
+     *
      * @param TableNumber , the method will first check of the object existance
-     * with getTableById  method from the Database Controller
-     * If the object exist, User can update the boolean reserved of the Table
-     * object. Finally, the updated object will be passed to the
-     * updateTable method in the database controller to update the Table.Dat file
+     *                    with getTableById  method from the Database Controller
+     *                    If the object exist, User can update the boolean reserved of the Table
+     *                    object. Finally, the updated object will be passed to the
+     *                    updateTable method in the database controller to update the Table.Dat file
      */
     public void updateTable(int TableNumber) {
 
@@ -130,9 +187,11 @@ public class TableController {
             System.out.println("Table does not exist!");
         } else {
             Table table = Database_Controller.getTableById(TableNumber);
-            if(!table.isReserved()){
-                table.setReserved(true);}
-            else if(table.isReserved()){ table.setReserved(false);}
+            if (!table.isReserved()) {
+                table.setReserved(true);
+            } else if (table.isReserved()) {
+                table.setReserved(false);
+            }
             Database_Controller.updateTable(table);
         }
     }

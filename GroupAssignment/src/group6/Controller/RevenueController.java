@@ -15,7 +15,7 @@ public class RevenueController {
      * @param date and caretes an array list of orders return
      * for that specific date and the arraylist is sent to printSalesRevenueReport method
      */
-    public void getSalesReportOfDate(LocalDate date){
+    public void getSalesReport(LocalDate date){
         int i;
         ArrayList<Order> paidOrders = new ArrayList<Order>();
         ArrayList<Order> allOrders = Database_Controller.readOrderList();
@@ -36,7 +36,7 @@ public class RevenueController {
      * @param month
      * @param year
      */
-    public void getSalesReportOfMonth(int month, int year){
+    public void getSalesReport(int month, int year){
         int i;
         ArrayList<Order> paidOrders = new ArrayList<Order>();
         ArrayList<Order> allOrders = Database_Controller.readOrderList();
@@ -56,7 +56,7 @@ public class RevenueController {
      * created and read from the data file. Next it will be pass in to the printSalesRevenueReport method
      * @param year
      */
-    public void getSalesReportOfYear(int year){
+    public void getSalesReport(int year){
 
         int i;
 
