@@ -59,7 +59,7 @@ public class ApplicationMenu {
                     InterfaceController.checkRemoveReservationBooking();
                     break;
                 case 8:
-                    InterfaceController.checkTableAvailaabitity();
+                    InterfaceController.checkTableAvailability();
                     break;
                 case 9:
                     InterfaceController.printOrderInvoice();

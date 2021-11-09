@@ -1,10 +1,12 @@
 package Controller;
+
 import Entity.*;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.ArrayList;
 
@@ -13,53 +15,124 @@ public class ReservationController {
     Scanner sc = new Scanner(System.in);
     //endregion
 
+// Previous checkRemoveReservationBooking() function here
+    //region
+//    /**
+//     * checkRemoveReservationBooking Method:
+//     * It will first check if the reservation id enter exists
+//     * then compares the reservation date time with current date time
+//     * if the difference is more than 20 minutes, the reservation will be cancelled
+//     * and table will be released
+//     * if the result is less than 20 minutes which means that the customer arrives in time
+//     * The reservation will be converted to an order via the convertResToOrder method
+//     * where staff will assign the reserved table to the customer
+//     */
+//    public void checkRemoveReservationBooking() {
+//        int id;
+//        System.out.println("Enter your reservation ID:");
+//        while(true) {
+//            id = sc.nextInt();
+//            if(Database_Controller.getReservationById(id)!=null){
+//                break;
+//            }
+//            else{
+//                System.out.println("Reservation does not exist!");
+//            }
+//        }
+//        LocalDate date = Database_Controller.getReservationById(id).getDate();
+//        LocalDate today = LocalDate.now();
+//        int sameDate = date.compareTo(today);
+//        LocalTime time = Database_Controller.getReservationById(id).getTime();
+//        LocalTime afterTime=time.plusMinutes(20);
+//        LocalTime beforeTime=time.minusMinutes(20);
+//        LocalTime now=LocalTime.now();
+//        boolean before = afterTime.isBefore(now);
+//        boolean after  = beforeTime.isAfter(now);
+//        if(!before && !after && sameDate==0){
+//            System.out.println("Welcome!Reservation is available.");
+//            OrderController orderController= new OrderController();
+//            orderController.convertResToOrder(Database_Controller.getReservationById(id));
+//            deleteReservation(id);
+//        }
+//        else{
+//            if(sameDate>0){
+//                System.out.println("Before the valid Time of Reservation");
+//            }
+//            else if(sameDate==0 && after){
+//                System.out.println("Before the valid Time of Reservation");
+//            }
+//            else{
+//                System.out.println("This reservation is overdue!");
+//                deleteReservation(id);}
+//        }
+//    }
+    //endregion
+
     /**
-     * checkRemoveReservationBooking Method:
-     * It will first check if the reservation id enter exists
-     * then compares the reservation date time with current date time
-     * if the difference is more than 20 minutes, the reservation will be cancled
-     * and table will be released
-     * if the result is less than 20 minutes which means that the customer arrives in time
-     * The reservarion will convert to orders with the convertResToOrder method
-     * where staff will choose  available table  for the customer
+     * Releases tables that were reserved but the reservations are overdue.
+     * Overdue reservations are deleted.
      */
-    public void checkRemoveReservationBooking() {
-        int id;
-        System.out.println("Enter your reservation ID:");
-        while(true) {
-            id = sc.nextInt();
-            if(Database_Controller.getReservationById(id)!=null){
-                break;
-            }
-            else{
-                System.out.println("Reservation does not exist!");
+    public void deleteOverdueBookings() {
+        ArrayList<Reservation> resList = Database_Controller.readReservationList();
+        LocalDate date = LocalDate.now();
+        LocalTime time = LocalTime.now();
+        Reservation res = new Reservation();
+        Table table = new Table();
+        for (int i = 0; i < resList.size(); i++) {
+            res = resList.get(i);
+            if (date.isAfter(res.getDate()) || (date.isEqual(res.getDate()) && time.isAfter(res.getTime().plusMinutes(20)))) {
+                table = Database_Controller.getTableById(res.getTableId());
+                table.setReserved(false);
+                Database_Controller.updateTable(table);
+                Database_Controller.deleteReservation(res.getId());
             }
         }
-        LocalDate date = Database_Controller.getReservationById(id).getDate();
+    }
+
+    /**
+     * Checks if customer has a valid reservation. If there is a valid reservation,
+     * compares the reservation date & time with the current date & time.
+     * If the customer arrives more than 20 minutes before the booked timing,
+     * they will not be allowed to order yet.
+     * If the customer arrives in time, +/- 20 minutes from the booked timing,
+     * the reservation will be converted to an order via the <code>convertResToOrder</code> method
+     * where staff will assign the reserved table to the customer.
+     * If customer arrives more than 20 minutes after the booked timing,
+     * the reservation would already have been deleted.
+     */
+    public void checkReservationBooking(String name) {
+        deleteOverdueBookings();
+        Reservation res = Database_Controller.getReservationByCustomerName(name);
+
+        // If customer has no valid reservation/reservation overdue and deleted
+        if (res == null) {
+            System.out.println("Reservation does not exist!");
+            return;
+        }
+
+        LocalDate date = res.getDate();
         LocalDate today = LocalDate.now();
         int sameDate = date.compareTo(today);
-        LocalTime time = Database_Controller.getReservationById(id).getTime();
-        LocalTime afterTime=time.plusMinutes(20);
-        LocalTime beforeTime=time.minusMinutes(20);
-        LocalTime now=LocalTime.now();
+        LocalTime time = res.getTime();
+        LocalTime afterTime = time.plusMinutes(20);
+        LocalTime beforeTime = time.minusMinutes(20);
+        LocalTime now = LocalTime.now();
         boolean before = afterTime.isBefore(now);
-        boolean after  = beforeTime.isAfter(now);
-        if(!before && !after && sameDate==0){
-            System.out.println("Welcome!Reservation is available.");
-            OrderController orderController= new OrderController();
-            orderController.convertResToOrder(Database_Controller.getReservationById(id));
-            deleteReservation(id);
-        }
-        else{
-            if(sameDate>0){
+        boolean after = beforeTime.isAfter(now);
+
+        if (!before && !after && sameDate == 0) {
+            // If customer is not too early or too late, within +/- 20 min of booked timing
+            System.out.println("Welcome! Reservation is available.");
+            OrderController orderController = new OrderController();
+            orderController.convertResToOrder(res);
+            deleteReservation(res.getId());
+        } else {
+            // If customer arrives too early, > 20 min before booked timing
+            if (sameDate > 0) {
+                System.out.println("Before the valid Time of Reservation");
+            } else if (sameDate == 0 && after) {
                 System.out.println("Before the valid Time of Reservation");
             }
-            else if(sameDate==0 && after){
-                System.out.println("Before the valid Time of Reservation");
-            }
-            else{
-            System.out.println("This reservation is overdue!");
-            deleteReservation(id);}
         }
     }
 
@@ -68,16 +141,18 @@ public class ReservationController {
      * The printReservationList Method creates an arraylist of Reservation objects with values
      * retrieved from Reservation.Dat file with the Database_Controller. If the ArrayList is not empty,
      * All entries in the Reservation will be printed out with a for loop
-     *
      */
     public void printReservationList() {
+        deleteOverdueBookings();
         ArrayList<Reservation> Reservation = Database_Controller.readReservationList();
         if (Reservation != null) {
-            System.out.println("Reservation Id" + "\t" + " Table " + "\t" + " Customer"+ "\t" + " Date"+ "\t" + " Time"+ "\t" + " Pax");
+            System.out.println("Reservation Id" + "\t" + " Table " + "\t" + " Customer" + "\t" + " Date" + "\t" + " Time" + "\t" + " Pax");
             for (int i = 0; i < Reservation.size(); i++) {
+                if (Reservation.get(i).getTableId() == -1)
+                    continue;
                 System.out.println(Reservation.get(i).getId() + "\t\t\t\t\t" + Reservation.get(i).getTableId()
-                        + "\t\t\t\t" + Reservation.get(i).getCustomerName()+ "\t\t\t\t" + Reservation.get(i).getDate()
-                        + "\t\t\t\t" + Reservation.get(i).getTime()+ "\t\t\t\t" + Reservation.get(i).getPax());
+                        + "\t\t\t\t" + Reservation.get(i).getCustomerName() + "\t\t\t\t" + Reservation.get(i).getDate()
+                        + "\t\t\t\t" + Reservation.get(i).getTime() + "\t\t\t\t" + Reservation.get(i).getPax());
             }
         }
     }
@@ -90,55 +165,142 @@ public class ReservationController {
      * will be reserved for this reservation
      */
     public void createReservation() {
-        System.out.println("Add a Reservation");
-        System.out.println("---------------------");
-        System.out.println("Enter the Id of the Reservation:");
-        int id = sc.nextInt();
-        if (Database_Controller.getReservationById(id) != null) {
-            System.out.println("Reservation already exists!");
-            return;
-        } else {
+        printReservationList();
+        int outerCount = 0;
+        do {
+            try {
+                System.out.println("Add a Reservation");
+                System.out.println("---------------------");
+                System.out.println("Enter Id of new Reservation:");
+                int id = sc.nextInt();
 
-            System.out.println("Enter pax:");
-            int pax=sc.nextInt();
-            TableController TableController= new TableController();
-            TableController.printAvailableTables(pax);
-            System.out.println("Enter Table Id of choices:");
-            int tableId=sc.nextInt();
+                // Check if new reservation ID already taken
+                if (Database_Controller.getReservationById(id) != null) {
+                    System.out.println("Reservation already exists!");
+                    return;
+                }
 
-            System.out.println("Enter customerName:");
-            CustomerController CustomerController= new CustomerController();
-            CustomerController.printCustomerDetails();
-            String customerName= sc.next();
-            int check=1;
-            if(Database_Controller.getReservationByCustomerName(customerName)!=null){
-                System.out.println("You have reserve a table!");
-                check=0;
+                // Enter pax
+                int pax, count = 0;
+                do {
+                    System.out.println("Enter pax:");
+                    pax = sc.nextInt();
+                    if (pax < 2 || pax > 10) {
+                        System.out.println("Please enter pax from 2 to 10!");
+                        count++;
+                    }
+                    if (count == 3)
+                        return;
+                } while (pax < 2 || pax > 10);
+
+                // Show available tables for given pax
+                TableController TableController = new TableController();
+                if (!TableController.printAvailableTables(pax))
+                    return;
+
+                // Choose table
+                int tableId;
+                count = 0;
+                do {
+                    System.out.println("Enter Table Id of choice:");
+                    tableId = sc.nextInt();
+                    if (!TableController.listAvailableTables(pax).contains(tableId)) {
+                        System.out.println("Table " + tableId + " unavailable! Please choose another table.");
+                        count++;
+                    }
+                    if (count == 3)
+                        return;
+                } while (!TableController.listAvailableTables(pax).contains(tableId));
+
+                // Enter customer details
+                System.out.println("Enter customerName:");
+                CustomerController CustomerController = new CustomerController();
+                CustomerController.printCustomerDetails();
+                String customerName = sc.next();
+                int check = 1;
+                if (Database_Controller.getReservationByCustomerName(customerName) != null) {
+                    System.out.println("You have already reserved a table!");
+                    check = 0;
+                } else if (Database_Controller.getCustomerByName(customerName) == null) {
+                    // Add customer if he/she is not in database yet
+                    CustomerController.addCustomer();
+                    // Retrieve new customer's name as per input during registration
+                    ArrayList<Customer> Customers = Database_Controller.readCustomerList();
+                    Customer newCustomer = Customers.get(Customers.size() - 1);
+                    customerName = newCustomer.getName();
+                }
+
+                if (check == 1) {
+
+                    // Enter reservation date
+                    count = 0;
+                    LocalDate Date;
+                    LocalTime Time;
+                    do {
+                        do {
+                            try {
+                                System.out.println("Enter a date [DD-MM-YYYY]: ");
+                                String str = sc.next();
+                                DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                                Date = LocalDate.parse(str, df);
+                                break;
+                            } catch (DateTimeParseException e) {
+                                System.out.println("Please input correct format!");
+                            }
+                            sc.nextLine();
+                        } while(true);
+
+                        if (Date.isAfter(LocalDate.now().plusDays(7))) {
+                            System.out.println("Reservations can be made at most 7 days in advance. Choose a closer date.");
+                            count++;
+                        }
+                        if (count == 3)
+                            return;
+                    } while (Date.isAfter(LocalDate.now().plusDays(7)));
+
+                    // Enter reservation time
+                    count = 0;
+                    do {
+                        do {
+                            try {
+                                System.out.println("Enter a time [hh:mm]: ");
+                                String time = sc.next();  //default format: hh:mm:ss
+                                Time = LocalTime.parse(time);
+                                break;
+                            } catch (DateTimeParseException e) {
+                                System.out.println("Please input correct format!");
+                            }
+                            sc.nextLine();
+                        } while(true);
+
+                        if (Time.isBefore(LocalTime.now().plusHours(5))) {
+                            System.out.println("Reservations must be made at least 5 hours in advance. Choose a later time.");
+                            count++;
+                        }
+                        if (count == 3)
+                            return;
+                    } while (Time.isBefore(LocalTime.now().plusHours(5)));
+
+                    // Reserve table
+                    Table table = Database_Controller.getTableById(tableId);
+                    table.setReserved(true);
+                    Database_Controller.updateTable(table);
+
+                    // Save the new reservation
+                    Reservation Reservation = new Reservation(id, tableId, customerName, Date, Time, pax);
+                    Database_Controller.addReservation(Reservation);
+                    System.out.println("Table " + tableId + " reserved for " + customerName + " at " + Date + " " + Time);
+                } else {
+                    checkReservationBooking(customerName);
+                }
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("\nPlease enter a valid number!");
+                System.out.println("\n-----------------------------------\n");
             }
-
-            if(check==1) {
-                System.out.println("Enter a date [dd-MM-yyyy]: ");
-                String str = sc.next();
-                DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                LocalDate Date = LocalDate.parse(str, df);
-
-                System.out.println("Enter a time  hh:mm:ss: ");
-                String time = sc.next();  //default format: hh:mm:ss
-                LocalTime Time = LocalTime.parse(time);
-
-
-                Table table = Database_Controller.getTableById(tableId);
-                table.setReserved(true);
-                Database_Controller.updateTable(table);
-
-                Reservation Reservation = new Reservation(id, tableId, customerName, Date, Time, pax);
-                Database_Controller.addReservation(Reservation);
-            }
-            else{
-                checkRemoveReservationBooking();
-            }
-
-        }
+            sc.nextLine(); //clears buffer
+            outerCount++;
+        } while (outerCount < 3);
     }
 
     /**
@@ -152,7 +314,7 @@ public class ReservationController {
     public void deleteReservation(int Number) {
         System.out.println("Remove a Reservation");
         System.out.println("---------------------");
-        Table table= Database_Controller.getTableById(Database_Controller.getReservationById(Number).getTableId());
+        Table table = Database_Controller.getTableById(Database_Controller.getReservationById(Number).getTableId());
         table.setReserved(false);
         Database_Controller.updateTable(table);
         Database_Controller.deleteReservation(Number);// remove the Reservation from the database
@@ -161,5 +323,25 @@ public class ReservationController {
 
     }
 
+    //  Extra void deleteReservation(Customer customer) here
+    //region
+//    /**
+//     * Overloads <code>public void deleteReservation(int Number)</code>
+//     * The deleteReservation Method takes in a <code>Customer</code> whose reservation
+//     * is to be deleted. It will first check the existence of the reservation with the
+//     * <code>getReservationByCustomerName</code> method from the Database Controller and if the object exist,
+//     * it will activate the deleteReservation method from the Database Controller with
+//     * passing in the Reservation Id
+//     */
+//    public void deleteReservation(Customer customer) {
+//        System.out.println("Remove a Reservation");
+//        System.out.println("---------------------");
+//        Table table= Database_Controller.getTableById(Database_Controller.getReservationByCustomerName(customer.getName()).getTableId());
+//        table.setReserved(false);
+//        Database_Controller.updateTable(table);
+//        Database_Controller.deleteReservation(Database_Controller.getReservationByCustomerName(customer.getName()).getId());// remove the Reservation from the database
+//        System.out.println("Reservation removed!");
+//    }
+//endregion
 
 }
