@@ -203,9 +203,13 @@ public class MenuItemController implements Controller{
         System.out.println("< Available MenuItems >");
         ArrayList<MenuItem> MenuItem = new ArrayList<MenuItem>();
         MenuItem = Database_Controller.readMenuItemList();
-        System.out.println("Item Name" + "\t\t\t" + " Description" + "\t\t\t" + " Price(SGD)"+ "\t\t\t" + " Type");
+        System.out.println("Item Name                          Description                                  Price(SGD)          Type");
+        System.out.println("----------------------------------------------------------------------------------------------------------------");
         for (int i=0;i<MenuItem.size();i++){
-            System.out.println(MenuItem.get(i).getItemName()+"\t\t\t"+MenuItem.get(i).getDescription()+"\t\t\t"+MenuItem.get(i).getPrice()+"\t\t\t"+MenuItem.get(i).getType());
+//            System.out.println(MenuItem.get(i).getItemName()+"\t\t\t"+MenuItem.get(i).getDescription()+"\t\t\t"+
+//                    MenuItem.get(i).getPrice()+"\t\t\t"+MenuItem.get(i).getType());
+
+            System.out.printf("%-35s%-45s%-20.2f%s\n",MenuItem.get(i).getItemName(), MenuItem.get(i).getDescription(),MenuItem.get(i).getPrice(), MenuItem.get(i).getType() );
         }
 
     }

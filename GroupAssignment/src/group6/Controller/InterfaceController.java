@@ -26,7 +26,7 @@ public class InterfaceController {
 
     public void addUpdateDeleteMenuItem() {
         MenuItemController MenuItemController = new MenuItemController();
-        System.out.println("< Add/Update/Delete a MenuItem >/n");
+        System.out.println("< Add/Update/Delete a MenuItem >\n");
         int choice = 0;
         do {
             try {

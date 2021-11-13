@@ -146,13 +146,17 @@ public class ReservationController {
         deleteOverdueBookings();
         ArrayList<Reservation> Reservation = Database_Controller.readReservationList();
         if (Reservation != null) {
-            System.out.println("Reservation Id" + "\t" + " Table " + "\t" + " Customer" + "\t" + " Date" + "\t" + " Time" + "\t" + " Pax");
+            System.out.println("Reservation #    Table #     Customer         Date           Time           Pax");
+            System.out.println("------------------------------------------------------------------------------------");
             for (int i = 0; i < Reservation.size(); i++) {
                 if (Reservation.get(i).getTableId() == -1)
                     continue;
-                System.out.println(Reservation.get(i).getId() + "\t\t\t\t\t" + Reservation.get(i).getTableId()
-                        + "\t\t\t\t" + Reservation.get(i).getCustomerName() + "\t\t\t\t" + Reservation.get(i).getDate()
-                        + "\t\t\t\t" + Reservation.get(i).getTime() + "\t\t\t\t" + Reservation.get(i).getPax());
+//                System.out.println(Reservation.get(i).getId() + "\t\t\t\t\t" + Reservation.get(i).getTableId()
+//                        + "\t\t\t\t" + Reservation.get(i).getCustomerName() + "\t\t\t\t" + Reservation.get(i).getDate()
+//                        + "\t\t\t\t" + Reservation.get(i).getTime() + "\t\t\t\t" + Reservation.get(i).getPax());
+
+                System.out.printf("%-17d%-12d%-17s%-15s%-15s%d\n", Reservation.get(i).getId(), Reservation.get(i).getTableId(), Reservation.get(i).getCustomerName(),Reservation.get(i).getDate()
+                        , Reservation.get(i).getTime(), Reservation.get(i).getPax());
             }
         }
     }
@@ -212,7 +216,7 @@ public class ReservationController {
                 // Enter customer details
                 System.out.println("Enter customerName:");
                 CustomerController CustomerController = new CustomerController();
-                CustomerController.print();
+               // CustomerController.print();
                 Scanner sc = new Scanner(System.in);
                 String customerName = sc.nextLine();
                 check = 1;
@@ -344,18 +348,23 @@ public class ReservationController {
             String str = "13-11-2021";
             DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             Date = LocalDate.parse(str, df);
-            String time = "22:00";  //default format: hh:mm:ss
+            String time = "23:45";  //default format: hh:mm:ss
             Time = LocalTime.parse(time);
             Reservation Reservation = new Reservation((i+1), (i+1), name, Date, Time, 2);
             Table table = Database_Controller.getTableById(i+1);
             table.setReserved(true);
             Database_Controller.updateTable(table);
             Database_Controller.addReservation(Reservation);
-//            Database_Controller.deleteReservation(i+1);
+         //  Database_Controller.deleteReservation(i+1);
 
         }
         printReservationList();
 
     }
 
+    public static void main(String[] args){
+        ReservationController ReservationController = new ReservationController();
+        ReservationController.populateReservation();
+
+    }
 }

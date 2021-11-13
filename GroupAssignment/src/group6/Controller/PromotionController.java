@@ -158,7 +158,7 @@ public class PromotionController implements Controller{
         do {
             try {
                 while(option != 0){
-                    System.out.print("\n\nEnter the promotion ID for more information (Type 0 to quit): ");
+                    System.out.print("\n\nEnter the set number for more information (Type 0 to quit): ");
                     option = sc.nextInt();
                     System.out.println();
                     printPromotionByName(Promotion.get(option).getName());

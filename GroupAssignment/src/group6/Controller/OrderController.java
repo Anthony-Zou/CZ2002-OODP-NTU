@@ -674,13 +674,16 @@ public class OrderController {
         if (Order != null) {
 
             for (int i = 0; i < Order.size(); i++) {
-                System.out.println("orderId" + "\t\t" + "staffId" + "\t\t" + "membership" + "\t\t" + "userContact" + "\t\t" + "totalPrice" + "\t\t" + "tableId" + "\t\t" + "paid" + "\t\t" + "Date" + "\t\t" + "Time" + "\t\t");
-                System.out.println("=============================================================================================================================");
-                System.out.println(Order.get(i).getOrderId() + "\t\t" + Order.get(i).getStaffId() +
-                        "\t\t" + Order.get(i).isMembership() + "\t\t\t"
-                        + Order.get(i).getUserContact() + "\t\t" + String.format("%.2f", Order.get(i).getTotalPrice()) + "\t\t\t" + Order.get(i).getTableNum() + "\t\t" + Order.get(i).isPaid() + "\t\t\t\t" + Order.get(i).getDate()
-                        + "\t\t\t\t" + Order.get(i).getTime() + "\t\t\n");
+                System.out.println("orderId   staffId   membership   userContact   totalPrice   tableId   paid      Date             Time");
+                System.out.println("----------------------------------------------------------------------------------------------------------------------");
+//                System.out.println(Order.get(i).getOrderId() + "\t\t" + Order.get(i).getStaffId() +
+//                        "\t\t" + Order.get(i).isMembership() + "\t\t\t"
+//                        + Order.get(i).getUserContact() + "\t\t" + String.format("%.2f", Order.get(i).getTotalPrice()) + "\t\t\t" + Order.get(i).getTableNum() + "\t\t" + Order.get(i).isPaid() + "\t\t\t\t" + Order.get(i).getDate()
+//                        + "\t\t\t\t" + Order.get(i).getTime() + "\t\t\n");
 
+                System.out.printf("%-10d%-10d%-13b%-13d%-13.2f%-10d%-10b%-17s%s\n", Order.get(i).getOrderId(), Order.get(i).getStaffId()
+                        , Order.get(i).isMembership(), Order.get(i).getUserContact(), Order.get(i).getTotalPrice(), Order.get(i).getTableNum()
+                        , Order.get(i).isPaid(), Order.get(i).getDate(), Order.get(i).getTime());
                 //Print Alacarte Item in the order
                 if (Order.get(i).getAlacarte() != null) {
                 System.out.println("< Alacarte Item >");
@@ -717,13 +720,15 @@ public class OrderController {
     public void viewUnpaidOrder() {
         ArrayList<Order> Order = Database_Controller.readOrderList();
         if (Order != null) {
-            System.out.println("orderId" + "\t\t\t" + "staffId" + "\t\t\t" + "membership" + "\t\t\t" + "userContact" + "\t\t\t" + "totalPrice" + "\t\t\t" + "tableId" + "\t\t\t" + "paid" + "\t\t\t+ \"Date\" + \"ttt+ \"Time" + "\t\t\t");
+            System.out.println("orderId   staffId   membership   userContact   totalPrice   tableId   paid      Date                Time");
+            System.out.println("------------------------------------------------------------------------------------------------------------------------");
+
             for (int i = 0; i < Order.size(); i++) {
                 if (Order.get(i).isPaid() == false) {
-                    System.out.println(Order.get(i).getOrderId() + "\t\t\t\t" + Order.get(i).getStaffId() +
-                            "\t\t\t\t" + Order.get(i).isMembership() + "\t\t\t"
-                            + Order.get(i).getUserContact() + "\t\t\t" + Order.get(i).getTotalPrice() + "\t\t\t" + Order.get(i).getTableNum() + "\t\t\t" + Order.get(i).isPaid() + "\t\t\t\t" + Order.get(i).getDate()
-                            + "\t\t\t\t" + Order.get(i).getTime() + "\t\t\t");
+
+                    System.out.printf("%-10d%-10d$-13b%-14d%-13.2f%-10d%-10s%-20s%s", Order.get(i).getOrderId(), Order.get(i).getStaffId()
+                            ,Order.get(i).isMembership(), Order.get(i).getUserContact(), Order.get(i).getTotalPrice(),
+                            Order.get(i).getTableNum(), Order.get(i).isPaid(), Order.get(i).getDate(),Order.get(i).getTime());
 
                     //Print Alacarte Item in the order
                     System.out.println("Alacarte Item");
@@ -758,13 +763,12 @@ public class OrderController {
     public void viewpaidOrder() {
         ArrayList<Order> Order = Database_Controller.readOrderList();
         if (Order != null) {
-            System.out.println("orderId" + "\t\t\t" + "staffId" + "\t\t\t" + "membership" + "\t\t\t" + "userContact" + "\t\t\t" + "totalPrice" + "\t\t\t" + "tableId" + "\t\t\t" + "paid" + "\t\t\t" + "Date" + "\t\t\t" + "Time" + "\t");
+            System.out.println("orderId   staffId   membership   userContact   totalPrice   tableId   paid      Date                Time");
+            System.out.println("------------------------------------------------------------------------------------------------------------------------");
             for (int i = 0; i < Order.size(); i++) {
-                if (Order.get(i).isPaid() == true) {
-                    System.out.println(Order.get(i).getOrderId() + "\t\t\t\t" + Order.get(i).getStaffId() +
-                            "\t\t\t\t" + Order.get(i).isMembership() + "\t\t\t"
-                            + Order.get(i).getUserContact() + "\t\t\t" + Order.get(i).getTotalPrice() + "\t\t\t" + Order.get(i).getTableNum() + "\t\t\t" + Order.get(i).isPaid() + "\t\t\t\t" + Order.get(i).getDate()
-                            + "\t\t\t\t" + Order.get(i).getTime() + "\t\t\t");
+                System.out.printf("%-10d%-10d$-13b%-14d%-13.2f%-10d%-10s%-20s%s", Order.get(i).getOrderId(), Order.get(i).getStaffId()
+                        ,Order.get(i).isMembership(), Order.get(i).getUserContact(), Order.get(i).getTotalPrice(),
+                        Order.get(i).getTableNum(), Order.get(i).isPaid(), Order.get(i).getDate(),Order.get(i).getTime());
 
                     //Print Alacarte Item in the order
                     System.out.println("Alacarte Item");
@@ -785,7 +789,7 @@ public class OrderController {
                 }
             }
         }
-    }
+
 
     /**
      * printOrderInvoice Method:
@@ -1198,14 +1202,14 @@ public class OrderController {
     public void PrintallOrderbrief() {
         ArrayList<Order> Order = Database_Controller.readOrderList();
         if (Order != null) {
-
+            System.out.println("orderId   staffId   membership   userContact   totalPrice   tableId   paid      Date             Time");
+            System.out.println("--------------------------------------------------------------------------------------------------------------------");
             for (int i = 0; i < Order.size(); i++) {
-                System.out.println("orderId" + "\t\t" + "staffId" + "\t\t" + "membership" + "\t\t" + "userContact" + "\t\t" + "totalPrice" + "\t\t" + "tableId" + "\t\t" + "paid" + "\t\t" + "Date" + "\t\t" + "Time" + "\t\t");
-                System.out.println("=============================================================================================================================");
-                System.out.println(Order.get(i).getOrderId() + "\t\t" + Order.get(i).getStaffId() +
-                        "\t\t" + Order.get(i).isMembership() + "\t\t\t"
-                        + Order.get(i).getUserContact() + "\t\t" + String.format("%.2f", Order.get(i).getTotalPrice()) + "\t\t\t" + Order.get(i).getTableNum() + "\t\t" + Order.get(i).isPaid() + "\t\t\t\t" + Order.get(i).getDate()
-                        + "\t\t\t\t" + Order.get(i).getTime() + "\t\t\n");
+
+
+                System.out.printf("%-10d%-10d%-13b%-14d%-13.2f%-10d%-10b%-17s%s\n",Order.get(i).getOrderId(), Order.get(i).getStaffId()
+                        , Order.get(i).isMembership(), Order.get(i).getUserContact(), Order.get(i).getTotalPrice(), Order.get(i).getTableNum()
+                        , Order.get(i).isPaid(), Order.get(i).getDate(), Order.get(i).getTime());
 
 
             }
