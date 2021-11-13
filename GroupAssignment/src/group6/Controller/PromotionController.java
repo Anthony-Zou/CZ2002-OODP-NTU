@@ -5,6 +5,7 @@ import Entity.Order;
 import Entity.Promotion;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class PromotionController implements Controller{
@@ -56,8 +57,20 @@ public class PromotionController implements Controller{
 
         System.out.println("Description of Promotion:");
         String description = sc.nextLine();
-        System.out.println("Price of Promotion:");
-        Double price = sc.nextDouble();
+        Double price;
+        do {
+            System.out.println("Price of Promotion:");
+            sc = new Scanner(System.in);
+            try {
+                price = sc.nextDouble();
+            } catch (InputMismatchException e) {
+                System.out.println("Wrong value type entered.");
+                price = 0.0;
+            }
+            if (price < 0) {
+                System.out.println("Please enter a valid price.");
+            }
+        }while(price < 0);
 
         Promotion Promotion = new Promotion(name, Items, description, price);
         Database_Controller.addPromotion(Promotion);

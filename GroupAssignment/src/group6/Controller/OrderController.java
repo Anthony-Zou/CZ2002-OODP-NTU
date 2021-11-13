@@ -73,7 +73,9 @@ public class OrderController {
         			if (pax <= 0) {
         				System.out.println("\nPlease enter a valid number!");
                 		System.out.println("\n-----------------------------------\n");
-        			} else break;
+        			} else if(pax> 10) {
+                        System.out.println("Maximum capacity is 10, please break into smaller groups.");
+                    }else break;
         		}
         	} catch (InputMismatchException e) {
         		System.out.println("Please enter a valid number!");
@@ -94,7 +96,9 @@ public class OrderController {
         		while (true) {
         			System.out.println("Enter Table Id of choices:");
                     tableId = sc.nextInt();
-                    if (Database_Controller.getTableById(tableId) != null) {
+                    if (Database_Controller.getTableById(tableId) != null
+                            && Database_Controller.getTableById(tableId).isReserved() == false
+                                && Database_Controller.getTableById(tableId).getCapacity()>=pax) {
                         break;
                     } else {
                     	System.out.println("\nPlease enter a valid ID!");
@@ -163,6 +167,14 @@ public class OrderController {
             
             if (Database_Controller.getCustomerByContact(userContact) != null) {
                 membership = Database_Controller.getCustomerByContact(userContact).isMemberShip();
+                String membershipName = Database_Controller.getCustomerByContact(userContact).getName();
+                if(membership){
+                    System.out.println("Membership verified. Welcome Dear "+membershipName+".");
+                }else{
+                    System.out.println("Membership not found.");
+                }
+            }else{
+                System.out.println("Membership not found.");
             }
         } else if (choice == 0) {
             membership = false;

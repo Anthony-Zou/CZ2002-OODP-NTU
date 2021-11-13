@@ -84,9 +84,9 @@ public class TableController implements Controller{
         ReservationController.deleteOverdueBookings();
         ArrayList<Table> Table = Database_Controller.readTableList();
         if (Table != null) {
-            System.out.println("Table Id" + "\t" + " Table Capacity" + "\t" + " Table Reserved");
+            System.out.println("Table Id" + "\t" + " Table Capacity" );
             for (int i = 0; i < Table.size(); i++) {
-                System.out.println(Table.get(i).getId() + "\t\t\t\t\t" + Table.get(i).getCapacity() + "\t\t\t\t" + Table.get(i).isReserved());
+                System.out.println(Table.get(i).getId() + "\t\t\t\t\t" + Table.get(i).getCapacity());
 
             }
         }
