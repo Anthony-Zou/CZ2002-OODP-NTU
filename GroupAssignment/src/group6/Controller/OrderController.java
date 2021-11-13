@@ -281,6 +281,10 @@ public class OrderController {
             totalPrice *= 0.9;
         }
 
+        // Service Charge 10%
+        totalPrice *= 1.10;
+
+        // GST 7%
         totalPrice *=1.07;
 
         boolean paid = false;

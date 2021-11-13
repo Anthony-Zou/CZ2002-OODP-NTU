@@ -42,10 +42,10 @@ public class TableController implements Controller{
         int reserved = 0;
 
         if (Table != null) {
-            System.out.println("Table Id" + "\t" + " Table Capacity" + "\t" + " Table Reserved/Occupied");
+            System.out.printf("%-10s %-20s %-30s\n", "Table Id", "Table Capacity", "Table Reserved/Occupied");
             for (int i = 0; i < Table.size(); i++) {
                 if (!Table.get(i).isReserved() && Table.get(i).getCapacity() >= pax) {
-                    System.out.println(Table.get(i).getId() + "\t\t\t\t\t" + Table.get(i).getCapacity() + "\t\t\t\t" + Table.get(i).isReserved());
+                    System.out.printf("%-10s %-20s %-30s\n", Table.get(i).getId(), Table.get(i).getCapacity(), Table.get(i).isReserved());
                 }
                 else if(Table.get(i).isReserved())
                     reserved++;
@@ -91,10 +91,9 @@ public class TableController implements Controller{
         ReservationController.deleteOverdueBookings();
         ArrayList<Table> Table = Database_Controller.readTableList();
         if (Table != null) {
-            System.out.println("Table Id" + "\t" + " Table Capacity" );
+            System.out.printf("%-10s %-20s %-30s\n", "Table Id", "Table Capacity", "Table Reserved/Occupied");
             for (int i = 0; i < Table.size(); i++) {
-                System.out.println(Table.get(i).getId() + "\t\t\t\t\t" + Table.get(i).getCapacity());
-
+                System.out.printf("%-10s %-20s %-30s\n", Table.get(i).getId(), Table.get(i).getCapacity(), Table.get(i).isReserved());
             }
         }
     }
