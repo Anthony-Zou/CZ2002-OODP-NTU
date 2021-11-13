@@ -221,8 +221,5 @@ public class CustomerController implements Controller {
         print();
     }
 
-    public static void main(String[] args){
-       CustomerController customer = new CustomerController();
-       customer.populateCustomer(30);
-    }
+
 }

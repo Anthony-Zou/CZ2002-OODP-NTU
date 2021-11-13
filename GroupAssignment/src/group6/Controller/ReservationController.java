@@ -358,9 +358,4 @@ public class ReservationController {
 
     }
 
-    public static void main(String[] args){
-        ReservationController ReservationController = new ReservationController();
-        ReservationController.populateReservation();
-
-    }
 }

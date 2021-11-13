@@ -27,7 +27,6 @@ public class TableController implements Controller{
         return !Database_Controller.getTableById(TableNumber).isReserved();
     }
 
-
     /**
      * Tables that have enough capacity to serve the customer will be printed.
      * Every time this method is called, it will check if any reservation is overdue,

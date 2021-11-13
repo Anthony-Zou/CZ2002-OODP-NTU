@@ -226,12 +226,5 @@ public class PromotionController implements Controller{
             Database_Controller.addPromotion(Promotion);
         }
     }
-    public static void main(String[] args){
-        PromotionController promotionController = new PromotionController();
-//        promotionController.deletePromotionRange();
-//        promotionController.populatePromotion();
-//
 
-        promotionController.printPromotionByName("Set 5");
-    }
 }

@@ -1296,10 +1296,6 @@ public class OrderController {
             Database_Controller.addOrder(Order);}
     }
 
-    public static void main(String[] args) {
-        OrderController OrderController = new OrderController();
 
-        OrderController.createOrder();
-    }
 
 }
