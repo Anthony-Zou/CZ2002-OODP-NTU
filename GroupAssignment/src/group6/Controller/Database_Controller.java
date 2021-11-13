@@ -524,7 +524,7 @@ public class Database_Controller {
         ArrayList<Promotion> PromotionList = (ArrayList<Promotion>)readPromotionList();
         for (int i = 0 ; i < PromotionList.size() ; i++) {
             Promotion Promotion = (Promotion)PromotionList.get(i);
-            if (Promotion.getName()==(Name))
+            if (Promotion.getName().equalsIgnoreCase(Name))
             {
                 PromotionList.remove(i);
                 break;

@@ -183,8 +183,10 @@ public class PromotionController implements Controller{
 
     }
 
-//    public static void main(String[] args){
-//        PromotionController promotionController = new PromotionController();
-//        promotionController.print();
-//    }
+    public static void main(String[] args){
+        PromotionController promotionController = new PromotionController();
+//        promotionController.delete();
+//        promotionController.delete();
+        promotionController.print();
+    }
 }
