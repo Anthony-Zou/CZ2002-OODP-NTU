@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class TableController {
+public class TableController implements Controller{
     //region Scanner
     Scanner sc = new Scanner(System.in);
     //endregion
@@ -79,7 +79,7 @@ public class TableController {
      * retrieved from Table.Dat file with the Database_Controller. If the ArrayList is not empty,
      * All entries in the Table will be printed out with a for loop
      */
-    public void printTableDetails() {
+    public void print() {
         ReservationController ReservationController = new ReservationController();
         ReservationController.deleteOverdueBookings();
         ArrayList<Table> Table = Database_Controller.readTableList();
@@ -99,7 +99,7 @@ public class TableController {
      * Furthermore, the Table object will be written and save in to the Table.Dat file
      * With AddTable method in the Database controller
      */
-    public void addTable() {
+    public void add() {
         System.out.println("Add a Table");
         System.out.println("---------------------");
         //System.out.println("Enter the Number of the Table:");
@@ -134,7 +134,7 @@ public class TableController {
         Table newtable = new Table(TableNumber, capacity, false);
         Database_Controller.addTable(newtable);
 
-        printTableDetails();
+        print();
     }
 
     /**
@@ -145,7 +145,7 @@ public class TableController {
      * it will activate the deleteTable method from the Database Controller with
      * passing in the Table Id
      */
-    public void deleteTable() {
+    public void delete() {
         System.out.println("Remove a Table");
         System.out.println("---------------------");
         // find if the Table is in the database or not //

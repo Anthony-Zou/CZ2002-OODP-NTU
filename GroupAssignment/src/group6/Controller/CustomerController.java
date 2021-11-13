@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class CustomerController {
+public class CustomerController implements Controller {
     //region Scanner
     Scanner sc = new Scanner(System.in);
     //endregion
@@ -17,7 +17,7 @@ public class CustomerController {
      * retrieved from Customer.Dat file with the Database_Controller. If the ArrayList is not empty,
      * All entries in the customer detail will be printed out with a for loop
      */
-    public void printCustomerDetails() {
+    public void print() {
         ArrayList<Customer> Customer = Database_Controller.readCustomerList();
         if (Customer != null) {
             System.out.println("Customer Name" + "\t" + " Contact" + "\t" + " MemberShip");
@@ -35,7 +35,7 @@ public class CustomerController {
      * Furthermore, the object will be written and save in to the Customer.Dat file
      * With Add customer method in the Database controller
      */
-    public void addCustomer() {
+    public void add() {
         System.out.println("< Register new Customer>\n");
         String name = "";
         do {
@@ -117,7 +117,7 @@ public class CustomerController {
             Database_Controller.addCustomer(newCustomer);
 
         }
-        printCustomerDetails();
+        print();
     }
 
     /**
@@ -128,14 +128,14 @@ public class CustomerController {
      * it will activate the deleteCustomer method from the Database Controller with
      * passing in the customer name value
      */
-    public void deleteCustomer() {
+    public void delete() {
         System.out.println("< Remove Customer >\n");
         // find if the Customer is in the database or not //
         String name = "";
         do {
         	try {
         		System.out.println("Please enter the name of the customer: ");
-        		name = sc.next();
+        		name = sc.nextLine();
         		
         	} catch (InputMismatchException e) {
         		System.out.println("Please enter a valid name!");
@@ -206,13 +206,5 @@ public class CustomerController {
             Database_Controller.updateCustomer(Customer);
         }
     }
-    public static void main(String[] args) {
-        CustomerController Customer = new CustomerController();
-      // Customer.printCustomerDetails();
-          Customer.addCustomer();
-//        Customer.addCustomer();
-//        Customer.deleteCustomer();
-      //  Customer.updateCustomer("Cathy");
 
-    }
 }

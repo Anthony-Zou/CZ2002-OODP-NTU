@@ -2,7 +2,7 @@ package Controller;
 import Entity.*;
 import java.util.*;
 import Boundary.UserInterface;
-public class MenuItemController {
+public class MenuItemController implements Controller{
     //region Scanner
     Scanner sc = new Scanner(System.in);
     //endregion
@@ -14,7 +14,7 @@ public class MenuItemController {
      * Furthermore, the MenuItem object will be written and save in to the MenuItem.Dat file
      * With AddMenuItem method in the Database controller
      */
-    public void addMenuItem() {
+    public void add() {
         System.out.println("< Add a MenuItem >\n");
         
         
@@ -23,7 +23,7 @@ public class MenuItemController {
         do {
         	try {
         		System.out.println("Enter the Name of the MenuItem:");
-                itemName = sc.next();
+                itemName = sc.nextLine();
         	} catch (InputMismatchException e) {
         		System.out.println("Please enter a valid choice!");
         		System.out.println("\n-----------------------------------\n");
@@ -44,7 +44,7 @@ public class MenuItemController {
             do {
             	try {
             		System.out.println("Description of the Menu: ");
-            		description = sc.next();
+            		description = sc.nextLine();
             	} catch (InputMismatchException e) {
             		System.out.println("Please describe the menu properly!");
             		System.out.println("\n-----------------------------------\n");
@@ -114,7 +114,7 @@ public class MenuItemController {
             Database_Controller.addMenuItem(MenuItem);
 
         }
-    printMenuItem();
+    print();
     }
 
     /**
@@ -164,14 +164,14 @@ public class MenuItemController {
      * it will activate the deleteMenuItem method from the Database Controller with
      * passing in the MenuItem name value
      */
-    public void deleteMenuItem() {
+    public void delete() {
         System.out.println("< Remove a MenuItem >\n");
         
         String itemName = "";
         do {
         	try {
         		System.out.println("Enter the Item Name of the MenuItem:");
-        		itemName = sc.next();
+        		itemName = sc.nextLine();
         	} catch (InputMismatchException e) {
         		System.out.println("\nPlease enter a valid item name!");
         		System.out.println("\n-----------------------------------\n");
@@ -198,7 +198,7 @@ public class MenuItemController {
      * retrieved from MenuItem.Dat file with the Database_Controller. If the ArrayList is not empty,
      * All entries in the MenuItem detail will be printed out with a for loop
      */
-    public void printMenuItem() {
+    public void print() {
         System.out.println("< Available MenuItems >");
         ArrayList<MenuItem> MenuItem = new ArrayList<MenuItem>();
         MenuItem = Database_Controller.readMenuItemList();

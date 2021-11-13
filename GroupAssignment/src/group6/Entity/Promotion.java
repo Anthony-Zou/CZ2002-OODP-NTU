@@ -2,7 +2,7 @@ package Entity;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.io.Serializable;
-public class Promotion implements Serializable{
+public class Promotion extends MenuItem implements Serializable{
     //region variables for Promotion
     /** variables for Promotion
      * */
@@ -11,6 +11,7 @@ public class Promotion implements Serializable{
     private ArrayList<MenuItem> Items = new ArrayList<MenuItem>();
     private String Decription;
     private double price;
+    private String type;
     //endregion
 
     //region Constructor for Promotion
@@ -35,6 +36,7 @@ public class Promotion implements Serializable{
         Items = items;
         Decription = decription;
         this.price = price;
+        this.type = "promotion";
     }
     //endregion
 

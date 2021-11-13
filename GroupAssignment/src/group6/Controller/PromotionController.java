@@ -6,7 +6,7 @@ import Entity.Promotion;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class PromotionController {
+public class PromotionController implements Controller{
 
     //region Scanner
     Scanner sc = new Scanner(System.in);
@@ -19,7 +19,7 @@ public class PromotionController {
      * Furthermore, the Promotion object will be written and save in to the Promotion.Dat file
      * With AddPromotion method in the Database controller
      */
-    public void addPromotion() {
+    public void add() {
         System.out.println("Add a Promotion");
         System.out.println("---------------------");
 
@@ -31,7 +31,7 @@ public class PromotionController {
         int userChoice;
         System.out.println("Name of Promotion:");
         Scanner sc = new Scanner(System.in);
-        String name = sc.next();
+        String name = sc.nextLine();
         //view list of menu item
         //input number of items in the promotion set
         MenuItemController MenuItemController = new MenuItemController();
@@ -40,7 +40,7 @@ public class PromotionController {
         int num = sc.nextInt();
         String lfh = sc.nextLine();
         String itemname;
-        MenuItemController.printMenuItem();
+        MenuItemController.print();
         for (int i = 0; i < num; i++) {
             MenuItem MenuItem = new MenuItem();
         do {
@@ -63,7 +63,7 @@ public class PromotionController {
         Database_Controller.addPromotion(Promotion);
 
         //    }
-        printPromotion();
+        print();
     }
 
     /**
@@ -75,7 +75,7 @@ public class PromotionController {
      * updatePromotion method in the database controller to update the Promotion.Dat file
      */
     public void UpdatePromotion() {
-        printPromotion();
+        print();
         System.out.println("Enter Id of Promotion to be updated");
         int id=sc.nextInt();
         if (Database_Controller.getPromotionById(id) == null) {
@@ -97,7 +97,7 @@ public class PromotionController {
      * it will activate the deletePromotion method from the Database Controller with
      * passing in the Promotion Id
      */
-    public void DeletePromotion() {
+    public void delete() {
         System.out.println("Remove a Promotion");
         System.out.println("---------------------");
         // find if the Promotion is in the database or not //
@@ -120,7 +120,7 @@ public class PromotionController {
      * All entries in the Promotion detail will be printed out with a for loop
      * there there will be another forloop to print the MenuItem contained in the Promotional Set Meal
      */
-    public void printPromotion() {
+    public void print() {
         System.out.println("< Available Promotions >");
         System.out.println();
         ArrayList<Promotion> Promotion = new ArrayList<Promotion>();

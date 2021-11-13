@@ -10,11 +10,13 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.TimerTask;
 
 import Entity.Staff;
 
 public class InterfaceController {
     Staff CurrentStaff;
+    static Timer timer;
 
     public InterfaceController() {
         // CurrentStaff=staff;
@@ -36,19 +38,19 @@ public class InterfaceController {
                 do {
                     switch (choice) {
                         case 1:
-                            MenuItemController.printMenuItem();
+                            MenuItemController.print();
                             break;
                         case 2:
-                            MenuItemController.addMenuItem();
+                            MenuItemController.add();
                             break;
                         case 3:
                             System.out.println("Please enter valid Item Name:");
-                            sc.nextLine();
+                            Scanner sc = new Scanner(System.in);
                             String itemName = sc.nextLine();
                             MenuItemController.updateMenuItem(itemName);
                             break;
                         case 4:
-                            MenuItemController.deleteMenuItem();
+                            MenuItemController.delete();
                             break;
                         case 5:
                             System.out.println("Returning to main menu...");
@@ -85,16 +87,16 @@ public class InterfaceController {
                 do {
                     switch (choice) {
                         case 1:
-                            PromotionController.printPromotion();
+                            PromotionController.print();
                             break;
                         case 2:
-                            PromotionController.addPromotion();
+                            PromotionController.add();
                             break;
                         case 3:
                             PromotionController.UpdatePromotion();
                             break;
                         case 4:
-                            PromotionController.DeletePromotion();
+                            PromotionController.delete();
                             break;
                         case 5:
                             System.out.println("Returning to main menu...");
@@ -167,6 +169,12 @@ public class InterfaceController {
 
     public void checkRemoveReservationBooking() {
         Scanner sc = new Scanner(System.in);
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask(){
+            public void run(){
+                ReservationController.deleteOverdueBookings();
+            }
+        },0,1*60*1000);
 
         int choice = -1;
         do {
@@ -182,7 +190,7 @@ public class InterfaceController {
                             break;
                         case 2:
                             System.out.println("Enter customer name: ");
-                            String name = sc.next();
+                            String name = sc.nextLine();
                             ReservationController.checkReservationBooking(name);
                             break;
                         case 3:
@@ -212,7 +220,7 @@ public class InterfaceController {
 
     public void checkTableAvailability() {
         TableController TableController = new TableController();
-        TableController.printTableDetails();
+        TableController.print();
     }
 
     public void printOrderInvoice() {
@@ -237,7 +245,7 @@ public class InterfaceController {
                             do{
                             try {
                                 System.out.println("Enter date [DD-MM-YYYY]: ");
-                                String date = sc.next();
+                                String date = sc.nextLine();
                                 DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                                 RevenueController.getSalesReport(LocalDate.parse(date, df));
                                 break;

@@ -37,7 +37,7 @@ public class OrderController {
 
         //region Staff ID
         StaffController StaffController = new StaffController();
-        StaffController.printStaffDetails();
+        StaffController.print();
 
         // 1. Input Staff ID
         int staffId = 0;
@@ -198,7 +198,7 @@ public class OrderController {
                             MenuItem MenuItem = new MenuItem();
                             do {
                                 System.out.println("< Alacarte Item >\n");
-                                MenuItemController.printMenuItem();
+                                MenuItemController.print();
                                 System.out.println("Enter the name of the alacarte item: ");
                                 Scanner sc = new Scanner(System.in);
                                 String itemname = sc.nextLine();
@@ -215,7 +215,7 @@ public class OrderController {
                             do {
 
                                     System.out.println("< Enter Promotion Set Item Id >\n");
-                                    PromotionController.printPromotion();
+                                    PromotionController.print();
                                     System.out.println("Enter the Id of the Promotion item: ");
                                     int promotionId;
                                     sc.nextLine();
@@ -302,7 +302,7 @@ public class OrderController {
         
         // input Staff Id
         StaffController StaffController = new StaffController();
-        StaffController.printStaffDetails();
+        StaffController.print();
         
         int staffId = 0;
         do {
@@ -380,16 +380,16 @@ public class OrderController {
                     case 1:
                         System.out.println("Enter Alacarte Item");
                         System.out.println("---------------------");
-                        MenuItemController.printMenuItem();
+                        MenuItemController.print();
                         System.out.println("Enter the name of the alacarte item :");
-                        String itemname = sc.next();
+                        String itemname = sc.nextLine();
                         MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
                         alacarteList.add(MenuItem);
                         break;
                     case 2:
                         System.out.println("Enter Promotion Set Item Id");
                         System.out.println("---------------------");
-                        PromotionController.printPromotion();
+                        PromotionController.print();
                         System.out.println("Enter the Id of the alacarte item :");
                         int promotionId = sc.nextInt();
                         Promotion Promotion = Database_Controller.getPromotionById(promotionId);
@@ -758,9 +758,9 @@ public class OrderController {
                                     		System.out.println("Done adding!");
                                     		break;
                                         case 1:
-                                            MenuItemController.printMenuItem();
+                                            MenuItemController.print();
                                             System.out.println("\nEnter Alacarte Item: ");
-                                            String itemname = sc.next();
+                                            String itemname = sc.nextLine();
                                             
                                             while(true) {
                                             	if(Database_Controller.getMenuItemByName(itemname)!=null){
@@ -771,12 +771,12 @@ public class OrderController {
                                                 	break;
                                                 } else {
                                                     System.out.println("Please enter a vaild item name!");
-                                                    itemname= sc.next();
+                                                    itemname= sc.nextLine();
                                                 }
                                             }
                                             break;
                                         case 2:
-                                            PromotionController.printPromotion();
+                                            PromotionController.print();
                                        
                                             int promotionId = 0;
                                             do {
