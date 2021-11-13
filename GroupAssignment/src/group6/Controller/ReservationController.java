@@ -181,6 +181,11 @@ public class ReservationController {
             try {
                 System.out.println("Add a Reservation");
                 System.out.println("---------------------");
+
+                // If all tables are fully reserved, exit this operation
+                if(!TableController.printAvailableTables(2))
+                    return;
+
                 int id = 1;
                 ArrayList<Reservation> presentReservation = Database_Controller.readReservationList();
                 if (presentReservation != null) {

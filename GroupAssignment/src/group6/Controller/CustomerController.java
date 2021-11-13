@@ -21,10 +21,9 @@ public class CustomerController implements Controller {
     public void print() {
         ArrayList<Customer> Customer = Database_Controller.readCustomerList();
         if (Customer != null) {
-            System.out.println("Customer Name" + "\t" + " Contact" + "\t" + " MemberShip");
+            System.out.printf("%-20s %-10s %-5s\n", "Customer Name", "Contact", "Membership");
             for (int i = 0; i < Customer.size(); i++) {
-                System.out.println(Customer.get(i).getName() + "\t\t" + Customer.get(i).getContact()
-                        + "\t" + Customer.get(i).isMemberShip());
+                System.out.printf("%-20s %-10s %-5s\n", Customer.get(i).getName(), Customer.get(i).getContact(), Customer.get(i).isMemberShip());
             }
         }
     }
