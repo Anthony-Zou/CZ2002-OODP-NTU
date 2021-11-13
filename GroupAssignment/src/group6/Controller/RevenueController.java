@@ -122,21 +122,21 @@ public class RevenueController {
         System.out.println("--------------------------------------------");
 
         for(i=0; i<menuItemList.size(); i++){
-            System.out.print(menuItemList.get(i).getItemName());
+          //  System.out.print(menuItemList.get(i).getItemName());
             qty = alacarteCount.get(i);
-            System.out.print("\t\t" + qty);
+          //  System.out.print("\t\t" + qty);
             itemTotal = menuItemList.get(i).getPrice()*qty;
             totalGross += itemTotal;
-            System.out.print("\t\t\t" +  itemTotal + "\n");
+            System.out.printf("%-20s %-8d %.2f\n" ,  menuItemList.get(i).getItemName(), qty, itemTotal);
         }
 
         for(i=0; i<promotionItemList.size(); i++){
-            System.out.print(promotionItemList.get(i).getName());
+//            System.out.print(promotionItemList.get(i).getName());
             qty = promotionCount.get(i);
-            System.out.print("\t" + qty);
+//            System.out.print("\t\t\t\t" + qty);
             itemTotal = promotionItemList.get(i).getPrice()*qty;
             totalGross += itemTotal;
-            System.out.print("\t" +  itemTotal + "\n");
+            System.out.printf("%-20s %-8d %.2f\n" ,  promotionItemList.get(i).getName(), qty, itemTotal);
         }
         System.out.println("--------------------------------------------");
         System.out.printf("Total Gross Revenue: \t\t\t\t%.2f\n", totalGross);

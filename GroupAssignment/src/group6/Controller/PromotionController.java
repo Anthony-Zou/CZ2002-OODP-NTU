@@ -1,12 +1,14 @@
 package Controller;
 
-import Entity.MenuItem;
-import Entity.Order;
-import Entity.Promotion;
+import Entity.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class PromotionController implements Controller{
 
@@ -146,7 +148,10 @@ public class PromotionController implements Controller{
             for (int i = 0; i < Promotion.size(); i++) {
 
                 System.out.println(Promotion.get(i).getName() +
-                        "\t\t " + Promotion.get(i).getDecription() + "\t "+ Promotion.get(i).getPrice() );
+                        "\t\t " + Promotion.get(i).getDecription() + "\t "+
+                                Math.round(Promotion.get(i).getPrice()  * 100.0) / 100.0
+
+                );
                 printPromotionByName(Promotion.get(i).getName());
                 System.out.println("--------------------------------------------------"+ "\n");
 
@@ -182,11 +187,48 @@ public class PromotionController implements Controller{
         }
 
     }
+    public void deletePromotionRange(){
+        int counter = 10;
+        for(int q = 0; q < counter; q++){
+            String PromoName = "Set "+(q+1);
+            Database_Controller.deletePromotion(PromoName);
+        }
+    }
+    public void populatePromotion(){
+        int counter = 20;
+        for(int q = 0; q < counter; q++){
+            String PromoName = "Set "+(q+1);
+            String Description = "Description for "+ PromoName;
+            Random rand = new Random();
 
+            ArrayList<MenuItem> alacarteoptions = Database_Controller.readMenuItemList();
+
+            ArrayList<MenuItem> alacarteList = new ArrayList<MenuItem>();
+
+            for( int  i = 0; i < rand.nextInt((6 - 0) + 1) + 2;i++){
+                int randomalacarteoptions= rand.nextInt((alacarteoptions.size() - 2) + 1) + 1;;
+                MenuItem MenuItem = Database_Controller.getMenuItemByName(alacarteoptions.get(randomalacarteoptions).getItemName());
+                alacarteList.add(MenuItem);
+            }
+            double totalPrice=0;
+
+            if (alacarteList != null) {
+                for ( int i = 0; i < alacarteList.size(); i++) {
+                    totalPrice += alacarteList.get(i).getPrice();
+                }
+            }
+            double discountedPrice=totalPrice *0.9;
+
+            Promotion Promotion = new Promotion(PromoName, alacarteList, Description, discountedPrice);
+            Database_Controller.addPromotion(Promotion);
+        }
+    }
     public static void main(String[] args){
         PromotionController promotionController = new PromotionController();
-//        promotionController.delete();
-//        promotionController.delete();
+        promotionController.deletePromotionRange();
+        promotionController.populatePromotion();
+
+
         promotionController.print();
     }
 }
