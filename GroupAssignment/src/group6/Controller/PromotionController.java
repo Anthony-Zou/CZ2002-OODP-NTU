@@ -30,6 +30,7 @@ public class PromotionController {
         }
         int userChoice;
         System.out.println("Name of Promotion:");
+        Scanner sc = new Scanner(System.in);
         String name = sc.next();
         //view list of menu item
         //input number of items in the promotion set
