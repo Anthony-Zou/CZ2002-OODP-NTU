@@ -2,6 +2,7 @@ package Controller;
 
 import Entity.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.*;
 
 public class OrderController {
     //region Scanner
@@ -84,36 +86,37 @@ public class OrderController {
         	}
         	sc.nextLine();
         } while(pax == 0);
-        
-        TableController TableController = new TableController();
-        TableController.printAvailableTables(pax);
-        
-        
+
+
         // 3. Input table ID
+        TableController TableController = new TableController();
+        boolean availability = TableController.printAvailableTables(pax);
         int tableId = 0;
-        do {
-        	try {
-        		while (true) {
-        			System.out.println("Enter Table Id of choices:");
-                    tableId = sc.nextInt();
-                    if (Database_Controller.getTableById(tableId) != null
-                            && Database_Controller.getTableById(tableId).isReserved() == false
-                                && Database_Controller.getTableById(tableId).getCapacity()>=pax) {
-                        break;
-                    } else {
-                    	System.out.println("\nPlease enter a valid ID!");
-                		System.out.println("\n-----------------------------------\n");
+
+        if(availability == true){
+            do {
+                try {
+                    while (true) {
+                        System.out.println("Enter Table Id of choices:");
+                        tableId = sc.nextInt();
+                        if (Database_Controller.getTableById(tableId) != null) {
+                            break;
+                        } else {
+                            System.out.println("\nPlease enter a valid ID!");
+                            System.out.println("\n-----------------------------------\n");
+                        }
+        
                     }
+                } catch (InputMismatchException e) {
+                    System.out.println("\nPlease enter a valid ID!");
+                    System.out.println("\n-----------------------------------\n");
+                    tableId = 0;
                 }
-        	} catch (InputMismatchException e) {
-        		System.out.println("\nPlease enter a valid ID!");
-        		System.out.println("\n-----------------------------------\n");
-        		tableId = 0;
-        	}
-        	sc.nextLine();
-        } while(tableId == 0);    
-        
-        
+                sc.nextLine();
+            } while(tableId == 0);
+        }
+
+
         // 4. member / non-member choice
         boolean membership = false;
         int choice  = -1;
@@ -297,10 +300,12 @@ public class OrderController {
      * @param reservation ,addtional information that are required in the order are requested from user
      * to input into the variables.
      */
-//    public void convertResToOrder(Reservation reservation){
-//        int tableId= reservation.getTableId();
-//        boolean membership=Database_Controller.getCustomerByName(reservation.getCustomerName()).isMemberShip();
-//        int userContact=Database_Controller.getCustomerByName(reservation.getCustomerName()).getContact();
+    public void convertResToOrder(Reservation reservation){
+        int tableId= reservation.getTableId();
+        boolean membership=Database_Controller.getCustomerByName(reservation.getCustomerName()).isMemberShip();
+        int userContact=Database_Controller.getCustomerByName(reservation.getCustomerName()).getContact();
+        int pax = reservation.getPax();
+
 //
 //        System.out.println("< Create an Order >\n");
 //        System.out.println("Generating Order Id");
@@ -458,6 +463,7 @@ public class OrderController {
 //        Database_Controller.addOrder(Order);
 //    }
     public void convertResToOrder(Reservation reservation) {
+
         System.out.println("< Create an Order >\n");
         System.out.println("Generating Order Id...");
         System.out.println("---------------------");
@@ -713,7 +719,7 @@ public class OrderController {
     public void viewUnpaidOrder() {
         ArrayList<Order> Order = Database_Controller.readOrderList();
         if (Order != null) {
-            System.out.println("orderId" + "\t\t\t" + "staffId" + "\t\t\t" + "membership" + "\t\t\t" + "userContact" + "\t\t\t" + "totalPrice" + "\t\t\t" + "tableId" + "\t\t\t" + "paid" + "\t\t\t+ \"Date\" + \"ttt+ \"Time" + "\t\t\t");
+            System.out.println("Order Id\t\t\tStaff Id\t\t\tMembership\t\t\tUser Contact\t\t\tTotal Price\t\t\tTable Id\t\t\tPaid\t\t\tDate\t\t\tTime\t\t\t");
             for (int i = 0; i < Order.size(); i++) {
                 if (Order.get(i).isPaid() == false) {
                     System.out.println(Order.get(i).getOrderId() + "\t\t\t\t" + Order.get(i).getStaffId() +
@@ -754,7 +760,7 @@ public class OrderController {
     public void viewpaidOrder() {
         ArrayList<Order> Order = Database_Controller.readOrderList();
         if (Order != null) {
-            System.out.println("orderId" + "\t\t\t" + "staffId" + "\t\t\t" + "membership" + "\t\t\t" + "userContact" + "\t\t\t" + "totalPrice" + "\t\t\t" + "tableId" + "\t\t\t" + "paid" + "\t\t\t" + "Date" + "\t\t\t" + "Time" + "\t");
+            System.out.println("Order Id\t\t\tStaff Id\t\t\tMembership\t\t\tUser Contact\t\t\tTotal Price\t\t\tTable Id\t\t\tPaid\t\t\tDate\t\t\tTime\t\t\t");
             for (int i = 0; i < Order.size(); i++) {
                 if (Order.get(i).isPaid() == true) {
                     System.out.println(Order.get(i).getOrderId() + "\t\t\t\t" + Order.get(i).getStaffId() +
@@ -808,28 +814,77 @@ public class OrderController {
             Order Order = Database_Controller.getOrderById(Number);
             Order.setPaid(true);
             Database_Controller.updateOrder(Order);
-            System.out.println("Order Paid! Printing Invoice");
+            System.out.println("Order Paid! Printing Invoice\n");
+            System.out.println("=======================================");
 
             //region print invoice
-            System.out.println(Order.getOrderId() + "\t\t\t\t" + Order.getStaffId() +
-                    "\t\t\t\t" + Order.isMembership() + "\t\t\t"
-                    + Order.getUserContact() + "\t\t\t" + Order.getTotalPrice() + "\t\t\t" + Order.getTableNum() + "\t\t\t" + Order.isPaid() + "\t\t\t");
+//            System.out.println(Order.getOrderId() + "\t\t\t\t" + Order.getStaffId() +
+//                    "\t\t\t\t" + Order.isMembership() + "\t\t\t"
+//                    + Order.getUserContact() + "\t\t\t" + Order.getTotalPrice() + "\t\t\t" + Order.getTableNum() + "\t\t\t" + Order.isPaid() + "\t\t\t");
+
+            System.out.println("\t\t\t Check #: " + Order.getOrderId()+ "\n");
+            System.out.println(" Server: " + Order.getStaffId() + "\t\t  " + "Date: " + Order.getDate());
+            System.out.println(" Table: " + Order.getTableNum() + "\t\t      " + "Time: " + Order.getTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+
+            System.out.println("---------------------------------------");
+
 
             //Print Alacarte Item in the order
-            System.out.println("Alacarte Item");
-            System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
+//            Map<Integer, Double> dictionary2 = new HashMap<Integer, Double>();
+//            Map<String, Map> dictionary1 = new HashMap<String, Map>();
+
+            Map<String, Double> dictionary1 = new HashMap<String, Double>();
+            Map<String, Integer> dictionary2 = new HashMap<String, Integer>();
             for (int j = 0; j < Order.getAlacarte().size(); j++) {
-                System.out.println("\t" + Order.getAlacarte().get(j).getItemName()
-                        + "\t" + Order.getAlacarte().get(j).getPrice());
+
+                String name = Order.getAlacarte().get(j).getItemName();
+                double price = Order.getAlacarte().get(j).getPrice();
+                double prevPrice;
+                int prevQty;
+                if (dictionary1.get(name) == null) {
+                    dictionary1.put(name, price);
+                    dictionary2.put(name, 1);
+                } else {
+                    prevPrice = dictionary1.get(name);
+                    prevQty = dictionary2.get(name);
+                    dictionary1.replace(name, prevPrice += price);
+                    dictionary2.replace(name, prevQty += 1);
+                }
             }
+
+            for (Map.Entry<String, Double> entry: dictionary1.entrySet()){
+                System.out.printf("  %-4d%-22s%.2f\n", dictionary2.get(entry.getKey()), entry.getKey(), entry.getValue());
+            }
+
             //Print Promotion Item in the order
-            System.out.println("Promotion Item");
-            System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
+
+            Map<String, Double> dictionary3 = new HashMap<String, Double>();
+            Map<String, Integer> dictionary4 = new HashMap<String, Integer>();
+
             for (int j = 0; j < Order.getPromotion().size(); j++) {
-                System.out.println(
-                        "\t" + Order.getPromotion().get(j).getName()
-                                + "\t" + Order.getPromotion().get(j).getPrice());
+
+                String name = Order.getPromotion().get(j).getName();
+                double price = Order.getPromotion().get(j).getPrice();
+                double prevPrice;
+                int prevQty;
+                if (dictionary3.get(name) == null) {
+                    dictionary3.put(name, price);
+                    dictionary4.put(name, 1);
+                } else {
+                    prevPrice = dictionary3.get(name);
+                    prevQty = dictionary4.get(name);
+                    dictionary3.replace(name, prevPrice += price);
+                    dictionary4.replace(name, prevQty += 1);
+                }
             }
+
+            for (Map.Entry<String, Double> entry: dictionary3.entrySet()){
+                System.out.printf("  %-4d%-22s%.2f\n", dictionary4.get(entry.getKey()), entry.getKey(), entry.getValue());
+            }
+
+            System.out.println("---------------------------------------");
+//            System.out.printf("Subtotal:\t%.2f\nGST:\t%.2f\nTotal:\t%.2f", );
+            System.out.printf("%25s\t%.2f\n", "Total:", Order.getTotalPrice());
             //endregion
         }
     }
@@ -1251,8 +1306,8 @@ public class OrderController {
 
     public static void main(String[] args) {
         OrderController OrderController = new OrderController();
-
         OrderController.createOrder();
+        OrderController.printOrderInvoice();
     }
 
 }
