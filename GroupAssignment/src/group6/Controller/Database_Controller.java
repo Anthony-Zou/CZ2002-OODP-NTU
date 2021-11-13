@@ -470,14 +470,14 @@ public class Database_Controller {
 
     /**
      * Get and return the Promotion object from Promotion.dat file
-     * @param Id
+     * @param Name
      * @return
      */
-    public static Promotion getPromotionById(int Id) {
+    public static Promotion getPromotionByName(String Name) {
         ArrayList<Promotion> PromotionList = (ArrayList<Promotion>)readPromotionList();
         for (int i = 0 ; i < PromotionList.size() ; i++) {
             Promotion Promotion = (Promotion)PromotionList.get(i);
-            if (Promotion.getId()==(Id))
+            if (Promotion.getName().equalsIgnoreCase(Name))
             {
                 return Promotion;
             }
@@ -487,14 +487,14 @@ public class Database_Controller {
 
     /**
      * Get and return the Promotion object index from Promotion.dat file
-     * @param Id
+     * @param Name
      * @return
      */
-    public static int getPromotionIndex(int Id) {
+    public static int getPromotionIndex(String Name) {
         ArrayList<Promotion> PromotionList = (ArrayList<Promotion>)readPromotionList();
         for (int i = 0 ; i < PromotionList.size() ; i++) {
             Promotion Promotion = (Promotion)PromotionList.get(i);
-            if (Promotion.getId()==(Id))
+            if (Promotion.getName()==Name)
             {
                 return i;
             }
@@ -518,13 +518,13 @@ public class Database_Controller {
      * Create a local arraylist assign it with values read the array list of Promotion objects from Promotion.Dat file.
      * Then Find the object that corresponds to the Promotion employeeId passed in and remove it from the local array list
      * pass in the local array list object to the WritePromotionList to overwrite the previous records.
-     * @param Id
+     * @param Name
      */
-    public static void deletePromotion(int Id) {
+    public static void deletePromotion(String Name) {
         ArrayList<Promotion> PromotionList = (ArrayList<Promotion>)readPromotionList();
         for (int i = 0 ; i < PromotionList.size() ; i++) {
             Promotion Promotion = (Promotion)PromotionList.get(i);
-            if (Promotion.getId()==(Id))
+            if (Promotion.getName()==(Name))
             {
                 PromotionList.remove(i);
                 break;
@@ -540,7 +540,7 @@ public class Database_Controller {
      * @param Promotion
      */
     public static void updatePromotion(Promotion Promotion) {
-        deletePromotion(Promotion.getId());
+        deletePromotion(Promotion.getName());
         addPromotion(Promotion);
     }
     //endregion
@@ -806,4 +806,17 @@ public class Database_Controller {
         addRevenue(Revenue);
     }
     //endregion
+
+
+
+    public static void main(String[] args){
+//        ArrayList<Promotion> Promotionlist = new ArrayList<Promotion>();
+//
+//        writePromotionList(Promotionlist);
+
+        ArrayList<Order> Orderlist = new ArrayList<Order>();
+
+        writeOrderList(Orderlist);
+        System.out.println( Database_Controller.getPromotionByName("SetA"));
+    }
 }

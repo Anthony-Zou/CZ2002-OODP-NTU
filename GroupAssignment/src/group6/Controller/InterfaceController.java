@@ -190,6 +190,7 @@ public class InterfaceController {
                             break;
                         case 2:
                             System.out.println("Enter customer name: ");
+                            sc.nextLine();
                             String name = sc.nextLine();
                             ReservationController.checkReservationBooking(name);
                             break;

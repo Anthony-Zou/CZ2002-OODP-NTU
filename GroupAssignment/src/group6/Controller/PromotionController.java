@@ -1,6 +1,7 @@
 package Controller;
 
 import Entity.MenuItem;
+import Entity.Order;
 import Entity.Promotion;
 
 import java.util.ArrayList;
@@ -32,8 +33,7 @@ public class PromotionController implements Controller{
         System.out.println("Name of Promotion:");
         Scanner sc = new Scanner(System.in);
         String name = sc.nextLine();
-        //view list of menu item
-        //input number of items in the promotion set
+
         MenuItemController MenuItemController = new MenuItemController();
         ArrayList<MenuItem> Items = new ArrayList<MenuItem>();
         System.out.println("Number of items in the Promotion:");
@@ -59,10 +59,11 @@ public class PromotionController implements Controller{
         System.out.println("Price of Promotion:");
         Double price = sc.nextDouble();
 
-        Promotion Promotion = new Promotion(id, name, Items, description, price);
+        Promotion Promotion = new Promotion(name, Items, description, price);
         Database_Controller.addPromotion(Promotion);
 
         //    }
+
         print();
     }
 
@@ -76,12 +77,12 @@ public class PromotionController implements Controller{
      */
     public void UpdatePromotion() {
         print();
-        System.out.println("Enter Id of Promotion to be updated");
-        int id=sc.nextInt();
-        if (Database_Controller.getPromotionById(id) == null) {
+        System.out.println("Enter Name of Promotion to be updated");
+        String name =sc.nextLine();
+        if (Database_Controller.getPromotionByName(name) == null) {
             System.out.println("Promotion does not exist!");
         } else {
-            Promotion Promotion = Database_Controller.getPromotionById(id);
+            Promotion Promotion = Database_Controller.getPromotionByName(name);
             //content
             System.out.println("Enter new price of the Promotion");
             Promotion.setPrice(sc.nextDouble());
@@ -101,13 +102,13 @@ public class PromotionController implements Controller{
         System.out.println("Remove a Promotion");
         System.out.println("---------------------");
         // find if the Promotion is in the database or not //
-        System.out.println("Enter the Id of the MenuItem:");
-        int id = sc.nextInt();
-        if (Database_Controller.getPromotionById(id) == null) {
+        System.out.println("Enter the name of the MenuItem:");
+        String name = sc.nextLine();
+        if (Database_Controller.getPromotionByName(name) == null) {
             System.out.println("Promotion does not exist!");
 
         } else {
-            Database_Controller.deletePromotion(id);// =---- from the database
+            Database_Controller.deletePromotion(name);// =---- from the database
             System.out.println("Promotion removed!");
 
         }
@@ -131,9 +132,9 @@ public class PromotionController implements Controller{
         if(Promotion!=null) {
             for (int i = 0; i < Promotion.size(); i++) {
 
-                System.out.println(Promotion.get(i).getId() + "\t" + Promotion.get(i).getName() +
+                System.out.println(Promotion.get(i).getName() +
                         "\t\t " + Promotion.get(i).getDecription() + "\t "+ Promotion.get(i).getPrice() );
-                printPromotionById(Promotion.get(i).getId());
+                printPromotionByName(Promotion.get(i).getName());
                 System.out.println("--------------------------------------------------"+ "\n");
 
             }
@@ -144,11 +145,11 @@ public class PromotionController implements Controller{
     /**
      * printPromotionById Method:
      * This will print the Promotional Set Meal detail specific to the input order Id
-     * @param Id
+     * @param name
      */
-    public void printPromotionById(int Id){
+    public void printPromotionByName(String name){
         Promotion promotion =new Promotion();
-        promotion= Database_Controller.getPromotionById(Id);
+        promotion= Database_Controller.getPromotionByName(name);
         System.out.println(
                 "Item "
                         + "\t"
@@ -169,5 +170,8 @@ public class PromotionController implements Controller{
 
     }
 
-
+//    public static void main(String[] args){
+//        PromotionController promotionController = new PromotionController();
+//        promotionController.print();
+//    }
 }

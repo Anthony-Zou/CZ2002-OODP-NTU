@@ -23,6 +23,7 @@ public class MenuItemController implements Controller{
         do {
         	try {
         		System.out.println("Enter the Name of the MenuItem:");
+                sc=new Scanner(System.in);
                 itemName = sc.nextLine();
         	} catch (InputMismatchException e) {
         		System.out.println("Please enter a valid choice!");

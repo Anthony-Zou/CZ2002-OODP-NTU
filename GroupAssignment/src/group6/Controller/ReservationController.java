@@ -80,7 +80,7 @@ public class ReservationController {
         Table table = new Table();
         for (int i = 0; i < resList.size(); i++) {
             res = resList.get(i);
-            if (date.isAfter(res.getDate()) || (date.isEqual(res.getDate()) && time.isAfter(res.getTime().plusMinutes(20)))) {
+            if (date.isAfter(res.getDate()) || (date.isEqual(res.getDate()) && time.isAfter(res.getTime().plusMinutes(1)))) {
                 table = Database_Controller.getTableById(res.getTableId());
                 table.setReserved(false);
                 Database_Controller.updateTable(table);
@@ -114,7 +114,7 @@ public class ReservationController {
         LocalDate today = LocalDate.now();
         int sameDate = date.compareTo(today);
         LocalTime time = res.getTime();
-        LocalTime afterTime = time.plusMinutes(20);
+        LocalTime afterTime = time.plusMinutes(1);
         LocalTime beforeTime = time.minusMinutes(20);
         LocalTime now = LocalTime.now();
         boolean before = afterTime.isBefore(now);
@@ -174,7 +174,8 @@ public class ReservationController {
                 int id = 1;
                 ArrayList<Reservation> presentReservation = Database_Controller.readReservationList();
                 if (presentReservation != null) {
-                    id = presentReservation.size() + 1;
+                   if( presentReservation.size()>=1){
+                    id = presentReservation.get(presentReservation.size()-1).getId() + 1;}
                 }
 
                 // Enter pax
@@ -206,6 +207,7 @@ public class ReservationController {
                 System.out.println("Enter customerName:");
                 CustomerController CustomerController = new CustomerController();
                 CustomerController.print();
+                Scanner sc = new Scanner(System.in);
                 String customerName = sc.nextLine();
                 check = 1;
                 if (Database_Controller.getReservationByCustomerName(customerName) != null) {
@@ -229,6 +231,7 @@ public class ReservationController {
                         do {
                             try {
                                 System.out.println("Enter a date [DD-MM-YYYY]: ");
+                                //sc.nextLine();
                                 String str = sc.nextLine();
                                 DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                                 Date = LocalDate.parse(str, df);
