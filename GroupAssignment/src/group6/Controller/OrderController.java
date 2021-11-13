@@ -261,7 +261,7 @@ public class OrderController {
     }
 
     /**
-     * Conver Reservation to an Order with keeping the sam content in the reservation object passed in with
+     * Convert Reservation to an Order with keeping the sam content in the reservation object passed in with
      * @param reservation ,addtional information that are required in the order are requested from user
      * to input into the variables.
      */
@@ -517,7 +517,7 @@ public class OrderController {
     public void viewUnpaidOrder() {
         ArrayList<Order> Order = Database_Controller.readOrderList();
         if (Order != null) {
-            System.out.println("orderId" + "\t\t\t" + "staffId" + "\t\t\t" + "membership" + "\t\t\t" + "userContact" + "\t\t\t" + "totalPrice" + "\t\t\t" + "tableId" + "\t\t\t" + "paid" + "\t\t\t+ \"Date\" + \"\\t\\t\\t+ \"Time\" + \"\\t\\t\\t");
+            System.out.println("orderId" + "\t\t\t" + "staffId" + "\t\t\t" + "membership" + "\t\t\t" + "userContact" + "\t\t\t" + "totalPrice" + "\t\t\t" + "tableId" + "\t\t\t" + "paid" + "\t\t\t+ \"Date\" + \"ttt+ \"Time" + "\t\t\t");
             for (int i = 0; i < Order.size(); i++) {
                 if (Order.get(i).isPaid() == false) {
                     System.out.println(Order.get(i).getOrderId() + "\t\t\t\t" + Order.get(i).getStaffId() +
@@ -679,6 +679,7 @@ public class OrderController {
      * to add or remove alacarte/promotion items in the current order
      */
     public void updateOrderById() {
+
         this.viewUnpaidOrder();
         
         // Input order id to update
