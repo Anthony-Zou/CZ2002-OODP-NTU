@@ -80,7 +80,7 @@ public class ReservationController {
         Table table = new Table();
         for (int i = 0; i < resList.size(); i++) {
             res = resList.get(i);
-            if (date.isAfter(res.getDate()) || (date.isEqual(res.getDate()) && time.isAfter(res.getTime().plusMinutes(20)))) {
+            if (date.isAfter(res.getDate()) || (date.isEqual(res.getDate()) && time.isAfter(res.getTime().plusMinutes(1)))) {
                 table = Database_Controller.getTableById(res.getTableId());
                 table.setReserved(false);
                 Database_Controller.updateTable(table);
@@ -114,7 +114,7 @@ public class ReservationController {
         LocalDate today = LocalDate.now();
         int sameDate = date.compareTo(today);
         LocalTime time = res.getTime();
-        LocalTime afterTime = time.plusMinutes(20);
+        LocalTime afterTime = time.plusMinutes(1);
         LocalTime beforeTime = time.minusMinutes(20);
         LocalTime now = LocalTime.now();
         boolean before = afterTime.isBefore(now);
@@ -166,28 +166,26 @@ public class ReservationController {
      */
     public void createReservation() {
         printReservationList();
-        int outerCount = 0;
-        do {
+        int check;
+        do{
             try {
                 System.out.println("Add a Reservation");
                 System.out.println("---------------------");
                 int id = 1;
-                ArrayList<Promotion> presentPromotions = Database_Controller.readPromotionList();
-                if (presentPromotions != null) {
-                    id = presentPromotions.size() + 1;
+                ArrayList<Reservation> presentReservation = Database_Controller.readReservationList();
+                if (presentReservation != null) {
+                   if( presentReservation.size()>=1){
+                    id = presentReservation.get(presentReservation.size()-1).getId() + 1;}
                 }
 
                 // Enter pax
-                int pax, count = 0;
+                int pax;
                 do {
                     System.out.println("Enter pax:");
                     pax = sc.nextInt();
                     if (pax < 2 || pax > 10) {
                         System.out.println("Please enter pax from 2 to 10!");
-                        count++;
                     }
-                    if (count == 3)
-                        return;
                 } while (pax < 2 || pax > 10);
 
                 // Show available tables for given pax
@@ -197,30 +195,27 @@ public class ReservationController {
 
                 // Choose table
                 int tableId;
-                count = 0;
                 do {
                     System.out.println("Enter Table Id of choice:");
                     tableId = sc.nextInt();
                     if (!TableController.listAvailableTables(pax).contains(tableId)) {
                         System.out.println("Table " + tableId + " unavailable! Please choose another table.");
-                        count++;
                     }
-                    if (count == 3)
-                        return;
                 } while (!TableController.listAvailableTables(pax).contains(tableId));
 
                 // Enter customer details
                 System.out.println("Enter customerName:");
                 CustomerController CustomerController = new CustomerController();
-                CustomerController.printCustomerDetails();
-                String customerName = sc.next();
-                int check = 1;
+                CustomerController.print();
+                Scanner sc = new Scanner(System.in);
+                String customerName = sc.nextLine();
+                check = 1;
                 if (Database_Controller.getReservationByCustomerName(customerName) != null) {
                     System.out.println("You have already reserved a table!");
                     check = 0;
                 } else if (Database_Controller.getCustomerByName(customerName) == null) {
                     // Add customer if he/she is not in database yet
-                    CustomerController.addCustomer();
+                    CustomerController.add();
                     // Retrieve new customer's name as per input during registration
                     ArrayList<Customer> Customers = Database_Controller.readCustomerList();
                     Customer newCustomer = Customers.get(Customers.size() - 1);
@@ -230,14 +225,14 @@ public class ReservationController {
                 if (check == 1) {
 
                     // Enter reservation date
-                    count = 0;
                     LocalDate Date;
                     LocalTime Time;
                     do {
                         do {
                             try {
                                 System.out.println("Enter a date [DD-MM-YYYY]: ");
-                                String str = sc.next();
+                                //sc.nextLine();
+                                String str = sc.nextLine();
                                 DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                                 Date = LocalDate.parse(str, df);
                                 break;
@@ -247,21 +242,17 @@ public class ReservationController {
                             sc.nextLine();
                         } while(true);
 
-                        if (Date.isAfter(LocalDate.now().plusDays(7))) {
-                            System.out.println("Reservations can be made at most 7 days in advance. Choose a closer date.");
-                            count++;
+                        if (Date.compareTo(LocalDate.now())!=0) {
+                            System.out.println("Reservations can only be made today!");
                         }
-                        if (count == 3)
-                            return;
-                    } while (Date.isAfter(LocalDate.now().plusDays(7)));
+                    } while (Date.compareTo(LocalDate.now())!=0);
 
                     // Enter reservation time
-                    count = 0;
                     do {
                         do {
                             try {
                                 System.out.println("Enter a time [hh:mm]: ");
-                                String time = sc.next();  //default format: hh:mm:ss
+                                String time = sc.nextLine();  //default format: hh:mm:ss
                                 Time = LocalTime.parse(time);
                                 break;
                             } catch (DateTimeParseException e) {
@@ -270,13 +261,10 @@ public class ReservationController {
                             sc.nextLine();
                         } while(true);
 
-                        if (Time.isBefore(LocalTime.now().plusHours(5))) {
-                            System.out.println("Reservations must be made at least 5 hours in advance. Choose a later time.");
-                            count++;
+                        if (Time.isAfter(LocalTime.now().plusMinutes(20))) {
+                            System.out.println("Reservations must be made at most 20 minutes in advance. Choose an earlier time.");
                         }
-                        if (count == 3)
-                            return;
-                    } while (Time.isBefore(LocalTime.now().plusHours(5)));
+                    } while (Time.isAfter(LocalTime.now().plusMinutes(20)));
 
                     // Reserve table
                     Table table = Database_Controller.getTableById(tableId);
@@ -290,14 +278,13 @@ public class ReservationController {
                 } else {
                     checkReservationBooking(customerName);
                 }
-                break;
             } catch (InputMismatchException e) {
                 System.out.println("\nPlease enter a valid number!");
                 System.out.println("\n-----------------------------------\n");
+                check=-1;
             }
             sc.nextLine(); //clears buffer
-            outerCount++;
-        } while (outerCount > 3);
+        }while(check==-1);
     }
 
     /**

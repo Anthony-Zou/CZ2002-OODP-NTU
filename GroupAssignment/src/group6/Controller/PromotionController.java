@@ -1,12 +1,14 @@
 package Controller;
 
 import Entity.MenuItem;
+import Entity.Order;
 import Entity.Promotion;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class PromotionController {
+public class PromotionController implements Controller{
 
     //region Scanner
     Scanner sc = new Scanner(System.in);
@@ -19,7 +21,7 @@ public class PromotionController {
      * Furthermore, the Promotion object will be written and save in to the Promotion.Dat file
      * With AddPromotion method in the Database controller
      */
-    public void addPromotion() {
+    public void add() {
         System.out.println("Add a Promotion");
         System.out.println("---------------------");
 
@@ -31,16 +33,15 @@ public class PromotionController {
         int userChoice;
         System.out.println("Name of Promotion:");
         Scanner sc = new Scanner(System.in);
-        String name = sc.next();
-        //view list of menu item
-        //input number of items in the promotion set
+        String name = sc.nextLine();
+
         MenuItemController MenuItemController = new MenuItemController();
         ArrayList<MenuItem> Items = new ArrayList<MenuItem>();
         System.out.println("Number of items in the Promotion:");
         int num = sc.nextInt();
         String lfh = sc.nextLine();
         String itemname;
-        MenuItemController.printMenuItem();
+        MenuItemController.print();
         for (int i = 0; i < num; i++) {
             MenuItem MenuItem = new MenuItem();
         do {
@@ -56,14 +57,27 @@ public class PromotionController {
 
         System.out.println("Description of Promotion:");
         String description = sc.nextLine();
-        System.out.println("Price of Promotion:");
-        Double price = sc.nextDouble();
+        Double price;
+        do {
+            System.out.println("Price of Promotion:");
+            sc = new Scanner(System.in);
+            try {
+                price = sc.nextDouble();
+            } catch (InputMismatchException e) {
+                System.out.println("Wrong value type entered.");
+                price = 0.0;
+            }
+            if (price < 0) {
+                System.out.println("Please enter a valid price.");
+            }
+        }while(price < 0);
 
-        Promotion Promotion = new Promotion(id, name, Items, description, price);
+        Promotion Promotion = new Promotion(name, Items, description, price);
         Database_Controller.addPromotion(Promotion);
 
         //    }
-        printPromotion();
+
+        print();
     }
 
     /**
@@ -75,13 +89,13 @@ public class PromotionController {
      * updatePromotion method in the database controller to update the Promotion.Dat file
      */
     public void UpdatePromotion() {
-        printPromotion();
-        System.out.println("Enter Id of Promotion to be updated");
-        int id=sc.nextInt();
-        if (Database_Controller.getPromotionById(id) == null) {
+        print();
+        System.out.println("Enter Name of Promotion to be updated");
+        String name =sc.nextLine();
+        if (Database_Controller.getPromotionByName(name) == null) {
             System.out.println("Promotion does not exist!");
         } else {
-            Promotion Promotion = Database_Controller.getPromotionById(id);
+            Promotion Promotion = Database_Controller.getPromotionByName(name);
             //content
             System.out.println("Enter new price of the Promotion");
             Promotion.setPrice(sc.nextDouble());
@@ -97,17 +111,17 @@ public class PromotionController {
      * it will activate the deletePromotion method from the Database Controller with
      * passing in the Promotion Id
      */
-    public void DeletePromotion() {
+    public void delete() {
         System.out.println("Remove a Promotion");
         System.out.println("---------------------");
         // find if the Promotion is in the database or not //
-        System.out.println("Enter the Id of the MenuItem:");
-        int id = sc.nextInt();
-        if (Database_Controller.getPromotionById(id) == null) {
+        System.out.println("Enter the name of the MenuItem:");
+        String name = sc.nextLine();
+        if (Database_Controller.getPromotionByName(name) == null) {
             System.out.println("Promotion does not exist!");
 
         } else {
-            Database_Controller.deletePromotion(id);// =---- from the database
+            Database_Controller.deletePromotion(name);// =---- from the database
             System.out.println("Promotion removed!");
 
         }
@@ -120,7 +134,7 @@ public class PromotionController {
      * All entries in the Promotion detail will be printed out with a for loop
      * there there will be another forloop to print the MenuItem contained in the Promotional Set Meal
      */
-    public void printPromotion() {
+    public void print() {
         System.out.println("< Available Promotions >");
         System.out.println();
         ArrayList<Promotion> Promotion = new ArrayList<Promotion>();
@@ -131,9 +145,9 @@ public class PromotionController {
         if(Promotion!=null) {
             for (int i = 0; i < Promotion.size(); i++) {
 
-                System.out.println(Promotion.get(i).getId() + "\t" + Promotion.get(i).getName() +
+                System.out.println(Promotion.get(i).getName() +
                         "\t\t " + Promotion.get(i).getDecription() + "\t "+ Promotion.get(i).getPrice() );
-                printPromotionById(Promotion.get(i).getId());
+                printPromotionByName(Promotion.get(i).getName());
                 System.out.println("--------------------------------------------------"+ "\n");
 
             }
@@ -144,11 +158,11 @@ public class PromotionController {
     /**
      * printPromotionById Method:
      * This will print the Promotional Set Meal detail specific to the input order Id
-     * @param Id
+     * @param name
      */
-    public void printPromotionById(int Id){
+    public void printPromotionByName(String name){
         Promotion promotion =new Promotion();
-        promotion= Database_Controller.getPromotionById(Id);
+        promotion= Database_Controller.getPromotionByName(name);
         System.out.println(
                 "Item "
                         + "\t"
@@ -169,5 +183,10 @@ public class PromotionController {
 
     }
 
-
+    public static void main(String[] args){
+        PromotionController promotionController = new PromotionController();
+//        promotionController.delete();
+//        promotionController.delete();
+        promotionController.print();
+    }
 }

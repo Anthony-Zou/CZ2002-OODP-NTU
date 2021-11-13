@@ -104,7 +104,7 @@ public class RevenueController {
             if(paidOrders.get(i).getPromotion() != null) {
                 for (j = 0; j < paidOrders.get(i).getPromotion().size(); j++) {
                     Promotion promotionItem = paidOrders.get(i).getPromotion().get(j);
-                    index = Database_Controller.getPromotionIndex(promotionItem.getId());
+                    index = Database_Controller.getPromotionIndex(promotionItem.getName());
                     if(index != -1) {
                         qty = promotionCount.get(index) + 1;
                         promotionCount.set(index, qty);

@@ -39,7 +39,7 @@ public class OrderController {
 
         //region Staff ID
         StaffController StaffController = new StaffController();
-        StaffController.printStaffDetails();
+        StaffController.print();
 
         // 1. Input Staff ID
         int staffId = 0;
@@ -75,7 +75,9 @@ public class OrderController {
         			if (pax <= 0) {
         				System.out.println("\nPlease enter a valid number!");
                 		System.out.println("\n-----------------------------------\n");
-        			} else break;
+        			} else if(pax> 10) {
+                        System.out.println("Maximum capacity is 10, please break into smaller groups.");
+                    }else break;
         		}
         	} catch (InputMismatchException e) {
         		System.out.println("Please enter a valid number!");
@@ -90,6 +92,7 @@ public class OrderController {
         TableController TableController = new TableController();
         boolean availability = TableController.printAvailableTables(pax);
         int tableId = 0;
+
         if(availability == true){
             do {
                 try {
@@ -102,6 +105,7 @@ public class OrderController {
                             System.out.println("\nPlease enter a valid ID!");
                             System.out.println("\n-----------------------------------\n");
                         }
+        
                     }
                 } catch (InputMismatchException e) {
                     System.out.println("\nPlease enter a valid ID!");
@@ -166,6 +170,14 @@ public class OrderController {
             
             if (Database_Controller.getCustomerByContact(userContact) != null) {
                 membership = Database_Controller.getCustomerByContact(userContact).isMemberShip();
+                String membershipName = Database_Controller.getCustomerByContact(userContact).getName();
+                if(membership){
+                    System.out.println("Membership verified. Welcome Dear "+membershipName+".");
+                }else{
+                    System.out.println("Membership not found.");
+                }
+            }else{
+                System.out.println("Membership not found.");
             }
         } else if (choice == 0) {
             membership = false;
@@ -201,7 +213,7 @@ public class OrderController {
                             MenuItem MenuItem = new MenuItem();
                             do {
                                 System.out.println("< Alacarte Item >\n");
-                                MenuItemController.printMenuItem();
+                                MenuItemController.print();
                                 System.out.println("Enter the name of the alacarte item: ");
                                 Scanner sc = new Scanner(System.in);
                                 String itemname = sc.nextLine();
@@ -217,14 +229,14 @@ public class OrderController {
                             Promotion Promotion = new Promotion();
                             do {
 
-                                    System.out.println("< Enter Promotion Set Item Id >\n");
-                                    PromotionController.printPromotion();
-                                    System.out.println("Enter the Id of the Promotion item: ");
-                                    int promotionId;
+                                    System.out.println("< Enter Promotion Set Item Name >\n");
+                                    PromotionController.print();
+                                    System.out.println("Enter the name of the Promotion item: ");
+                                    String promotionName;
                                     sc.nextLine();
-                                    promotionId = sc.nextInt();
+                                    promotionName = sc.nextLine();
 
-                                    Promotion = Database_Controller.getPromotionById(promotionId);
+                                    Promotion = Database_Controller.getPromotionByName(promotionName);
                                     if(Promotion == null){
                                         System.out.println("promotion not on menu! Please try again.");
                                     }
@@ -294,133 +306,298 @@ public class OrderController {
         int userContact=Database_Controller.getCustomerByName(reservation.getCustomerName()).getContact();
         int pax = reservation.getPax();
 
+//
+//        System.out.println("< Create an Order >\n");
+//        System.out.println("Generating Order Id");
+//        System.out.println("---------------------");
+//        int orderId = 1;
+//        ArrayList<Order> presentOrders = Database_Controller.readOrderList();
+//        if (presentOrders != null) {
+//            orderId = presentOrders.size() + 1;
+//        }
+//
+//
+//        // input Staff Id
+//        StaffController StaffController = new StaffController();
+//        StaffController.print();
+//
+//        int staffId = 0;
+//        do {
+//        	try {
+//                while (true) {
+//                	System.out.println("Enter Your Staff Id: ");
+//                    staffId = sc.nextInt();
+//                    if (Database_Controller.getStaffByEmployeeId(staffId) != null) {
+//                        break;
+//                    } else {
+//                    	System.out.println("\nPlease enter a valid ID!");
+//                		System.out.println("\n-----------------------------------\n");
+//                    }
+//                }
+//        	} catch (InputMismatchException e) {
+//        		System.out.println("\nPlease enter a valid ID!");
+//        		System.out.println("\n-----------------------------------\n");
+//        		staffId = 0;
+//        	}
+//        	sc.nextLine();
+//        } while(staffId == 0);
+//
+//        //System.out.println("Assign Available Table");
+//        //System.out.println("---------------------");
+//        //System.out.println("Enter pax:");
+//        //int pax = sc.nextInt();
+//      //  TableController TableController = new TableController();
+//        //TableController.printAvailableTables(pax);
+//        //System.out.println("Enter Table Id of choices:");
+//        //int tableId;
+//        //while (true) {
+//        //    tableId = sc.nextInt();
+//        //    if (Database_Controller.getTableById(tableId) != null) {
+//        //        break;
+//        //    } else {
+//        //        System.out.println("Invalid table ID! Enter again");
+//        //    }
+//       // }
+//        //System.out.println("Is Customer a member?");
+//        //System.out.println("0. No");
+//        //System.out.println("1. Yes");
+//        //System.out.println("---------------------");
+//        //boolean membership = false;
+//        //int userContact = 10000000;
+//        //int choice = sc.nextInt();
+//        //if (choice == 1) {
+//        //    System.out.println("Verify Membership");
+//        //    System.out.println("Enter Customer Contact");
+//        //    System.out.println("---------------------");
+//        //    userContact = sc.nextInt();
+//        //    if (Database_Controller.getCustomerByContact(userContact) != null) {
+//        //        membership = Database_Controller.getCustomerByContact(userContact).isMemberShip();
+//        //    }
+//        //} else if (choice == 0) {
+//        //    membership = false;
+//       // }
+//        System.out.println("< Add Order Item >\n");
+//        MenuItemController MenuItemController = new MenuItemController();
+//        PromotionController PromotionController = new PromotionController();
+//        ArrayList<MenuItem> alacarteList = new ArrayList<MenuItem>();
+//        ArrayList<Promotion> promotionList = new ArrayList<Promotion>();
+//
+//        int choice = 0;
+//        do {
+//        	try {
+//        		System.out.println("Choose Item Type");
+//                System.out.println("1. Alacarte");
+//                System.out.println("2. Promotion");
+//                System.out.println("0. Done");
+//                System.out.println("---------------------");
+//                choice = sc.nextInt();
+//                switch (choice) {
+//                    case 1:
+//                        System.out.println("Enter Alacarte Item");
+//                        System.out.println("---------------------");
+//                        MenuItemController.print();
+//                        System.out.println("Enter the name of the alacarte item :");
+//                        String itemname = sc.nextLine();
+//                        MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
+//                        alacarteList.add(MenuItem);
+//                        break;
+//                    case 2:
+//                        System.out.println("Enter Promotion Set Item Id");
+//                        System.out.println("---------------------");
+//                        PromotionController.print();
+//                        System.out.println("Enter the name of the Promotion item :");
+//                        sc=new Scanner(System.in);
+//                        sc.nextLine();
+//                        String promotionName = sc.nextLine();
+//                        Promotion Promotion = Database_Controller.getPromotionByName(promotionName);
+//                        promotionList.add(Promotion);
+//                        break;
+//                    default:
+//                    	System.out.println("\nPlease enter a valid choice!");
+//                		System.out.println("\n-----------------------------------\n");
+//                		System.out.println("Choose Item Type");
+//                        System.out.println("1. Alacarte");
+//                        System.out.println("2. Promotion");
+//                        System.out.println("0. Done");
+//                        System.out.println("---------------------");
+//                        choice = sc.nextInt();
+//
+//                } while (choice != 0);
+//        	} catch(InputMismatchException e) {
+//        		System.out.println("\nPlease enter a valid choice!");
+//        		System.out.println("\n-----------------------------------\n");
+//        		choice = 0;
+//        	}
+//        	sc.nextLine();
+//        } while(choice == 0);
+//
+//
+//
+//
+//        double totalPrice = 0;
+//        if (alacarteList != null) {
+//            for (int i = 0; i < alacarteList.size(); i++) {
+//                totalPrice += alacarteList.get(i).getPrice();
+//            }
+//        }
+//        if (promotionList != null) {
+//            for (int i = 0; i < promotionList.size(); i++) {
+//                totalPrice += promotionList.get(i).getPrice();
+//            }
+//        }
+//        if (membership == true) {
+//            totalPrice *= 0.9;
+//        }
+//
+//        boolean paid = false;
+//
+//        Table table = Database_Controller.getTableById(tableId);
+//        table.setReserved(true);
+//        Database_Controller.updateTable(table);
+//
+//        LocalDate Date = LocalDate.now();
+//        LocalTime Time = LocalTime.now();
+//
+//        Order Order = new Order(orderId, staffId, membership, userContact, alacarteList,
+//                promotionList, totalPrice, tableId, paid, Date, Time);
+//        Database_Controller.addOrder(Order);
+//    }
+    public void convertResToOrder(Reservation reservation) {
+
         System.out.println("< Create an Order >\n");
-        System.out.println("Generating Order Id");
+        System.out.println("Generating Order Id...");
         System.out.println("---------------------");
+        //region order ID
         int orderId = 1;
         ArrayList<Order> presentOrders = Database_Controller.readOrderList();
         if (presentOrders != null) {
             orderId = presentOrders.size() + 1;
         }
-        
-        
-        // input Staff Id
+        //endregion
+
+        //region Staff ID
         StaffController StaffController = new StaffController();
-        StaffController.printStaffDetails();
-        
+        StaffController.print();
+
+        // 1. Input Staff ID
         int staffId = 0;
         do {
-        	try {
+            try {
                 while (true) {
-                	System.out.println("Enter Your Staff Id: ");
+                    System.out.println("Enter Your Staff Id: ");
                     staffId = sc.nextInt();
                     if (Database_Controller.getStaffByEmployeeId(staffId) != null) {
                         break;
                     } else {
-                    	System.out.println("\nPlease enter a valid ID!");
-                		System.out.println("\n-----------------------------------\n");
+                        System.out.println("Please enter a valid ID!");
+                        System.out.println("\n-----------------------------------\n");
                     }
                 }
-        	} catch (InputMismatchException e) {
-        		System.out.println("\nPlease enter a valid ID!");
-        		System.out.println("\n-----------------------------------\n");
-        		staffId = 0;
-        	}
-        	sc.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter a valid ID!");
+                System.out.println("\n-----------------------------------\n");
+                staffId = 0;
+            }
+            sc.nextLine();
         } while(staffId == 0);
 
-        //System.out.println("Assign Available Table");
-        //System.out.println("---------------------");
-        //System.out.println("Enter pax:");
-        //int pax = sc.nextInt();
-      //  TableController TableController = new TableController();
-        //TableController.printAvailableTables(pax);
-        //System.out.println("Enter Table Id of choices:");
-        //int tableId;
-        //while (true) {
-        //    tableId = sc.nextInt();
-        //    if (Database_Controller.getTableById(tableId) != null) {
-        //        break;
-        //    } else {
-        //        System.out.println("Invalid table ID! Enter again");
-        //    }
-       // }
-        //System.out.println("Is Customer a member?");
-        //System.out.println("0. No");
-        //System.out.println("1. Yes");
-        //System.out.println("---------------------");
-        //boolean membership = false;
-        //int userContact = 10000000;
-        //int choice = sc.nextInt();
-        //if (choice == 1) {
-        //    System.out.println("Verify Membership");
-        //    System.out.println("Enter Customer Contact");
-        //    System.out.println("---------------------");
-        //    userContact = sc.nextInt();
-        //    if (Database_Controller.getCustomerByContact(userContact) != null) {
-        //        membership = Database_Controller.getCustomerByContact(userContact).isMemberShip();
-        //    }
-        //} else if (choice == 0) {
-        //    membership = false;
-       // }
+        // 2. Input number of pax
+        System.out.println("< Assign Available Table >\n");
+
+
+
+
+        // 3. Input table ID
+        int tableId =reservation.getTableId();
+
+
+
+
+        boolean membership=Database_Controller.getCustomerByName(reservation.getCustomerName()).isMemberShip();
+         int userContact=Database_Controller.getCustomerByName(reservation.getCustomerName()).getContact();
+
+        // 5. Input order item
         System.out.println("< Add Order Item >\n");
         MenuItemController MenuItemController = new MenuItemController();
         PromotionController PromotionController = new PromotionController();
         ArrayList<MenuItem> alacarteList = new ArrayList<MenuItem>();
         ArrayList<Promotion> promotionList = new ArrayList<Promotion>();
-        //do while loop
-        //choose alacarte
-        //choose promotion
-        int choice = 0;
+
+        int choice = -1;
+        boolean checkOrder = false;
         do {
-        	try {
-        		System.out.println("Choose Item Type");
-                System.out.println("1. Alacarte");
-                System.out.println("2. Promotion");
-                System.out.println("0. Done");
-                System.out.println("---------------------");
-                choice = sc.nextInt();
-                switch (choice) {
-                    case 1:
-                        System.out.println("Enter Alacarte Item");
-                        System.out.println("---------------------");
-                        MenuItemController.printMenuItem();
-                        System.out.println("Enter the name of the alacarte item :");
-                        String itemname = sc.next();
-                        MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
-                        alacarteList.add(MenuItem);
-                        break;
-                    case 2:
-                        System.out.println("Enter Promotion Set Item Id");
-                        System.out.println("---------------------");
-                        PromotionController.printPromotion();
-                        System.out.println("Enter the Id of the alacarte item :");
-                        int promotionId = sc.nextInt();
-                        Promotion Promotion = Database_Controller.getPromotionById(promotionId);
-                        promotionList.add(Promotion);
-                        break;
-                    default:
-                    	System.out.println("\nPlease enter a valid choice!");
-                		System.out.println("\n-----------------------------------\n");
-                		System.out.println("Choose Item Type");
-                        System.out.println("1. Alacarte");
-                        System.out.println("2. Promotion");
-                        System.out.println("0. Done");
-                        System.out.println("---------------------");
-                        choice = sc.nextInt();
-                    
-                } while (choice != 0);
-        	} catch(InputMismatchException e) {
-        		System.out.println("\nPlease enter a valid choice!");
-        		System.out.println("\n-----------------------------------\n");
-        		choice = 0;
-        	}
-        	sc.nextLine();
-        } while(choice == 0);
-        
+            try {
+                do {
+                    System.out.println("Choose Item Type");
+                    System.out.println("1. Alacarte");
+                    System.out.println("2. Promotion");
+                    System.out.println("0. Done");
+                    System.out.println("---------------------");
+                    choice = sc.nextInt();
+                    switch (choice) {
+                        case 0:
+                            if (checkOrder) {
+                                System.out.println("Returning to main menu...");
+                            } else {
+                                System.out.println("Please run option 1 or 2 at least once.");
+                            }
+                            break;
+                        case 1:
+                            MenuItem MenuItem = new MenuItem();
+                            do {
+                                System.out.println("< Alacarte Item >\n");
+                                MenuItemController.print();
+                                System.out.println("Enter the name of the alacarte item: ");
+                                Scanner sc = new Scanner(System.in);
+                                String itemname = sc.nextLine();
+                                MenuItem = Database_Controller.getMenuItemByName(itemname);
+                                if(MenuItem==null){
+                                    System.out.println("Item not on menu! Please try again.");
+                                }
+                            }while(MenuItem==null);
+                            alacarteList.add(MenuItem);
+                            checkOrder = true;
+                            break;
+                        case 2:
+                            Promotion Promotion = new Promotion();
+                            do {
+
+                                System.out.println("< Enter Promotion Set Item Name >\n");
+                                PromotionController.print();
+                                System.out.println("Enter the name of the Promotion item: ");
+                                String promotionName;
+                                sc.nextLine();
+                                promotionName = sc.nextLine();
+
+                                Promotion = Database_Controller.getPromotionByName(promotionName);
+                                if(Promotion == null){
+                                    System.out.println("promotion not on menu! Please try again.");
+                                }
+
+                            }while(Promotion == null);
+                            promotionList.add(Promotion);
+                            checkOrder = true;
+                            break;
+                        default:
+                            System.out.println("Please enter a valid choice!");
+                            System.out.println("\n-----------------------------------\n");
+
+                    }
+
+                } while (choice !=0 || checkOrder !=true);
 
 
-        
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter a valid choice!");
+                System.out.println("\n-----------------------------------\n");
+                choice = -1;
+            }
+            sc.nextLine();
+        } while(choice == -1);
+
+
+
+
         double totalPrice = 0;
         if (alacarteList != null) {
             for (int i = 0; i < alacarteList.size(); i++) {
@@ -436,6 +613,8 @@ public class OrderController {
             totalPrice *= 0.9;
         }
 
+        totalPrice *=1.07;
+
         boolean paid = false;
 
         Table table = Database_Controller.getTableById(tableId);
@@ -448,7 +627,6 @@ public class OrderController {
         Order Order = new Order(orderId, staffId, membership, userContact, alacarteList, promotionList, totalPrice, tableId, paid, Date, Time);
         Database_Controller.addOrder(Order);
     }
-
     /**
      * deleteOrder method:
      * The deleteOrder Method will request user to input the Order Id
@@ -811,9 +989,9 @@ public class OrderController {
                                     		System.out.println("Done adding!");
                                     		break;
                                         case 1:
-                                            MenuItemController.printMenuItem();
+                                            MenuItemController.print();
                                             System.out.println("\nEnter Alacarte Item: ");
-                                            String itemname = sc.next();
+                                            String itemname = sc.nextLine();
                                             
                                             while(true) {
                                             	if(Database_Controller.getMenuItemByName(itemname)!=null){
@@ -824,21 +1002,21 @@ public class OrderController {
                                                 	break;
                                                 } else {
                                                     System.out.println("Please enter a vaild item name!");
-                                                    itemname= sc.next();
+                                                    itemname= sc.nextLine();
                                                 }
                                             }
                                             break;
                                         case 2:
-                                            PromotionController.printPromotion();
-                                       
-                                            int promotionId = 0;
+                                            PromotionController.print();
+
+                                            String promotionName="0";
                                             do {
                                             	try {
                                             		while(true) {
-                                            			System.out.println("\nEnter Promotion Set Item Id: ");
-                                            			promotionId = sc.nextInt();
-                                            			if(Database_Controller.getPromotionById(promotionId)!=null){
-                                            				Promotion Promotion = Database_Controller.getPromotionById(promotionId);
+                                            			System.out.println("\nEnter Promotion Set Item Name: ");
+                                            			promotionName = sc.nextLine();
+                                            			if(Database_Controller.getPromotionByName(promotionName)!=null){
+                                            				Promotion Promotion = Database_Controller.getPromotionByName(promotionName);
                                             				promotionList.add(Promotion);
                                             				order.setPromotion(promotionList);
                                             				System.out.println("Menu added!");
@@ -852,10 +1030,10 @@ public class OrderController {
                                             	} catch (InputMismatchException e) {
                                             		System.out.println("\nPlease enter a valid ID!");
                                             		System.out.println("\n-----------------------------------\n");
-                                            		promotionId = 0;
+                                            		promotionName = "0";
                                             	}
                                             	sc.nextLine();
-                                            } while(promotionId == 0);
+                                            } while(promotionName == "0");
 
                                             break;
                                         default:
@@ -1041,6 +1219,91 @@ public class OrderController {
             }
         }
     }
+
+
+    public void populateOrder(){
+        int counter = 100;
+        for(int q = 0; q < counter; q++){
+            int orderId = 1;
+            ArrayList<Order> presentOrders = Database_Controller.readOrderList();
+            if (presentOrders != null) {
+                orderId = presentOrders.size() + 1;
+            }
+            Random rand = new Random();
+
+            // nextInt as provided by Random is exclusive of the top value so you need to add 1
+
+            ArrayList<Staff> Staff = Database_Controller.readStaffList();
+            int randomStaffId= rand.nextInt((Staff.size() - 2) + 1) + 0;;
+            int staffId=Staff.get(randomStaffId).getEmployeeId();
+            boolean membership=false ;
+            int userContact = 10000000;
+            if((rand.nextInt((1 - 0) + 1) + 1)>1){membership=true;
+                ArrayList<Customer> Customer = Database_Controller.readCustomerList();
+                int randomUserId= rand.nextInt((Customer.size() - 2) + 1) + 0;;
+                userContact=Customer.get(randomUserId).getContact();}
+
+            ArrayList<MenuItem> alacarteoptions = Database_Controller.readMenuItemList();
+            ArrayList<Promotion> promotionoptions= Database_Controller.readPromotionList();
+
+            ArrayList<MenuItem> alacarteList = new ArrayList<MenuItem>();
+            ArrayList<Promotion> promotionList = new ArrayList<Promotion>();
+
+            for( int  i = 0; i < rand.nextInt((6 - 0) + 1) + 1;i++){
+                int randomalacarteoptions= rand.nextInt((alacarteoptions.size() - 2) + 1) + 1;;
+                MenuItem MenuItem = Database_Controller.getMenuItemByName(alacarteoptions.get(randomalacarteoptions).getItemName());
+                alacarteList.add(MenuItem);
+            }
+
+            for(  int i = 0; i < rand.nextInt((6 - 0) + 1) + 1;i++){
+                int randompromotionoptions= rand.nextInt((promotionoptions.size() - 2) + 1) + 1;;
+                Promotion Promotion = Database_Controller.getPromotionByName(promotionoptions.get(randompromotionoptions).getName());
+                promotionList.add(Promotion);
+            }
+
+
+            double totalPrice = 0;
+            if (alacarteList != null) {
+                for ( int i = 0; i < alacarteList.size(); i++) {
+                    totalPrice += alacarteList.get(i).getPrice();
+                }
+            }
+            if (promotionList != null) {
+                for ( int i = 0; i < promotionList.size(); i++) {
+                    totalPrice += promotionList.get(i).getPrice();
+                }
+            }
+            if (membership == true) {
+                totalPrice *= 0.9;
+            }
+            totalPrice *=1.07;
+            boolean paid = true;
+
+            ArrayList<Table> Table = Database_Controller.readTableList();
+            int randtableId= rand.nextInt((Table.size() - 2) + 1) + 0;;
+            int tableId= Table.get(randtableId).getId();
+
+            //region randomDate
+            long minDay = LocalDate.of(2020, 1, 1).toEpochDay();
+            long maxDay = LocalDate.of(2021, 11, 5).toEpochDay();
+            long randomDay = ThreadLocalRandom.current().nextLong(minDay, maxDay);
+            LocalDate Date = LocalDate.ofEpochDay(randomDay);
+            //endregion
+
+            //region randomTime
+            LocalTime time1 = LocalTime.of(8, 0, 0);
+            LocalTime time2 = LocalTime.of(20, 0, 0);
+            int secondOfDayTime1 = time1.toSecondOfDay();
+            int secondOfDayTime2 = time2.toSecondOfDay();
+            Random random = new Random();
+            int randomSecondOfDay = secondOfDayTime1 + random.nextInt(secondOfDayTime2-secondOfDayTime1);
+            LocalTime Time = LocalTime.ofSecondOfDay(randomSecondOfDay);
+            //endregion
+
+            Order Order = new Order(orderId, staffId, membership, userContact, alacarteList, promotionList, totalPrice, tableId, paid, Date, Time);
+            Database_Controller.addOrder(Order);}
+    }
+
     public static void main(String[] args) {
         OrderController OrderController = new OrderController();
         OrderController.createOrder();

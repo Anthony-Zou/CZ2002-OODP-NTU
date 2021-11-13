@@ -3,7 +3,7 @@ import Entity.Staff;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class StaffController {
+public class StaffController implements Controller{
     //region Scanner
     Scanner sc = new Scanner(System.in);
     //endregion
@@ -15,7 +15,7 @@ public class StaffController {
      * All entries in the Staff will be printed out with a for loop
      *
      */
-    public void printStaffDetails() {
+    public void print() {
         ArrayList<Staff> Staff = Database_Controller.readStaffList();
         if (Staff != null) {
             System.out.println("Employee Id" + "\t" + " Name" + "\t" + " Gender"+ "\t" + " jobTitle");
@@ -33,7 +33,7 @@ public class StaffController {
      * Furthermore, the Staff object will be written and save in to the Staff.Dat file
      * With AddStaff method in the Database controller
      */
-    public void addStaff() {
+    public void add() {
         System.out.println("Add a Staff");
         System.out.println("---------------------");
         System.out.println("Enter the Employee Id of the Staff(0000):");
@@ -44,7 +44,7 @@ public class StaffController {
         } else {
             int userChoice;
             System.out.println("Name of Staff:");
-            String name = sc.next();
+            String name = sc.nextLine();
             System.out.println("Gender of Staff:");
             System.out.println("0. Female");
             System.out.println("1. Male");
@@ -94,7 +94,7 @@ public class StaffController {
             Database_Controller.addStaff(newStaff);
 
         }
-        printStaffDetails();
+        print();
     }
 
     /**
@@ -105,7 +105,7 @@ public class StaffController {
      * it will activate the deleteStaff method from the Database Controller with
      * passing in the Staff Id
      */
-    public void deleteStaff() {
+    public void delete() {
         System.out.println("Remove a Staff");
         System.out.println("---------------------");
         // find if the Staff is in the database or not //

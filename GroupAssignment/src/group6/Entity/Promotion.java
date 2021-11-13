@@ -2,15 +2,17 @@ package Entity;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.io.Serializable;
-public class Promotion implements Serializable{
+
+public class Promotion extends MenuItem implements Serializable{
     //region variables for Promotion
     /** variables for Promotion
      * */
-    private int Id;
+    //private int Id;
     private String Name;
     private ArrayList<MenuItem> Items = new ArrayList<MenuItem>();
     private String Decription;
     private double price;
+    //private String type;
     //endregion
 
     //region Constructor for Promotion
@@ -23,18 +25,19 @@ public class Promotion implements Serializable{
 
     /**
      * Create promotion object with the following parameters
-     * @param id
+     //* @param id
      * @param name
      * @param items
      * @param decription
      * @param price
      */
-    public Promotion(int id, String name, ArrayList<MenuItem> items, String decription, double price) {
-        Id = id;
+    public Promotion(String name, ArrayList<MenuItem> items, String decription, double price) {
+        //Id = id;
         Name = name;
         Items = items;
         Decription = decription;
         this.price = price;
+        //this.type = "promotion";
     }
     //endregion
 
@@ -42,11 +45,11 @@ public class Promotion implements Serializable{
 
     /**
      * Set/Update the Promotion object id with
-     * @param id
+     //* @param id
      */
-    public void setId(int id) {
-        Id = id;
-    }
+    //public void setId(int id) {
+      //  Id = id;
+    //}
 
     /**
      * Set/Update the Promotion object name with
@@ -91,6 +94,10 @@ public class Promotion implements Serializable{
         return price;
     }
 
+    //public String getType() {
+      //  return this.type;
+    //}
+
     /**
      * Return object description
      * @return
@@ -111,9 +118,9 @@ public class Promotion implements Serializable{
      * Return object Id
      * @return
      */
-    public int getId() {
-        return Id;
-    }
+    //public int getId() {
+     //   return Id;
+    //}
 
     /**
      * Return object name
