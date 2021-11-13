@@ -137,27 +137,40 @@ public class PromotionController implements Controller{
      * there there will be another forloop to print the MenuItem contained in the Promotional Set Meal
      */
     public void print() {
-        System.out.println("< Available Promotions >");
+        System.out.println("\n< Available Promotions >");
         System.out.println();
         ArrayList<Promotion> Promotion = new ArrayList<Promotion>();
-        System.out.println("--------------------------------------------------");
+
         Promotion = Database_Controller.readPromotionList();
-        //System.out.println("Id" + "\t" + "Promotion Name" + "\t" + " Description" + "\t" + " Price(SGD)" + "\t");
+        System.out.println("Promotion Name    Description                   Price(SGD)");
+        System.out.println("--------------------------------------------------------");
 
         if(Promotion!=null) {
             for (int i = 0; i < Promotion.size(); i++) {
-
-                System.out.println(Promotion.get(i).getName() +
-                        "\t\t " + Promotion.get(i).getDecription() + "\t "+
-                                Math.round(Promotion.get(i).getPrice()  * 100.0) / 100.0
-
-                );
-                printPromotionByName(Promotion.get(i).getName());
-                System.out.println("--------------------------------------------------"+ "\n");
-
+                System.out.printf("%-18s%-30s%.2f\n", Promotion.get(i).getName(), Promotion.get(i).getDecription(), Promotion.get(i).getPrice());
             }
-            
+            System.out.println("\n========================================================");
         }
+
+
+
+        int option = -1;
+        do {
+            try {
+                while(option != 0){
+                    System.out.print("\n\nEnter the promotion ID for more information (Type 0 to quit): ");
+                    option = sc.nextInt();
+                    System.out.println();
+                    printPromotionByName(Promotion.get(option).getName());
+                }
+                if(option == 0) break;
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter a valid ID!");
+                System.out.println("\n--------------------------------------------------------\n");
+                option = 0;
+            }
+            sc.nextLine();
+        } while(option == -1);
     }
 
     /**
@@ -168,21 +181,11 @@ public class PromotionController implements Controller{
     public void printPromotionByName(String name){
         Promotion promotion =new Promotion();
         promotion= Database_Controller.getPromotionByName(name);
-        System.out.println(
-                "Item "
-                        + "\t"
-                        + "Item Name" + "\t"
-                        + " Description" + "\t"
-                        );
-        System.out.println("--------------------------------------------------");
+        System.out.println("Item   Item Name           Description                      Type");
+        System.out.println("----------------------------------------------------------------------------");
         for (int j = 0; j < promotion.getItems().size(); j++) {
             if (promotion.getItems().get(j) != null) {
-                System.out.println(
-
-                        (j + 1)
-                                + "\t" + promotion.getItems().get(j).getItemName()
-                                + "\t " + promotion.getItems().get(j).getDescription()
-                                + "\t " + promotion.getItems().get(j).getType() + "\n");
+                System.out.printf("%-7d%-20s%-33s%s\n", j+1, promotion.getItems().get(j).getItemName(), promotion.getItems().get(j).getDescription(), promotion.getItems().get(j).getType());
             }
         }
 
@@ -225,10 +228,10 @@ public class PromotionController implements Controller{
     }
     public static void main(String[] args){
         PromotionController promotionController = new PromotionController();
-        promotionController.deletePromotionRange();
-        promotionController.populatePromotion();
+//        promotionController.deletePromotionRange();
+//        promotionController.populatePromotion();
+//
 
-
-        promotionController.print();
+        promotionController.printPromotionByName("Set 5");
     }
 }
