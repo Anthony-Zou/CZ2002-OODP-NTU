@@ -1194,13 +1194,13 @@ public class OrderController {
             ArrayList<MenuItem> alacarteList = new ArrayList<MenuItem>();
             ArrayList<Promotion> promotionList = new ArrayList<Promotion>();
 
-            for( int  i = 0; i < rand.nextInt((6 - 0) + 2) + 1;i++){
+            for( int  i = 0; i < rand.nextInt((6 - 0) + 1) + 1;i++){
                 int randomalacarteoptions= rand.nextInt((alacarteoptions.size() - 2) + 1) + 1;;
                 MenuItem MenuItem = Database_Controller.getMenuItemByName(alacarteoptions.get(randomalacarteoptions).getItemName());
                 alacarteList.add(MenuItem);
             }
 
-            for(  int i = 0; i < rand.nextInt((6 - 0) + 2) + 1;i++){
+            for(  int i = 0; i < rand.nextInt((6 - 0) + 1) + 1;i++){
                 int randompromotionoptions= rand.nextInt((promotionoptions.size() - 2) + 1) + 1;;
                 Promotion Promotion = Database_Controller.getPromotionByName(promotionoptions.get(randompromotionoptions).getName());
                 promotionList.add(Promotion);
@@ -1221,7 +1221,6 @@ public class OrderController {
             if (membership == true) {
                 totalPrice *= 0.9;
             }
-            totalPrice *=1.1;
             totalPrice *=1.07;
             boolean paid = true;
 
@@ -1252,8 +1251,8 @@ public class OrderController {
 
     public static void main(String[] args) {
         OrderController OrderController = new OrderController();
-        OrderController.populateOrder();
-        OrderController.PrintallOrderbrief();
+
+        OrderController.createOrder();
     }
 
 }
