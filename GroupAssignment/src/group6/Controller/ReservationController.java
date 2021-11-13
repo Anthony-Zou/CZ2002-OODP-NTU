@@ -166,6 +166,12 @@ public class ReservationController {
      */
     public void createReservation() {
         printReservationList();
+
+        // If all tables are fully reserved, exit this operation
+        TableController TableController = new TableController();
+        if(!TableController.printAvailableTables(2))
+            return;
+
         int check;
         do{
             try {
@@ -189,7 +195,7 @@ public class ReservationController {
                 } while (pax < 2 || pax > 10);
 
                 // Show available tables for given pax
-                TableController TableController = new TableController();
+                 TableController = new TableController();
                 if (!TableController.printAvailableTables(pax))
                     return;
 
@@ -328,4 +334,32 @@ public class ReservationController {
 //    }
 //endregion
 
+    public void populateReservation(){
+        for (int i =0; i<19;i++){
+
+            String name="Customer "+(i+1);
+            Random rand = new Random();
+            LocalDate Date;
+            LocalTime Time;
+            String str = "13-11-2021";
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            Date = LocalDate.parse(str, df);
+            String time = "21:30";  //default format: hh:mm:ss
+            Time = LocalTime.parse(time);
+            Reservation Reservation = new Reservation((i+1), (i+1), name, Date, Time, 2);
+            Table table = Database_Controller.getTableById(i+1);
+            table.setReserved(true);
+            Database_Controller.updateTable(table);
+            Database_Controller.addReservation(Reservation);
+
+        }
+        printReservationList();
+
+    }
+
+    public static void main(String[] args){
+        ReservationController ReservationController = new ReservationController();
+        ReservationController.populateReservation();
+
+    }
 }

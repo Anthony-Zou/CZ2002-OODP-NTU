@@ -3,6 +3,7 @@ package Controller;
 import Entity.Customer;
 import java.util.InputMismatchException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 
@@ -207,4 +208,21 @@ public class CustomerController implements Controller {
         }
     }
 
+    public void populateCustomer(int n){
+        for (int i =0; i<n;i++){
+           String name="Customer "+(i+1);
+            Random rand = new Random();
+           int num = 80000000+ rand.nextInt((900000 - 0) + 1) + 2;
+           boolean status= true;
+            Customer newCustomer = new Customer(name, num, status);
+            Database_Controller.addCustomer(newCustomer);
+           // Database_Controller.deleteCustomer(name);
+        }
+        print();
+    }
+
+    public static void main(String[] args){
+       CustomerController customer = new CustomerController();
+       customer.populateCustomer(30);
+    }
 }

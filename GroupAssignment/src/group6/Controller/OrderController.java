@@ -25,6 +25,12 @@ public class OrderController {
      */
     public void createOrder() {
         System.out.println("< Create an Order >\n");
+
+        TableController TableController = new TableController();
+        // If all tables are fully reserved, exit this operation
+        if(!TableController.printAvailableTables(2))
+            return;
+
         System.out.println("Generating Order Id...");
         System.out.println("---------------------");
         //region order ID
@@ -85,7 +91,7 @@ public class OrderController {
         	sc.nextLine();
         } while(pax == 0);
         
-        TableController TableController = new TableController();
+         TableController = new TableController();
         TableController.printAvailableTables(pax);
         
         
