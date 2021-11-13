@@ -188,30 +188,45 @@ public class OrderController {
                     choice = sc.nextInt();
                 	switch (choice) {
                         case 0:
-                            if(checkOrder) {
+                            if (checkOrder) {
                                 System.out.println("Returning to main menu...");
-                            }else{
+                            } else {
                                 System.out.println("Please run option 1 or 2 at least once.");
                             }
                             break;
                         case 1:
-                            System.out.println("< Alacarte Item >\n");
-                            MenuItemController.printMenuItem();
-                            System.out.println("Enter the name of the alacarte item: ");
-                            sc.nextLine();
-                            String itemname = sc.nextLine();
-                            MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
+                            MenuItem MenuItem = new MenuItem();
+                            do {
+                                System.out.println("< Alacarte Item >\n");
+                                MenuItemController.printMenuItem();
+                                System.out.println("Enter the name of the alacarte item: ");
+                                Scanner sc = new Scanner(System.in);
+                                String itemname = sc.nextLine();
+                                MenuItem = Database_Controller.getMenuItemByName(itemname);
+                                if(MenuItem==null){
+                                    System.out.println("Item not on menu! Please try again.");
+                                }
+                            }while(MenuItem==null);
                             alacarteList.add(MenuItem);
                             checkOrder = true;
                             break;
                         case 2:
-                            System.out.println("< Enter Promotion Set Item Id >\n");
-                            PromotionController.printPromotion();
-                            System.out.println("Enter the Id of the Promotion item: ");
-                            int promotionId ;
-                            sc.nextLine();
-                            promotionId= sc.nextInt();
-                            Promotion Promotion = Database_Controller.getPromotionById(promotionId);
+                            Promotion Promotion = new Promotion();
+                            do {
+
+                                    System.out.println("< Enter Promotion Set Item Id >\n");
+                                    PromotionController.printPromotion();
+                                    System.out.println("Enter the Id of the Promotion item: ");
+                                    int promotionId;
+                                    sc.nextLine();
+                                    promotionId = sc.nextInt();
+
+                                    Promotion = Database_Controller.getPromotionById(promotionId);
+                                    if(Promotion == null){
+                                        System.out.println("promotion not on menu! Please try again.");
+                                    }
+
+                            }while(Promotion == null);
                             promotionList.add(Promotion);
                             checkOrder = true;
                             break;
