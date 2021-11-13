@@ -39,26 +39,23 @@ public class TableController implements Controller{
         ReservationController ReservationController = new ReservationController();
         ReservationController.deleteOverdueBookings();
         ArrayList<Table> Table = Database_Controller.readTableList();
-        int reserved = 0;
+        int c = 0;
 
         if (Table != null) {
             System.out.printf("%-10s %-20s %-30s\n", "Table Id", "Table Capacity", "Table Reserved/Occupied");
             for (int i = 0; i < Table.size(); i++) {
                 if (!Table.get(i).isReserved() && Table.get(i).getCapacity() >= pax) {
                     System.out.printf("%-10s %-20s %-30s\n", Table.get(i).getId(), Table.get(i).getCapacity(), Table.get(i).isReserved());
+                    c = 1;
                 }
-                else if(Table.get(i).isReserved())
-                    reserved++;
             }
         }
-
-        if(reserved == Table.size()){
-            System.out.println("No tables available at the moment.");
-            return false;
-        }
-        else
-            return true;
-
+            if (c == 0) {
+                System.out.println("No tables available at the moment.");
+                return false;
+            }
+            else{
+            return true;}
     }
 
     /**
@@ -95,6 +92,7 @@ public class TableController implements Controller{
             for (int i = 0; i < Table.size(); i++) {
                 System.out.printf("%-10s %-20s %-30s\n", Table.get(i).getId(), Table.get(i).getCapacity(), Table.get(i).isReserved());
             }
+
         }
     }
 

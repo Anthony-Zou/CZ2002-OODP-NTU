@@ -154,23 +154,23 @@ public class PromotionController implements Controller{
 
 
 
-        int option = -1;
-        do {
-            try {
-                while(option != 0){
-                    System.out.print("\n\nEnter the set number for more information (Type 0 to quit): ");
-                    option = sc.nextInt();
-                    System.out.println();
-                    printPromotionByName(Promotion.get(option).getName());
-                }
-                if(option == 0) break;
-            } catch (InputMismatchException e) {
-                System.out.println("Please enter a valid ID!");
-                System.out.println("\n--------------------------------------------------------\n");
-                option = 0;
-            }
-            sc.nextLine();
-        } while(option == -1);
+//        int option = -1;
+//        do {
+//            try {
+//                while(option != 0){
+//                    System.out.print("\n\nEnter the set number for more information (Type 0 to quit): ");
+//                    option = sc.nextInt();
+//                    System.out.println();
+//                    printPromotionByName(Promotion.get(option).getName());
+//                }
+//                if(option == 0) break;
+//            } catch (InputMismatchException e) {
+//                System.out.println("Please enter a valid ID!");
+//                System.out.println("\n--------------------------------------------------------\n");
+//                option = 0;
+//            }
+//            sc.nextLine();
+//        } while(option == -1);
     }
 
     /**

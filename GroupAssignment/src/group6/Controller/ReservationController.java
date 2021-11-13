@@ -80,7 +80,7 @@ public class ReservationController {
         Table table = new Table();
         for (int i = 0; i < resList.size(); i++) {
             res = resList.get(i);
-            if (date.isAfter(res.getDate()) || (date.isEqual(res.getDate()) && time.isAfter(res.getTime().plusMinutes(1)))) {
+            if (date.isAfter(res.getDate()) || (date.isEqual(res.getDate()) && time.isAfter(res.getTime().plusMinutes(5)))) {
                 table = Database_Controller.getTableById(res.getTableId());
                 table.setReserved(false);
                 Database_Controller.updateTable(table);
@@ -114,7 +114,7 @@ public class ReservationController {
         LocalDate today = LocalDate.now();
         int sameDate = date.compareTo(today);
         LocalTime time = res.getTime();
-        LocalTime afterTime = time.plusMinutes(1);
+        LocalTime afterTime = time.plusMinutes(5);
         LocalTime beforeTime = time.minusMinutes(20);
         LocalTime now = LocalTime.now();
         boolean before = afterTime.isBefore(now);
@@ -169,7 +169,7 @@ public class ReservationController {
      * will be reserved for this reservation
      */
     public void createReservation() {
-        printReservationList();
+//        printReservationList();
 
         // If all tables are fully reserved, exit this operation
         TableController TableController = new TableController();
@@ -181,10 +181,6 @@ public class ReservationController {
             try {
                 System.out.println("Add a Reservation");
                 System.out.println("---------------------");
-
-                // If all tables are fully reserved, exit this operation
-                if(!TableController.printAvailableTables(2))
-                    return;
 
                 int id = 1;
                 ArrayList<Reservation> presentReservation = Database_Controller.readReservationList();
@@ -205,8 +201,10 @@ public class ReservationController {
 
                 // Show available tables for given pax
                  TableController = new TableController();
-                if (!TableController.printAvailableTables(pax))
+                if (!TableController.printAvailableTables(pax)){
+                    System.out.println("No tables available at the moment!");
                     return;
+                }
 
                 // Choose table
                 int tableId;
@@ -278,8 +276,13 @@ public class ReservationController {
 
                         if (Time.isAfter(LocalTime.now().plusMinutes(20))) {
                             System.out.println("Reservations must be made at most 20 minutes in advance. Choose an earlier time.");
+                            return;
                         }
-                    } while (Time.isAfter(LocalTime.now().plusMinutes(20)));
+                        if (Time.isBefore(LocalTime.now())) {
+                            System.out.println("Reservations must be made at After current time. Choose an later time.");
+                            return;
+                        }
+                    } while (Time.isBefore(LocalTime.now())&&Time.isAfter(LocalTime.now().plusMinutes(20)));
 
                     // Reserve table
                     Table table = Database_Controller.getTableById(tableId);
@@ -311,13 +314,14 @@ public class ReservationController {
      * passing in the Reservation Id
      */
     public void deleteReservation(int Number) {
-        System.out.println("Remove a Reservation");
+        System.out.println("Removing Reservation");
         System.out.println("---------------------");
         Table table = Database_Controller.getTableById(Database_Controller.getReservationById(Number).getTableId());
+        String Name=Database_Controller.getReservationById(Number).getCustomerName();
         table.setReserved(false);
         Database_Controller.updateTable(table);
         Database_Controller.deleteReservation(Number);// remove the Reservation from the database
-        System.out.println("Reservation removed!");
+        System.out.println("Reservation for "+Name+" is removed!");
 
 
     }
@@ -350,10 +354,10 @@ public class ReservationController {
             Random rand = new Random();
             LocalDate Date;
             LocalTime Time;
-            String str = "13-11-2021";
+            String str = "14-11-2021";
             DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             Date = LocalDate.parse(str, df);
-            String time = "23:45";  //default format: hh:mm:ss
+            String time = "02:20";  //default format: hh:mm:ss
             Time = LocalTime.parse(time);
             Reservation Reservation = new Reservation((i+1), (i+1), name, Date, Time, 2);
             Table table = Database_Controller.getTableById(i+1);

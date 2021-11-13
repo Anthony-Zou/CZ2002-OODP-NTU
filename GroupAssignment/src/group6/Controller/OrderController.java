@@ -53,12 +53,12 @@ public class OrderController {
                     if (Database_Controller.getStaffByEmployeeId(staffId) != null) {
                         break;
                     } else {
-                		System.out.println("Please enter a valid ID!");
+                		System.out.println("Please enter a valid Staff ID!");
                 		System.out.println("\n-----------------------------------\n");
                     }
                 }
             } catch (InputMismatchException e) {
-            		System.out.println("Please enter a valid ID!");
+            		System.out.println("Please enter a valid  Staff ID!");
             		System.out.println("\n-----------------------------------\n");
             		staffId = 0;
             	}
@@ -90,8 +90,9 @@ public class OrderController {
         } while(pax == 0);
         
          TableController = new TableController();
-        TableController.printAvailableTables(pax);
-        
+        if(!TableController.printAvailableTables(pax)){
+            return;
+        }
         
         // 3. Input table ID
         int tableId = 0;
@@ -105,12 +106,12 @@ public class OrderController {
                                 && Database_Controller.getTableById(tableId).getCapacity()>=pax) {
                         break;
                     } else {
-                    	System.out.println("\nPlease enter a valid ID!");
+                    	System.out.println("\nPlease enter a valid Table ID!");
                 		System.out.println("\n-----------------------------------\n");
                     }
                 }
         	} catch (InputMismatchException e) {
-        		System.out.println("\nPlease enter a valid ID!");
+        		System.out.println("\nPlease enter a valid Table ID!");
         		System.out.println("\n-----------------------------------\n");
         		tableId = 0;
         	}
@@ -234,7 +235,8 @@ public class OrderController {
                                     PromotionController.print();
                                     System.out.println("Enter the name of the Promotion item: ");
                                     String promotionName;
-                                    sc.nextLine();
+                                sc = new Scanner(System.in);
+
                                     promotionName = sc.nextLine();
 
                                     Promotion = Database_Controller.getPromotionByName(promotionName);
@@ -491,12 +493,12 @@ public class OrderController {
                     if (Database_Controller.getStaffByEmployeeId(staffId) != null) {
                         break;
                     } else {
-                        System.out.println("Please enter a valid ID!");
+                        System.out.println("Please enter a valid Staff ID!");
                         System.out.println("\n-----------------------------------\n");
                     }
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Please enter a valid ID!");
+                System.out.println("Please enter a valid Staff ID!");
                 System.out.println("\n-----------------------------------\n");
                 staffId = 0;
             }
@@ -568,8 +570,8 @@ public class OrderController {
                                 PromotionController.print();
                                 System.out.println("Enter the name of the Promotion item: ");
                                 String promotionName;
-                                sc.nextLine();
-                                promotionName = sc.nextLine();
+                                Scanner sb = new Scanner(System.in);
+                                promotionName = sb.nextLine();
 
                                 Promotion = Database_Controller.getPromotionByName(promotionName);
                                 if(Promotion == null){
@@ -615,6 +617,7 @@ public class OrderController {
             totalPrice *= 0.9;
         }
 
+        totalPrice *= 1.10;
         totalPrice *=1.07;
 
         boolean paid = false;
@@ -803,8 +806,8 @@ public class OrderController {
      */
     public void printOrderInvoice() {
 
-        viewUnpaidOrder();
-        System.out.println("Enter Order choice");
+        PrintallOrderbrief();
+        System.out.println("Enter Order Id ");
         int Number = sc.nextInt();
         if (Database_Controller.getOrderById(Number) == null
         && Database_Controller.getOrderById(Number).isPaid() ==false ) {
@@ -853,7 +856,7 @@ public class OrderController {
             }
 
             for (Map.Entry<String, Double> entry: dictionary1.entrySet()){
-                System.out.printf("  %-4d%-22s%.2f\n", dictionary2.get(entry.getKey()), entry.getKey(), entry.getValue());
+                System.out.printf("%-4d%-22s%.2f\n", dictionary2.get(entry.getKey()), entry.getKey(), entry.getValue());
             }
 
             //Print Promotion Item in the order
@@ -940,7 +943,7 @@ public class OrderController {
         		System.out.println("Enter Order Id to be Updated: ");
                 orderId = sc.nextInt();
         	} catch (InputMismatchException e) {
-        		System.out.println("\nPlease enter a valid ID!");
+        		System.out.println("\nPlease enter a valid Order ID!");
         		System.out.println("\n-----------------------------------\n");
         		orderId = -1;
         	}
@@ -991,6 +994,7 @@ public class OrderController {
                                         case 1:
                                             MenuItemController.print();
                                             System.out.println("\nEnter Alacarte Item: ");
+                                            sc = new Scanner(System.in);
                                             String itemname = sc.nextLine();
                                             
                                             while(true) {
@@ -1014,6 +1018,7 @@ public class OrderController {
                                             	try {
                                             		while(true) {
                                             			System.out.println("\nEnter Promotion Set Item Name: ");
+                                                        sc = new Scanner(System.in);
                                             			promotionName = sc.nextLine();
                                             			if(Database_Controller.getPromotionByName(promotionName)!=null){
                                             				Promotion Promotion = Database_Controller.getPromotionByName(promotionName);
@@ -1022,13 +1027,13 @@ public class OrderController {
                                             				System.out.println("Menu added!");
                                             				break;
                                                         } else {
-                                                        	System.out.println("\nPlease enter a valid ID!");
+                                                        	System.out.println("\n There is no"+promotionName+"Please enterPromotion Set Item Name");
                                                     		System.out.println("\n-----------------------------------\n");
                                                         }
                                             		}
                                             		
                                             	} catch (InputMismatchException e) {
-                                            		System.out.println("\nPlease enter a valid ID!");
+                                            		System.out.println("\nPlease enter a valid Promotion ID!");
                                             		System.out.println("\n-----------------------------------\n");
                                             		promotionName = "0";
                                             	}
@@ -1210,11 +1215,11 @@ public class OrderController {
             System.out.println("--------------------------------------------------------------------------------------------------------------------");
             for (int i = 0; i < Order.size(); i++) {
 
-
-                System.out.printf("%-10d%-10d%-13b%-14d%-13.2f%-10d%-10b%-17s%s\n",Order.get(i).getOrderId(), Order.get(i).getStaffId()
-                        , Order.get(i).isMembership(), Order.get(i).getUserContact(), Order.get(i).getTotalPrice(), Order.get(i).getTableNum()
-                        , Order.get(i).isPaid(), Order.get(i).getDate(), Order.get(i).getTime());
-
+                if (Order.get(i).isPaid() == false) {
+                    System.out.printf("%-10d%-10d%-13b%-14d%-13.2f%-10d%-10b%-17s%s\n", Order.get(i).getOrderId(), Order.get(i).getStaffId()
+                            , Order.get(i).isMembership(), Order.get(i).getUserContact(), Order.get(i).getTotalPrice(), Order.get(i).getTableNum()
+                            , Order.get(i).isPaid(), Order.get(i).getDate(), Order.get(i).getTime());
+                }
 
             }
         }
