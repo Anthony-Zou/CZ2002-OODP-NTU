@@ -50,7 +50,9 @@ public class InterfaceController {
                         case 4:
                             MenuItemController.deleteMenuItem();
                             break;
-
+                        case 5:
+                            System.out.println("Returning to main menu...");
+                            break;
                         default:
                             System.out.println("\nPlease enter a valid choice!");
                             System.out.println("\n-----------------------------------\n");
@@ -93,6 +95,9 @@ public class InterfaceController {
                             break;
                         case 4:
                             PromotionController.DeletePromotion();
+                            break;
+                        case 5:
+                            System.out.println("Returning to main menu...");
                             break;
 
                         default:

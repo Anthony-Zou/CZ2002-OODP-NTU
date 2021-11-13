@@ -176,47 +176,52 @@ public class OrderController {
         ArrayList<Promotion> promotionList = new ArrayList<Promotion>();
 
         choice = -1;
+        boolean checkOrder = false;
         do {
         	try {
-        		System.out.println("Choose Item Type");
-                System.out.println("1. Alacarte");
-                System.out.println("2. Promotion");
-                System.out.println("0. Done");
-                System.out.println("---------------------");
-                choice = sc.nextInt();
                 do {
+                    System.out.println("Choose Item Type");
+                    System.out.println("1. Alacarte");
+                    System.out.println("2. Promotion");
+                    System.out.println("0. Done");
+                    System.out.println("---------------------");
+                    choice = sc.nextInt();
                 	switch (choice) {
-                    case 1:
-                        System.out.println("< Alacarte Item >\n");
-                        MenuItemController.printMenuItem();
-                        System.out.println("Enter the name of the alacarte item: ");
-                        sc.nextLine();
-                        String itemname = sc.nextLine();
-                        MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
-                        alacarteList.add(MenuItem);
-                        break;
-                    case 2:
-                        System.out.println("< Enter Promotion Set Item Id >\n");
-                        PromotionController.printPromotion();
-                        System.out.println("Enter the Id of the Promotion item: ");
-                        int promotionId ;
-                        sc.nextLine();
-                        promotionId= sc.nextInt();
-                        Promotion Promotion = Database_Controller.getPromotionById(promotionId);
-                        promotionList.add(Promotion);
-                        break;
-                    default:
-                    	System.out.println("Please enter a valid choice!");
-                		System.out.println("\n-----------------------------------\n");
-                		System.out.println("Choose Item Type");
-                        System.out.println("1. Alacarte");
-                        System.out.println("2. Promotion");
-                        System.out.println("0. Done");
-                        System.out.println("---------------------");
-                        choice = sc.nextInt();
+                        case 0:
+                            if(checkOrder) {
+                                System.out.println("Returning to main menu...");
+                            }else{
+                                System.out.println("Please run option 1 or 2 at least once.");
+                            }
+                            break;
+                        case 1:
+                            System.out.println("< Alacarte Item >\n");
+                            MenuItemController.printMenuItem();
+                            System.out.println("Enter the name of the alacarte item: ");
+                            sc.nextLine();
+                            String itemname = sc.nextLine();
+                            MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
+                            alacarteList.add(MenuItem);
+                            checkOrder = true;
+                            break;
+                        case 2:
+                            System.out.println("< Enter Promotion Set Item Id >\n");
+                            PromotionController.printPromotion();
+                            System.out.println("Enter the Id of the Promotion item: ");
+                            int promotionId ;
+                            sc.nextLine();
+                            promotionId= sc.nextInt();
+                            Promotion Promotion = Database_Controller.getPromotionById(promotionId);
+                            promotionList.add(Promotion);
+                            checkOrder = true;
+                            break;
+                        default:
+                            System.out.println("Please enter a valid choice!");
+                            System.out.println("\n-----------------------------------\n");
+
                 	}
                 		
-                } while (choice != 1 || choice != 2);
+                } while (choice !=0 || checkOrder !=true);
                 
                 
         	} catch (InputMismatchException e) {
