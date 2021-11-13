@@ -42,10 +42,15 @@ public class PromotionController {
         String itemname;
         MenuItemController.printMenuItem();
         for (int i = 0; i < num; i++) {
-
+            MenuItem MenuItem = new MenuItem();
+        do {
             System.out.println("Enter the name of the " + (i + 1) + " item to be added in the promotion set:");
             itemname = sc.nextLine();
-            MenuItem MenuItem = Database_Controller.getMenuItemByName(itemname);
+            MenuItem = Database_Controller.getMenuItemByName(itemname);
+            if(MenuItem == null){
+                System.out.println("Items not found! Please enter the item from Menu");
+            }
+        }while(MenuItem ==null);
             Items.add(MenuItem);
         }
 

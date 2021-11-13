@@ -54,10 +54,6 @@ public class InterfaceController {
                         default:
                             System.out.println("\nPlease enter a valid choice!");
                             System.out.println("\n-----------------------------------\n");
-                            System.out.println("\nWhat do you wish to do:");
-                            System.out.println("1. Print All MenuItem\n" + "2. Add MenuItem\n" + "3. Update Existing MenuItem\n"
-                                    + "4. Delete MenuItem\n" + "5. Cancel");
-                            choice = sc.nextInt();
                     }
                 } while (choice > 5);
             } catch (InputMismatchException e) {
@@ -102,10 +98,7 @@ public class InterfaceController {
                         default:
                             System.out.println("\nPlease enter a valid choice!");
                             System.out.println("\n-----------------------------------\n");
-                            System.out.println("\nWhat do you wish to do:");
-                            System.out.println("1. Print All Promotion\n" + "2. Add Promotion\n" + "3. Update Existing Promotion\n"
-                                    + "4. Delete Promotion\n" + "5. Cancel");
-                            choice = sc.nextInt();
+
                     }
                 } while (choice > 5);
             } catch (InputMismatchException e) {
