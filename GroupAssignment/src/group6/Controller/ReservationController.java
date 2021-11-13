@@ -344,13 +344,14 @@ public class ReservationController {
             String str = "13-11-2021";
             DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             Date = LocalDate.parse(str, df);
-            String time = "21:30";  //default format: hh:mm:ss
+            String time = "22:00";  //default format: hh:mm:ss
             Time = LocalTime.parse(time);
             Reservation Reservation = new Reservation((i+1), (i+1), name, Date, Time, 2);
             Table table = Database_Controller.getTableById(i+1);
             table.setReserved(true);
             Database_Controller.updateTable(table);
             Database_Controller.addReservation(Reservation);
+//            Database_Controller.deleteReservation(i+1);
 
         }
         printReservationList();
