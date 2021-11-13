@@ -171,13 +171,10 @@ public class ReservationController {
             try {
                 System.out.println("Add a Reservation");
                 System.out.println("---------------------");
-                System.out.println("Enter Id of new Reservation:");
-                int id = sc.nextInt();
-
-                // Check if new reservation ID already taken
-                if (Database_Controller.getReservationById(id) != null) {
-                    System.out.println("Reservation already exists!");
-                    return;
+                int id = 1;
+                ArrayList<Promotion> presentPromotions = Database_Controller.readPromotionList();
+                if (presentPromotions != null) {
+                    id = presentPromotions.size() + 1;
                 }
 
                 // Enter pax
@@ -300,7 +297,7 @@ public class ReservationController {
             }
             sc.nextLine(); //clears buffer
             outerCount++;
-        } while (outerCount < 3);
+        } while (outerCount > 3);
     }
 
     /**

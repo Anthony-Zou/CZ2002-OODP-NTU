@@ -59,7 +59,7 @@ public class InterfaceController {
                                     + "4. Delete MenuItem\n" + "5. Cancel");
                             choice = sc.nextInt();
                     }
-                } while (choice > 4);
+                } while (choice > 5);
             } catch (InputMismatchException e) {
                 System.out.println("\nPlease enter a valid choice!");
                 System.out.println("\n-----------------------------------\n");
@@ -107,7 +107,7 @@ public class InterfaceController {
                                     + "4. Delete Promotion\n" + "5. Cancel");
                             choice = sc.nextInt();
                     }
-                } while (choice > 4);
+                } while (choice > 5);
             } catch (InputMismatchException e) {
                 System.out.println("\nPlease enter a valid choice!");
                 System.out.println("\n-----------------------------------\n");

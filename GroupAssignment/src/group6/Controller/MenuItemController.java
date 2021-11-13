@@ -95,11 +95,7 @@ public class MenuItemController {
 	                        default:
 	                        	System.out.println("\nPlease enter a valid choice!");
 	                    		System.out.println("\n-----------------------------------\n");
-	                        	System.out.println("Type of MenuItem:");
-	                            System.out.println("1. Main course");
-	                            System.out.println("2. Drinks");
-	                            System.out.println("3. Dessert");
-	                			userChoice=sc.nextInt();
+
 	                        	
 	                    }
             		} while(userChoice < 1 || userChoice > 3);

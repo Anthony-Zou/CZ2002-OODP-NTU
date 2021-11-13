@@ -22,7 +22,7 @@ public class PromotionController {
     public void addPromotion() {
         System.out.println("Add a Promotion");
         System.out.println("---------------------");
-        System.out.println("Enter the Id of the Promotion:");
+
         int id = 1;
         ArrayList<Promotion> presentPromotions = Database_Controller.readPromotionList();
         if (presentPromotions != null) {
