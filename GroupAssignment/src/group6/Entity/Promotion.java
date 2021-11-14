@@ -48,13 +48,6 @@ public class Promotion extends MenuItem implements Serializable{
 
     //region Setter for Promotion
 
-    /**
-     * Set/Update the Promotion object id with
-     //* @param id
-     */
-    //public void setId(int id) {
-      //  Id = id;
-    //}
 
     /**
      * Set/Update the Promotion object name with

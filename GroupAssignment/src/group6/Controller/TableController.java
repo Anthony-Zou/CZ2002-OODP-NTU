@@ -23,9 +23,9 @@ public class TableController implements Controller{
     //endregion
 
     /**
-     * With input value of
-     *
-     * @param TableNumber the reservation status of the Table will be given in
+     * With input value of Table num
+     * the reservation status of the Table will be given in
+     * @param TableNumber
      * @return
      */
     public boolean checkTableAvailability(int TableNumber) {
@@ -38,9 +38,9 @@ public class TableController implements Controller{
      * Tables that have enough capacity to serve the customer will be printed.
      * Every time this method is called, it will check if any reservation is overdue,
      * release that table if overdue, and print it as well.
-     *
-     * @param pax Number of customers to the table
-     * @return false if there are no available tables of the selected pax
+     * Number of customers to the table  , return false if there are no available tables of the selected pax
+     * @param pax
+     * @return
      */
     public boolean printAvailableTables(int pax) {
         ReservationController ReservationController = new ReservationController();
@@ -68,9 +68,10 @@ public class TableController implements Controller{
 
     /**
      * Stores ID of tables that have enough capacity in an <code>ArrayList</code>.
-     *
-     * @param pax Number of customers to the table
-     * @return <code>ArrayList</code> of the <code>tableId</code>s
+     * PaxNumber of customers to the table
+     * return <code>ArrayList</code> of the <code>tableId</code>s
+     * @param pax
+     * @return
      */
     public ArrayList<Integer> listAvailableTables(int pax) {
         ArrayList<Table> Table = Database_Controller.readTableList();
@@ -186,13 +187,13 @@ public class TableController implements Controller{
 
     /**
      * updateTable Method:
-     * with passing value of
-     *
-     * @param TableNumber , the method will first check of the object existance
-     *                    with getTableById  method from the Database Controller
-     *                    If the object exist, User can update the boolean reserved of the Table
-     *                    object. Finally, the updated object will be passed to the
-     *                    updateTable method in the database controller to update the Table.Dat file
+     * with passing value of Table num
+     * , the method will first check of the object existance
+     *      *                    with getTableById  method from the Database Controller
+     *      *                    If the object exist, User can update the boolean reserved of the Table
+     *      *                    object. Finally, the updated object will be passed to the
+     *      *                    updateTable method in the database controller to update the Table.Dat file
+     * @param TableNumber
      */
     public void updateTable(int TableNumber) {
 

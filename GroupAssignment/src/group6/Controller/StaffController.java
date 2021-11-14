@@ -131,11 +131,12 @@ public class StaffController implements Controller{
     /**
      * updateStaff Method:
      * with passing value of
-     * @param employeeId , the method will first check of the object existance
+     * employee id , the method will first check of the object existance
      * with getStaffById  method from the Database Controller
      * If the object exist, User can update the setJobTitle of the Staff
      * object. Finally, the updated object will be passed to the
      * updateStaff method in the database controller to update the Staff.Dat file
+     * @param employeeId
      */
     public void updateStaff(int employeeId) {
 

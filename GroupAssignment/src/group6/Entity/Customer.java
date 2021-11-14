@@ -27,10 +27,10 @@ public class Customer implements Serializable {
     public Customer() {
     }
 
-    /**
+    /**these three parmameter are passed in to create the customer object
      * @param name
      * @param contact
-     * @param memberShip these three parmameter are passed in to create the customer object
+     * @param memberShip
      */
     public Customer(String name, int contact, boolean memberShip) {
         this.name = name;
@@ -41,22 +41,22 @@ public class Customer implements Serializable {
 
     //region setter for Customer
 
-    /**
-     * @param contact is passed in to set the costumer contact
+    /**contact is passed in to set the costumer contact
+     * @param contact
      */
     public void setContact(int contact) {
         this.contact = contact;
     }
 
-    /**
-     * @param memberShip boolean status is passed in to  set/replace the customer membership
+    /** memberShip boolean status is passed in to  set/replace the customer membership
+     * @param memberShip
      */
     public void setMemberShip(boolean memberShip) {
         this.memberShip = memberShip;
     }
 
-    /**
-     * @param name is passed in to set/replace the customer name
+    /**name is passed in to set/replace the customer name
+     * @param name
      */
     public void setName(String name) {
         this.name = name;
@@ -66,21 +66,24 @@ public class Customer implements Serializable {
     //region getter for Customer
 
     /**
-     * @return the name of the customer
+     * return the name of the customer
+     * @return
      */
     public String getName() {
         return name;
     }
 
     /**
-     * @return the contact number of the customer
+     * return the contact number of the customer
+     * @return
      */
     public int getContact() {
         return contact;
     }
 
     /**
-     * @return the boolean value of the Customer Membership status
+     * return the boolean value of the Customer Membership status
+     * @return
      */
     public boolean isMemberShip() {
         return memberShip;

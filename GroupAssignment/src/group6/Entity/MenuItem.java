@@ -26,11 +26,11 @@ public class MenuItem implements Serializable {
     public MenuItem() {
     }
 
-    /**
+    /** These four parameter are passed in to create the customer object
      * @param itemName
      * @param description
      * @param price
-     * @param type        These four parameter are passed in to create the customer object
+     * @param type
      */
     public MenuItem(String itemName, String description, double price, String type) {
         this.itemName = itemName;
@@ -40,24 +40,31 @@ public class MenuItem implements Serializable {
     }
 
     /**
-     * @param itemName is passed in to set the MenuItem name
+     * itemName is passed in to set the MenuItem name
+     * @param itemName
      */
     //endregion
 
     //region Setter for MenuItem
+
+    /**
+     * set the itemName
+     * @param itemName
+     */
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
 
-    /**
-     * @param description is passed in to set the Description
+    /**set the Description
+     * @param description
      */
     public void setDescription(String description) {
         this.description = description;
     }
 
     /**
-     * @param price is passed in to set the price
+     * set the price
+     * @param price
      */
     public void setPrice(double price) {
         this.price = price;
