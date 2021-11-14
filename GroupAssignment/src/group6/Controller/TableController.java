@@ -10,6 +10,13 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ Controller for Table consist of methods that print all, add delete and update table and its reservation status.
+ Also, list and print tables that are not reserved at the point of time.
+ @author Zou Zeren
+ @version 1.0
+ @since 24-22-2021
+ */
 public class TableController implements Controller{
     //region Scanner
     Scanner sc = new Scanner(System.in);

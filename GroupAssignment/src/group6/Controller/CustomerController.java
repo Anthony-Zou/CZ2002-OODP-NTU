@@ -6,7 +6,12 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-
+/**
+    Controller for Customer entity that performs print, add, delete , update Customer details, and populate customer
+ @author Zou Zeren
+ @version 1.0
+ @since 24-22-2021
+ */
 public class CustomerController implements Controller {
     //region Scanner
     Scanner sc = new Scanner(System.in);
@@ -158,11 +163,12 @@ public class CustomerController implements Controller {
     /**
      * Update Customer Method:
      * with passing value of
-     * @param name , the method will first check of the object  existance
+     * name , the method will first check of the object  existance
      * with getCustomerByName  method from the Database Controller
      * If the object exist, User can update the membership status of the Customer
      * object. Finally, the updated object will be passed to the
      * updateCustomer method in the database controller to update the customer.Dat file
+     * @param name
      */
     public void updateCustomer(String name) {
         if (Database_Controller.getCustomerByName(name) == null) {

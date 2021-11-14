@@ -3,7 +3,12 @@ package Controller;
 import Entity.*;
 import java.io.*;
 import java.util.*;
-
+/**
+ Controller for Database write list and read list for Controller{ Customer, MenuItem, Order, Promotion, Resevation. Revenue, Staff, Table}
+ @author Zou Zeren
+ @version 1.0
+ @since 24-22-2021
+ */
 public class Database_Controller {
 
     /**
@@ -807,16 +812,4 @@ public class Database_Controller {
     }
     //endregion
 
-
-
-    public static void main(String[] args){
-//        ArrayList<Promotion> Promotionlist = new ArrayList<Promotion>();
-//
-//        writePromotionList(Promotionlist);
-
-        ArrayList<Order> Orderlist = new ArrayList<Order>();
-
-        writeOrderList(Orderlist);
-        System.out.println( Database_Controller.getPromotionByName("SetA"));
-    }
 }

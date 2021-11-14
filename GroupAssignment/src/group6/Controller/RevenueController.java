@@ -2,6 +2,13 @@ package Controller;
 import java.time.LocalDate;
 import java.util.*;
 import Entity.*;
+/**
+ Controller Revenue hold methods to get the sales report of the Restaurant for the date range selected
+ namely based on date, month or year. Currently there are only sales from 2020 onwards.
+ @author Zou Zeren
+ @version 1.0
+ @since 24-22-2021
+ */
 
 public class RevenueController {
     /**
@@ -12,8 +19,9 @@ public class RevenueController {
     /**
      * getSalesReportOfDate Method
      * Generates Sales Report with inputing
-     * @param date and caretes an array list of orders return
+     * date and caretes an array list of orders return
      * for that specific date and the arraylist is sent to printSalesRevenueReport method
+     * @param date
      */
     public void getSalesReport(LocalDate date){
         int i;

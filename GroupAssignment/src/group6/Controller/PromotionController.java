@@ -9,7 +9,12 @@ import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
-
+/**
+ Controller for Promotion that have method of add, update delete , print all and print by name
+ @author Zou Zeren
+ @version 1.0
+ @since 24-22-2021
+ */
 public class PromotionController implements Controller{
 
     //region Scanner
@@ -211,13 +216,10 @@ public class PromotionController implements Controller{
         }
 
     }
-    public void deletePromotionRange(){
-        int counter = 10;
-        for(int q = 0; q < counter; q++){
-            String PromoName = "Set "+(q+1);
-            Database_Controller.deletePromotion(PromoName);
-        }
-    }
+
+    /**
+     * Populates promotion for demonstration purpose
+     */
     public void populatePromotion(){
         int counter = 20;
         for(int q = 0; q < counter; q++){

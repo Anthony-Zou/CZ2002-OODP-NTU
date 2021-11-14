@@ -4,7 +4,12 @@ import java.util.*;
 import Controller.Database_Controller;
 import Controller.InterfaceController;
 import Entity.*;
-
+/**
+This is the application start up page
+ @author Zou Zeren
+ @version 1.0
+ @since 24-22-2021
+ */
 public class ApplicationMenu {
     /**
      * Choice selected by the user

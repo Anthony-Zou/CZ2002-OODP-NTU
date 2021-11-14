@@ -8,6 +8,13 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ Controller for OrderController create, convert and create from reservation, view all orders, view all unpaid orders,
+ print Order By Id,Print Invoice and populate orders
+ @author Zou Zeren
+ @version 1.0
+ @since 24-22-2021
+ */
 public class OrderController {
     //region Scanner
     Scanner sc = new Scanner(System.in);
@@ -302,8 +309,9 @@ public class OrderController {
 
     /**
      * Convert Reservation to an Order with keeping the sam content in the reservation object passed in with
-     * @param reservation ,addtional information that are required in the order are requested from user
+     * reservation object ,addtional information that are required in the order are requested from user
      * to input into the variables.
+     * @param reservation
      */
 //    public void convertResToOrder(Reservation reservation){
 //        int tableId= reservation.getTableId();

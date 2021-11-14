@@ -13,7 +13,12 @@ import java.text.SimpleDateFormat;
 import java.util.TimerTask;
 
 import Entity.Staff;
-
+/**
+ Controller for Interface constinst of methods that are activated by the application menu in the boundary class
+ @author Zou Zeren
+ @version 1.0
+ @since 24-22-2021
+ */
 public class InterfaceController {
     Staff CurrentStaff;
     static Timer timer;
@@ -24,6 +29,9 @@ public class InterfaceController {
 
     Scanner sc = new Scanner(System.in);
 
+    /**
+     * add,Update,Delete method for MenuItem
+     */
     public void addUpdateDeleteMenuItem() {
         MenuItemController MenuItemController = new MenuItemController();
         System.out.println("< Add/Update/Delete a MenuItem >\n");
@@ -71,6 +79,9 @@ public class InterfaceController {
 
     }
 
+    /**
+     * add,Update,Delete method for Promotion
+     */
     public void addUpdateDeletePromotion() {
         PromotionController PromotionController = new PromotionController();
         System.out.println("< Add/Update/Delete a Promotion >\n");
@@ -118,16 +129,26 @@ public class InterfaceController {
 
     }
 
+
     OrderController OrderController = new OrderController();
 
+    /**
+     * Method to create Order
+     */
     public void createOrder() {
         OrderController.createOrder();
     }
 
+    /**
+     * Method to view Order
+     */
     public void viewOrder() {
         OrderController.PrintallOrderbrief();
     }
 
+    /**
+     * add,Delete method for OrderItem
+     */
     public void addDeleteOrderItem() {
         OrderController.updateOrderById();
 //        System.out.println("Add/Delete a OrderItem");
@@ -163,10 +184,16 @@ public class InterfaceController {
 
     ReservationController ReservationController = new ReservationController();
 
+    /**
+     * Method for creating reservation
+     */
     public void createReservation() {
         ReservationController.createReservation();
     }
 
+    /**
+     * check and Remove ReservationBooking method for Reservation
+     */
     public void checkRemoveReservationBooking() {
         Scanner sc = new Scanner(System.in);
         timer = new Timer();
@@ -219,15 +246,24 @@ public class InterfaceController {
 
     }
 
+    /**
+     * Method to check Table Availability
+     */
     public void checkTableAvailability() {
         TableController TableController = new TableController();
         TableController.print();
     }
 
+    /**
+     * Method to print Order Invoice
+     */
     public void printOrderInvoice() {
         OrderController.printOrderInvoice();
     }
 
+    /**
+     * Method to print Order Invoice
+     */
     public void printSalesRevenueReport() {
         Scanner sc = new Scanner(System.in);
         RevenueController RevenueController = new RevenueController();

@@ -9,63 +9,16 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.ArrayList;
-
+/**
+ Controller for Reservation that hold methods of delete Overdue Bookings, check Reservation Bookings, print Reservation List,
+ Create Resrevation, Delete Reservation, and Populate Reservation
+ @author Zou Zeren
+ @version 1.0
+ @since 24-22-2021
+ */
 public class ReservationController {
     //region Scanner
     Scanner sc = new Scanner(System.in);
-    //endregion
-
-// Previous checkRemoveReservationBooking() function here
-    //region
-//    /**
-//     * checkRemoveReservationBooking Method:
-//     * It will first check if the reservation id enter exists
-//     * then compares the reservation date time with current date time
-//     * if the difference is more than 20 minutes, the reservation will be cancelled
-//     * and table will be released
-//     * if the result is less than 20 minutes which means that the customer arrives in time
-//     * The reservation will be converted to an order via the convertResToOrder method
-//     * where staff will assign the reserved table to the customer
-//     */
-//    public void checkRemoveReservationBooking() {
-//        int id;
-//        System.out.println("Enter your reservation ID:");
-//        while(true) {
-//            id = sc.nextInt();
-//            if(Database_Controller.getReservationById(id)!=null){
-//                break;
-//            }
-//            else{
-//                System.out.println("Reservation does not exist!");
-//            }
-//        }
-//        LocalDate date = Database_Controller.getReservationById(id).getDate();
-//        LocalDate today = LocalDate.now();
-//        int sameDate = date.compareTo(today);
-//        LocalTime time = Database_Controller.getReservationById(id).getTime();
-//        LocalTime afterTime=time.plusMinutes(20);
-//        LocalTime beforeTime=time.minusMinutes(20);
-//        LocalTime now=LocalTime.now();
-//        boolean before = afterTime.isBefore(now);
-//        boolean after  = beforeTime.isAfter(now);
-//        if(!before && !after && sameDate==0){
-//            System.out.println("Welcome!Reservation is available.");
-//            OrderController orderController= new OrderController();
-//            orderController.convertResToOrder(Database_Controller.getReservationById(id));
-//            deleteReservation(id);
-//        }
-//        else{
-//            if(sameDate>0){
-//                System.out.println("Before the valid Time of Reservation");
-//            }
-//            else if(sameDate==0 && after){
-//                System.out.println("Before the valid Time of Reservation");
-//            }
-//            else{
-//                System.out.println("This reservation is overdue!");
-//                deleteReservation(id);}
-//        }
-//    }
     //endregion
 
     /**
@@ -99,6 +52,7 @@ public class ReservationController {
      * where staff will assign the reserved table to the customer.
      * If customer arrives more than 20 minutes after the booked timing,
      * the reservation would already have been deleted.
+     * @param name
      */
     public void checkReservationBooking(String name) {
         deleteOverdueBookings();
@@ -312,6 +266,7 @@ public class ReservationController {
      * getReservationById method from the Database Controller and if the object exist,
      * it will activate the deleteReservation method from the Database Controller with
      * passing in the Reservation Id
+     * @param Number
      */
     public void deleteReservation(int Number) {
         System.out.println("Removing Reservation");
@@ -331,27 +286,9 @@ public class ReservationController {
 
     }
 
-    //  Extra void deleteReservation(Customer customer) here
-    //region
-//    /**
-//     * Overloads <code>public void deleteReservation(int Number)</code>
-//     * The deleteReservation Method takes in a <code>Customer</code> whose reservation
-//     * is to be deleted. It will first check the existence of the reservation with the
-//     * <code>getReservationByCustomerName</code> method from the Database Controller and if the object exist,
-//     * it will activate the deleteReservation method from the Database Controller with
-//     * passing in the Reservation Id
-//     */
-//    public void deleteReservation(Customer customer) {
-//        System.out.println("Remove a Reservation");
-//        System.out.println("---------------------");
-//        Table table= Database_Controller.getTableById(Database_Controller.getReservationByCustomerName(customer.getName()).getTableId());
-//        table.setReserved(false);
-//        Database_Controller.updateTable(table);
-//        Database_Controller.deleteReservation(Database_Controller.getReservationByCustomerName(customer.getName()).getId());// remove the Reservation from the database
-//        System.out.println("Reservation removed!");
-//    }
-//endregion
-
+    /**
+     * Methods that populate reservation with written time that is with in preset allowed range
+     */
     public void populateReservation(){
         for (int i =0; i<19;i++){
 
@@ -376,9 +313,5 @@ public class ReservationController {
 
     }
 
-    public static void main(String[] args){
-        ReservationController ReservationController = new ReservationController();
-        ReservationController.populateReservation();
 
-    }
 }

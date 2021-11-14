@@ -1,7 +1,12 @@
 package Controller;
 import Entity.*;
 import java.util.*;
-
+/**
+ Controller for MenuItemController add, updateMeueItem, update, delete and print
+ @author Zou Zeren
+ @version 1.0
+ @since 24-22-2021
+ */
 public class MenuItemController implements Controller{
     //region Scanner
     Scanner sc = new Scanner(System.in);
@@ -121,11 +126,12 @@ public class MenuItemController implements Controller{
     /**
      * Update MenuItem Method:
      * with passing value of
-     * @param itemName , the method will first check of the object  existance
+     *  name, the method will first check of the object  existance
      * with getMenuItemByName  method from the Database Controller
      * If the object exist, User can update the Price of the Customer
      * object. Finally, the updated object will be passed to the
      * updateMenuItem method in the database controller to update the MenuItem.Dat file
+     * @param itemName
      */
     public void updateMenuItem(String itemName) {
     	

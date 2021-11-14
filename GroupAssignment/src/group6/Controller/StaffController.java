@@ -3,6 +3,13 @@ import Entity.Staff;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ Controller for staff consist of methods that print all, add delete and update staff details.
+ @author Zou Zeren
+ @version 1.0
+ @since 24-22-2021
+ */
+
 public class StaffController implements Controller{
     //region Scanner
     Scanner sc = new Scanner(System.in);
