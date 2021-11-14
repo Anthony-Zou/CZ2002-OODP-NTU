@@ -74,9 +74,8 @@ public class OrderController {
         		while(true) {
         			System.out.println("Enter pax:");
         			pax = sc.nextInt();
-        			if (pax <= 0) {
-        				System.out.println("\nPlease enter a valid number!");
-                		System.out.println("\n-----------------------------------\n");
+        			if (pax < 2) {
+        				System.out.println("\nMinimum capacity is 2!");
         			} else if(pax> 10) {
                         System.out.println("Maximum capacity is 10, please break into smaller groups.");
                     }else break;
@@ -106,8 +105,7 @@ public class OrderController {
                                 && Database_Controller.getTableById(tableId).getCapacity()>=pax) {
                         break;
                     } else {
-                    	System.out.println("\nPlease enter a valid Table ID!");
-                		System.out.println("\n-----------------------------------\n");
+                    	System.out.println("Table " + tableId + " unavailable! Please choose another table.");
                     }
                 }
         	} catch (InputMismatchException e) {
@@ -733,24 +731,24 @@ public class OrderController {
             for (int i = 0; i < Order.size(); i++) {
                 if (Order.get(i).isPaid() == false) {
 
-                    System.out.printf("%-10d%-10d$-13b%-14d%-13.2f%-10d%-10s%-20s%s", Order.get(i).getOrderId(), Order.get(i).getStaffId()
+                    System.out.printf("%-10d%-10d%-13b%-14d%-13.2f%-10d%-10s%-20s%s\n", Order.get(i).getOrderId(), Order.get(i).getStaffId()
                             ,Order.get(i).isMembership(), Order.get(i).getUserContact(), Order.get(i).getTotalPrice(),
                             Order.get(i).getTableNum(), Order.get(i).isPaid(), Order.get(i).getDate(),Order.get(i).getTime());
 
                     //Print Alacarte Item in the order
-                    System.out.println("Alacarte Item");
-                    System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
+                    System.out.println("Alacarte Items");
+                    System.out.printf("%-15s%-15s\n", "Item Name", "Price(SGD)");
+                    System.out.println("---------------------------");
+
                     for (int j = 0; j < Order.get(i).getAlacarte().size(); j++) {
-                        System.out.println("\t" + Order.get(i).getAlacarte().get(j).getItemName()
-                                + "\t" + Order.get(i).getAlacarte().get(j).getPrice());
+                        System.out.printf("%-15s%-15.2f\n", Order.get(i).getAlacarte().get(j).getItemName(), Order.get(i).getAlacarte().get(j).getPrice());
                     }
                     //Print Promotion Item in the order
-                    System.out.println("Promotion Item");
-                    System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
+                    System.out.println("Promotion Items");
+                    System.out.printf("%-15s%-15s\n", "Promotion Name", "Price(SGD)");
+                    System.out.println("---------------------------");
                     for (int j = 0; j < Order.get(i).getPromotion().size(); j++) {
-                        System.out.println(
-                                "\t" + Order.get(i).getPromotion().get(j).getName()
-                                        + "\t" + Order.get(i).getPromotion().get(j).getPrice());
+                        System.out.printf("%-15s%-15.2f\n", Order.get(i).getPromotion().get(j).getName(), Order.get(i).getPromotion().get(j).getPrice());
                     }
 
                 }
@@ -773,7 +771,7 @@ public class OrderController {
             System.out.println("orderId   staffId   membership   userContact   totalPrice   tableId   paid      Date                Time");
             System.out.println("------------------------------------------------------------------------------------------------------------------------");
             for (int i = 0; i < Order.size(); i++) {
-                System.out.printf("%-10d%-10d$-13b%-14d%-13.2f%-10d%-10s%-20s%s", Order.get(i).getOrderId(), Order.get(i).getStaffId()
+                System.out.printf("%-10d%-10d%-13b%-14d%-13.2f%-10d%-10s%-20s%s\n", Order.get(i).getOrderId(), Order.get(i).getStaffId()
                         ,Order.get(i).isMembership(), Order.get(i).getUserContact(), Order.get(i).getTotalPrice(),
                         Order.get(i).getTableNum(), Order.get(i).isPaid(), Order.get(i).getDate(),Order.get(i).getTime());
 
@@ -809,10 +807,16 @@ public class OrderController {
         PrintallOrderbrief();
         System.out.println("Enter Order Id ");
         int Number = sc.nextInt();
-        if (Database_Controller.getOrderById(Number) == null
-        && Database_Controller.getOrderById(Number).isPaid() ==false ) {
-            System.out.println("orderId does not exist!");
-        } else {
+        int c = 0;
+        Order order = Database_Controller.getOrderById(Number);
+        while (order == null || order.isPaid()) {
+            System.out.println("orderId does not exist! Please enter a valid orderId:");
+            Number = sc.nextInt();
+            order = Database_Controller.getOrderById(Number);
+            c++;
+            if (c == 3)
+                return;
+        }
             //update order paid status to be true to mark
             Table table = Database_Controller.getTableById(Database_Controller.getOrderById(Number).getTableNum());
             table.setReserved(false);
@@ -889,7 +893,7 @@ public class OrderController {
 //            System.out.printf("Subtotal:\t%.2f\nGST:\t%.2f\nTotal:\t%.2f", );
             System.out.printf("%25s\t%.2f\n", "Total:", Order.getTotalPrice());
             //endregion
-        }
+
     }
 
     /**
@@ -902,26 +906,24 @@ public class OrderController {
             System.out.println("orderId does not exist!");
         } else {
             Order Order = Database_Controller.getOrderById(orderId);
-            System.out.println("orderId" + "\t\t\t" + "staffId" + "\t\t\t" + "membership" + "\t\t\t" + "userContact" + "\t\t\t" + "totalPrice" + "\t\t\t" + "tableId" + "\t\t\t" + "paid" + "\t\t\t" + "Date" + "\t\t\t" + "Time" + "\t");
-
-            System.out.println(Order.getOrderId() + "\t\t\t\t" + Order.getStaffId() +
-                    "\t\t\t\t" + Order.isMembership() + "\t\t\t"
-                    + Order.getUserContact() + "\t\t\t" + Order.getTotalPrice() + "\t\t\t" + Order.getTableNum() + "\t\t\t" + Order.isPaid() + "\t\t\t" + Order.getDate() + "\t\t\t" + Order.getTime() + "\t\t\t");
+            System.out.println("orderId   staffId   membership   userContact   totalPrice   tableId   paid      Date                Time");
+            System.out.println("------------------------------------------------------------------------------------------------------------------------");
+            System.out.printf("%-10d%-10d%-13b%-14d%-13.2f%-10d%-10s%-20s%s\n", Order.getOrderId(), Order.getStaffId(), Order.isMembership(), Order.getUserContact(), Order.getTotalPrice(), Order.getTableNum(), Order.isPaid(), Order.getDate(), Order.getTime());
 
             //Print Alacarte Item in the order
-            System.out.println("Alacarte Item");
-            System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
+            System.out.println("Alacarte Items");
+            System.out.printf("%-15s%-15s\n", "Item Name", "Price(SGD)");
+            System.out.println("---------------------------");
+
             for (int j = 0; j < Order.getAlacarte().size(); j++) {
-                System.out.println("\t" + Order.getAlacarte().get(j).getItemName()
-                        + "\t" + Order.getAlacarte().get(j).getPrice());
+                System.out.printf("%-15s%-15.2f\n", Order.getAlacarte().get(j).getItemName(), Order.getAlacarte().get(j).getPrice());
             }
             //Print Promotion Item in the order
-            System.out.println("Promotion Item");
-            System.out.println("Item Name" + "\t" + " Price(SGD)" + "\t");
+            System.out.println("Promotion Items");
+            System.out.printf("%-15s%-15s\n", "Promotion Name", "Price(SGD)");
+            System.out.println("---------------------------");
             for (int j = 0; j < Order.getPromotion().size(); j++) {
-                System.out.println(
-                        "\t" + Order.getPromotion().get(j).getName()
-                                + "\t" + Order.getPromotion().get(j).getPrice());
+                System.out.printf("%-15s%-15.2f\n", Order.getPromotion().get(j).getName(), Order.getPromotion().get(j).getPrice());
             }
         }
     }
@@ -950,8 +952,8 @@ public class OrderController {
         	sc.nextLine();
         } while(orderId == -1);
         
-        if (Database_Controller.getOrderById(orderId) == null &&
-                Database_Controller.getOrderById(orderId).isPaid()==false) {
+        if (Database_Controller.getOrderById(orderId) == null ||
+                Database_Controller.getOrderById(orderId).isPaid()) {
             System.out.println("orderId does not exist!");
         } else {
             this.printOrderById(orderId);
@@ -1091,13 +1093,13 @@ public class OrderController {
                                                 }
                                                 System.out.println("-----------------------------------");
 
-                                                int alacarteindex = 0;
+                                                int alacarteindex;
                                                 do {
                                                 	try {
                                                 		while(true) {
                                                 			System.out.println("Enter the index of the Alacarte Item to remove: ");
                                                 			alacarteindex = sc.nextInt();
-                                                			if(alacarteindex >= alacarteList.size()-1) {
+                                                			if(alacarteindex > alacarteList.size()-1) {
                                                 				System.out.println("\nPlease enter a valid index!");
                                                         		System.out.println("\n-----------------------------------\n");
                                                 			}
@@ -1107,10 +1109,10 @@ public class OrderController {
                                                 	} catch (InputMismatchException e) {
                                                 		System.out.println("\nPlease enter a valid index!");
                                                 		System.out.println("\n-----------------------------------\n");
-                                                		alacarteindex = 0;
+                                                		alacarteindex = -1;
                                                 	}
                                                 	sc.nextLine();
-                                                } while(alacarteindex == 0);
+                                                } while(alacarteindex == -1);
                                                 
                                                 alacarteList.remove(alacarteindex);
                                                 order.setAlacarte(alacarteList);
@@ -1130,13 +1132,13 @@ public class OrderController {
                                                 System.out.println("-----------------------------------");
 
                                                 
-                                                int promotionindex = 0;
+                                                int promotionindex = -1;
                                                 do {
                                                 	try {
                                                 		while(true) {
                                                 			System.out.println("Enter the index of the Promotion Item to remove: ");
                                                 			promotionindex = sc.nextInt();
-                                                			if(promotionindex >= promotionList.size()-1) {
+                                                			if(promotionindex > promotionList.size()-1) {
                                                 				System.out.println("\nPlease enter a valid index!");
                                                         		System.out.println("\n-----------------------------------\n");
                                                 			}
@@ -1145,10 +1147,10 @@ public class OrderController {
                                                 	} catch (InputMismatchException e) {
                                                 		System.out.println("\nPlease enter a valid index!");
                                                 		System.out.println("\n-----------------------------------\n");
-                                                		promotionindex = 0;
+                                                		promotionindex = -1;
                                                 	}
                                                 	sc.nextLine();
-                                                } while(promotionindex == 0);
+                                                } while(promotionindex == -1);
                                                 
                                                 promotionList.remove(promotionindex);
                                                 order.setPromotion(promotionList);

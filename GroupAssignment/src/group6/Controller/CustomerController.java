@@ -22,6 +22,7 @@ public class CustomerController implements Controller {
         ArrayList<Customer> Customer = Database_Controller.readCustomerList();
         if (Customer != null) {
             System.out.printf("%-20s %-10s %-5s\n", "Customer Name", "Contact", "Membership");
+            System.out.println("----------------------------------------------------------");
             for (int i = 0; i < Customer.size(); i++) {
                 System.out.printf("%-20s %-10s %-5s\n", Customer.get(i).getName(), Customer.get(i).getContact(), Customer.get(i).isMemberShip());
             }
@@ -83,7 +84,7 @@ public class CustomerController implements Controller {
             int userChoice = -1;
             do {
             	try {
-            		System.out.println("Membership of Staff:");
+            		System.out.println("Membership:");
                     System.out.println("0. False");
                     System.out.println("1. True");
             		userChoice = sc.nextInt();
@@ -98,7 +99,7 @@ public class CustomerController implements Controller {
                             default:
                                 System.out.println("Please enter a valid choice!");
                                 System.out.println("\n-----------------------------------\n");
-                                System.out.println("Membership of Staff:");
+                                System.out.println("Membership");
                                 System.out.println("0. False");
                                 System.out.println("1. True");
                                 userChoice = sc.nextInt();
@@ -188,7 +189,7 @@ public class CustomerController implements Controller {
                             default:
                                 System.out.println("Please enter a valid choice!");
                                 System.out.println("\n-----------------------------------\n");
-                                System.out.println("Membership of Staff:");
+                                System.out.println("Membership:");
                                 System.out.println("0. False");
                                 System.out.println("1. True");
                                 userChoice = sc.nextInt();
