@@ -43,6 +43,7 @@ public class TableController implements Controller{
 
         if (Table != null) {
             System.out.printf("%-10s %-20s %-30s\n", "Table Id", "Table Capacity", "Table Reserved/Occupied");
+            System.out.println("----------------------------------------------------------");
             for (int i = 0; i < Table.size(); i++) {
                 if (!Table.get(i).isReserved() && Table.get(i).getCapacity() >= pax) {
                     System.out.printf("%-10s %-20s %-30s\n", Table.get(i).getId(), Table.get(i).getCapacity(), Table.get(i).isReserved());
@@ -89,6 +90,7 @@ public class TableController implements Controller{
         ArrayList<Table> Table = Database_Controller.readTableList();
         if (Table != null) {
             System.out.printf("%-10s %-20s %-30s\n", "Table Id", "Table Capacity", "Table Reserved/Occupied");
+            System.out.println("----------------------------------------------------------");
             for (int i = 0; i < Table.size(); i++) {
                 System.out.printf("%-10s %-20s %-30s\n", Table.get(i).getId(), Table.get(i).getCapacity(), Table.get(i).isReserved());
             }

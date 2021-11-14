@@ -279,7 +279,7 @@ public class ReservationController {
                             return;
                         }
                         if (Time.isBefore(LocalTime.now())) {
-                            System.out.println("Reservations must be made at After current time. Choose an later time.");
+                            System.out.println("Reservations must be made after current time. Choose a later time.");
                             return;
                         }
                     } while (Time.isBefore(LocalTime.now())&&Time.isAfter(LocalTime.now().plusMinutes(20)));
@@ -316,7 +316,12 @@ public class ReservationController {
     public void deleteReservation(int Number) {
         System.out.println("Removing Reservation");
         System.out.println("---------------------");
-        Table table = Database_Controller.getTableById(Database_Controller.getReservationById(Number).getTableId());
+        Reservation res = Database_Controller.getReservationById(Number);
+        if(res == null){
+            System.out.println("Reservation " + Number + " does not exist.");
+            return;
+        }
+        Table table = Database_Controller.getTableById(res.getTableId());
         String Name=Database_Controller.getReservationById(Number).getCustomerName();
         table.setReserved(false);
         Database_Controller.updateTable(table);
@@ -357,7 +362,7 @@ public class ReservationController {
             String str = "14-11-2021";
             DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             Date = LocalDate.parse(str, df);
-            String time = "02:20";  //default format: hh:mm:ss
+            String time = "18:08";  //default format: hh:mm:ss
             Time = LocalTime.parse(time);
             Reservation Reservation = new Reservation((i+1), (i+1), name, Date, Time, 2);
             Table table = Database_Controller.getTableById(i+1);

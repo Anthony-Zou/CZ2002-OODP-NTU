@@ -32,10 +32,18 @@ public class PromotionController implements Controller{
         if (presentPromotions != null) {
             id = presentPromotions.size() + 1;
         }
-        int userChoice;
+        int userChoice, c = 0;
+        String name;
         System.out.println("Name of Promotion:");
-        Scanner sc = new Scanner(System.in);
-        String name = sc.nextLine();
+        do {
+            Scanner sc = new Scanner(System.in);
+            name = sc.nextLine();
+            if (Database_Controller.getPromotionByName(name) != null)
+                System.out.println("Promotion " + name + " exists!\nUse a new name:");
+            c++;
+            if(c == 3)
+                return;
+        }while(Database_Controller.getPromotionByName(name) != null);
 
         MenuItemController MenuItemController = new MenuItemController();
         ArrayList<MenuItem> Items = new ArrayList<MenuItem>();
@@ -51,7 +59,7 @@ public class PromotionController implements Controller{
             itemname = sc.nextLine();
             MenuItem = Database_Controller.getMenuItemByName(itemname);
             if(MenuItem == null){
-                System.out.println("Items not found! Please enter the item from Menu");
+                System.out.println(itemname + " not found! Please enter an item from the menu.");
             }
         }while(MenuItem ==null);
             Items.add(MenuItem);
@@ -99,9 +107,22 @@ public class PromotionController implements Controller{
         } else {
             Promotion Promotion = Database_Controller.getPromotionByName(name);
             //content
-            System.out.println("Enter new price of the Promotion");
-            Promotion.setPrice(sc.nextDouble());
+            double price;
+            do {
+                try {
+                    System.out.println("Enter new price of the Promotion");
+                    price = sc.nextDouble();
+                } catch (InputMismatchException e) {
+                    System.out.println("Wrong value type entered.");
+                    price = 0.0;
+                }
+                if(price <=0)
+                    System.out.println("Enter valid price!");
+            }while(price <= 0);
+
+            Promotion.setPrice(price);
             Database_Controller.updatePromotion(Promotion);
+            System.out.println("Promotion " + name + " updated");
         }
     }
 
@@ -117,10 +138,10 @@ public class PromotionController implements Controller{
         System.out.println("Remove a Promotion");
         System.out.println("---------------------");
         // find if the Promotion is in the database or not //
-        System.out.println("Enter the name of the MenuItem:");
+        System.out.println("Enter the name of the Promotion:");
         String name = sc.nextLine();
         if (Database_Controller.getPromotionByName(name) == null) {
-            System.out.println("Promotion does not exist!");
+            System.out.println("Promotion " + name+ " does not exist!");
 
         } else {
             Database_Controller.deletePromotion(name);// =---- from the database

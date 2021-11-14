@@ -240,13 +240,15 @@ public class InterfaceController {
                 System.out.println("Print report by: ");
                 System.out.println("1. Date \n2. Month \n3. Year \n0. Cancel");
                 choice = sc.nextInt();
+                sc.nextLine();
                 while (choice != 0) {
                     switch (choice) {
                         case 1:
                             do{
+                                String date;
                             try {
                                 System.out.println("Enter date [DD-MM-YYYY]: ");
-                                String date = sc.nextLine();
+                                date = sc.nextLine();
                                 DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                                 RevenueController.getSalesReport(LocalDate.parse(date, df));
                                 break;
