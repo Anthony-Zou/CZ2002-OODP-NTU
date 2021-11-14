@@ -2,7 +2,12 @@ package Entity;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.io.Serializable;
-
+/**
+ Entity class for the Promotion
+ @author Zou Zeren
+ @version 1.0
+ @since 24-22-2021
+ */
 public class Promotion extends MenuItem implements Serializable{
     //region variables for Promotion
     /** variables for Promotion

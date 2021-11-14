@@ -3,6 +3,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 import java.io.Serializable;
+/**
+ Entity class for the Reservation
+ @author Zou Zeren
+ @version 1.0
+ @since 24-22-2021
+ */
 public class Reservation implements Serializable{
     //region varibles for Reservation
     /**

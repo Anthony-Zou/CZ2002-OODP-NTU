@@ -1,6 +1,12 @@
 package Entity;
 import java.util.Objects;
 import java.io.Serializable;
+/**
+ Entity class for the Table
+ @author Zou Zeren
+ @version 1.0
+ @since 24-22-2021
+ */
 public class Table implements Serializable{
     //region Variables for Table
     /**

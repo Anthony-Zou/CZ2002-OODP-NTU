@@ -2,6 +2,12 @@ package Entity;
 
 import java.io.Serializable;
 
+/**
+Entity class for the Customer
+ @author Zou Zeren
+ @version 1.0
+ @since 24-22-2021
+ */
 public class Customer implements Serializable {
 
     //region declare variables for Customers

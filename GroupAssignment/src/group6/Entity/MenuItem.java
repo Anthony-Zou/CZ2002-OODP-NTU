@@ -1,7 +1,12 @@
 package Entity;
 
 import java.io.Serializable;
-
+/**
+ Entity class for the Menu Item
+ @author Zou Zeren
+ @version 1.0
+ @since 24-22-2021
+ */
 public class MenuItem implements Serializable {
     //region Declare variables for MenuItems
     /**

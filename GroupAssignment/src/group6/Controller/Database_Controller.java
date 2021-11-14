@@ -4,7 +4,7 @@ import Entity.*;
 import java.io.*;
 import java.util.*;
 /**
- Controller for Database write list and read list for Controller{ Customer, MenuItem, Order, Promotion, Resevation. Revenue, Staff, Table}
+ Controller for Database write list and read list for Controller{ Customer, MenuItem, Order, Promotion, Reservation. , Staff, Table}
  @author Zou Zeren
  @version 1.0
  @since 24-22-2021
@@ -23,7 +23,7 @@ public class Database_Controller {
     private final static String reservationPath="src/group6/Data/Reservation.Dat";
     private final static String revenuePath="src/group6/Data/Revenue.Dat";
     private final static String customerPath="src/group6/Data/Customer.Dat";
-    private final static String invoicePath="src/group6/Data/Invoice.Dat";
+
     //endregion
 
     /**
@@ -730,86 +730,6 @@ public class Database_Controller {
     }
     //endregion
 
-    /**
-     * Database function for Revenue CRUD */
-    //region Order
-    /**
-     * Writes the arraylist of Revenue into Revenue.Dat
-     * @param RevenueList
-     */
-    public static void writeRevenueList(ArrayList<Revenue> RevenueList){
 
-        writeList(RevenueList,revenuePath);
-    }
-
-    /**
-     * Read all Revenue objects from Revenue.Dat
-     * @return
-     */
-    public static ArrayList<Revenue> readRevenueList() {
-        ArrayList<Revenue> RevenueList;
-        RevenueList=(ArrayList)readList(revenuePath);
-        return RevenueList;
-    }
-
-    /**
-     * Get and return the Revenue object from Revenue.dat file
-     * @param Id
-     * @return
-     */
-    public static Revenue getRevenueById(int Id) {
-        ArrayList<Revenue> RevenueList = (ArrayList<Revenue>)readRevenueList();
-        for (int i = 0 ; i < RevenueList.size() ; i++) {
-            Revenue Revenue = (Revenue)RevenueList.get(i);
-            if (Revenue.getId()==(Id))
-            {
-                return Revenue;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Write the Revenue object passed in into the Revenue.Dat file
-     * @param Revenue
-     */
-    public static void addRevenue(Revenue Revenue) {
-        // ArrayList<Revenue> Revenuelist = (ArrayList<Revenue>)readRevenueList();
-        ArrayList<Revenue> Revenuelist = new ArrayList<Revenue>();
-        Revenuelist.add(Revenue);
-        writeRevenueList(Revenuelist);
-
-    }
-
-    /**
-     * Create a local arraylist assign it with values read the array list of Revenue objects from Revenue.Dat file.
-     * Then Find the object that corresponds to the Revenue employeeId passed in and remove it from the local array list
-     * pass in the local array list object to the WriteRevenueList to overwrite the previous records.
-     * @param Id
-     */
-    public static void deleteRevenue(int Id) {
-        ArrayList<Revenue> RevenueList = (ArrayList<Revenue>)readRevenueList();
-        for (int i = 0 ; i < RevenueList.size() ; i++) {
-            Revenue Revenue = (Revenue)RevenueList.get(i);
-            if (Revenue.getId()==(Id))
-            {
-                RevenueList.remove(i);
-                break;
-            }
-        }
-        writeRevenueList(RevenueList);
-    }
-
-    /**
-     * With the Staff object passed in,
-     * it will first delete the object with the same id in the Revenue.DAT file
-     * Then it will add in the object with addRevenue method
-     * @param Revenue
-     */
-    public static void updateRevenue(Revenue Revenue) {
-        deleteRevenue(Revenue.getId());
-        addRevenue(Revenue);
-    }
-    //endregion
 
 }
